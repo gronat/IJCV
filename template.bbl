@@ -1,0 +1,163 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{DOI~\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{DOI~\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem{Bay06}
+Bay, H., Tuytelaars, T., Van~Gool, L.: {SURF}: Speeded up robust features.
+\newblock In: ECCV (2006)
+
+\bibitem{casella2001statistical}
+Casella, G., Berger, R.: Statistical inference  (2001)
+
+\bibitem{Chen11}
+Chen, D., Baatz, G., K{\"o}ser, Tsai, S., Vedantham, R., Pylvanainen, T.,
+  Roimela, K., Chen, X., Bach, J., Pollefeys, M., Girod, B., Grzeszczuk, R.:
+  City-scale landmark identification on mobile devices.
+\newblock In: CVPR (2011)
+
+\bibitem{Chum11}
+Chum, O., Mikulik, A., Perdroch, M., Matas, J.: Total recall {II}: Query
+  expansion revisited.
+\newblock In: CVPR (2011)
+
+\bibitem{Chum07b}
+Chum, O., Philbin, J., Sivic, J., Isard, M., Zisserman, A.: Total recall:
+  Automatic query expansion with a generative feature model for object
+  retrieval.
+\newblock In: ICCV (2007)
+
+\bibitem{Csurka04}
+Csurka, G., Bray, C., Dance, C., Fan, L.: Visual categorization with bags of
+  keypoints.
+\newblock In: Workshop on Statistical Learning in Computer Vision, ECCV, pp.
+  1--22 (2004)
+
+\bibitem{Cummins09}
+Cummins, M., Newman, P.: Highly scalable appearance-only {SLAM} - {FAB-MAP}
+  2.0.
+\newblock In: Proceedings of Robotics: Science and Systems. Seattle, USA (2009)
+
+\bibitem{libsvm}
+Fan, R.E., Chang, K.W., Hsieh, C.J., Wang, X.R., Lin, C.J.: {LIBLINEAR}: A
+  library for large linear classification.
+\newblock J. Machine Learning Research \textbf{9}, 1871--1874 (2008)
+
+\bibitem{gebel2007calibrating}
+Gebel, M., Weihs, C.: Calibrating classifier scores into probabilities.
+\newblock Advances in Data Analysis pp. 141--148 (2007)
+
+\bibitem{Irschara2009}
+Irschara, A., Zach, C., Frahm, J.M., Bischof, H.: From structure-from-motion
+  point clouds to fast location recognition.
+\newblock In: CVPR (2009)
+
+\bibitem{Jegou2011}
+J{\'e}gou, H., Douze, M., Schmid, C.: {Product Quantization for Nearest
+  Neighbor Search}.
+\newblock IEEE PAMI \textbf{33}(1), 117--128 (2011).
+\newblock \doi{10.1109/TPAMI.2010.57}.
+\newblock \urlprefix\url{http://hal.inria.fr/inria-00514462/en/}
+
+\bibitem{Jegou12}
+J{\'e}gou, H., Perronnin, F., Douze, M., S{\'a}nchez, J., P{\'e}rez, P.,
+  Schmid, C.: Aggregating local image descriptors into compact codes.
+\newblock IEEE PAMI \textbf{34}, 1704--1716 (2012)
+
+\bibitem{Knopp2010}
+Knopp, J., Sivic, J., Pajdla, T.: Avoidng confusing features in place
+  recognition.
+\newblock In: ECCV (2010)
+
+\bibitem{Li09}
+Li, Y., Crandall, D., Huttenlocher, D.: Landmark classification in large-scale
+  image collections.
+\newblock In: ICCV (2009)
+
+\bibitem{Li10}
+Li, Y., Snavely, N., Huttenlocher, D.: Location recognition using prioritized
+  feature matching.
+\newblock In: ECCV (2010)
+
+\bibitem{Li12}
+Li, Y., Snavely, N., Huttenlocher, D., Fua, P.: Worldwide pose estimation using
+  3d point clouds.
+\newblock In: ECCV (2012)
+
+\bibitem{Lowe04}
+Lowe, D.: Distinctive image features from scale-invariant keypoints.
+\newblock IJCV \textbf{60}(2), 91--110 (2004)
+
+\bibitem{Malisiewicz11}
+Malisiewicz, T., Gupta, A., Efros, A.A.: Ensemble of exemplar-svms for object
+  detection and beyond.
+\newblock In: ICCV (2011)
+
+\bibitem{Mikulik2010}
+Mikul\'{\i}k, A., Perdoch, M., Chum, O., Matas, J.: Learning a fine vocabulary.
+\newblock In: ECCV (2010)
+
+\bibitem{Nister06}
+Nister, D., Stewenius, H.: Scalable recognition with a vocabulary tree.
+\newblock In: CVPR (2006)
+
+\bibitem{Philbin07}
+Philbin, J., Chum, O., Isard, M., Sivic, J., Zisserman, A.: Object retrieval
+  with large vocabularies and fast spatial matching.
+\newblock In: CVPR (2007)
+
+\bibitem{Philbin08}
+Philbin, J., Chum, O., Isard, M., Sivic, J., Zisserman, A.: Lost in
+  quantization: Improving particular object retrieval in large scale image
+  databases.
+\newblock In: CVPR (2008)
+
+\bibitem{Philbin10b}
+Philbin, J., Isard, M., Sivic, J., Zisserman, A.: Descriptor learning for
+  efficient retrieval.
+\newblock In: ECCV (2010)
+
+\bibitem{Philbin10c}
+Philbin, J., Sivic, J., Zisserman, A.: Geometric latent dirichlet allocation on
+  a matching graph for large-scale image datasets.
+\newblock IJCV  (2010)
+
+\bibitem{Platt99}
+Platt, J.: Probabilistic outputs for support vector machines and comparisons to
+  regularized likelihood methods.
+\newblock In: Advances in Large Margin Classifiers (1999)
+
+\bibitem{Schindler07}
+Schindler, G., Brown, M., Szeliski, R.: City-scale location recognition.
+\newblock In: CVPR (2007)
+
+\bibitem{Sivic2003}
+Sivic, J., Zisserman, A.: {Video Google}: {A} text retrieval approach to object
+  matching in videos.
+\newblock In: ICCV (2003).
+\newblock \urlprefix\url{http://www.robots.ox.ac.uk/~vgg}
+
+\bibitem{Torii11}
+Torii, A., Sivic, J., Pajdla, T.: Visual localization by linear combination of
+  image descriptors.
+\newblock In: IEEE Workshop on Mobile Vision (2011)
+
+\bibitem{Turcot09}
+Turcot, P., Lowe, D.: Better matching with fewer features: The selection of
+  useful features in large database recognition problem.
+\newblock In: {WS-LAVD, ICCV} (2009)
+
+\bibitem{zadrozny2002transforming}
+Zadrozny, B., Elkan, C.: Transforming classifier scores into accurate
+  multiclass probability estimates.
+\newblock In: ACM SIGKDD (2002)
+
+\bibitem{Zamir10}
+Zamir, A., Shah, M.: Accurate image localization based on google maps street
+  view.
+\newblock In: ECCV (2010)
+
+\end{thebibliography}

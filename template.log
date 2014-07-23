@@ -1,0 +1,895 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.6.2)  18 JUL 2014 13:19
+entering extended mode
+ \write18 enabled.
+ %&-line parsing enabled.
+**template.tex
+(./template.tex
+LaTeX2e <2011/06/27>
+Babel <3.9f> and hyphenation patterns for 78 languages loaded.
+
+LaTeX Warning: File `example.eps' already exists on the system.
+               Not generating it from this source.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/fix-cm.sty
+Package: fix-cm 2006/09/13 v1.1m fixes to LaTeX
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+)) (./svjour3.cls
+Document Class: svjour3 2007/05/08 v3.2 
+LaTeX document class for Springer journals
+(/usr/share/texlive/texmf-dist/tex/latex/base/fleqn.clo
+File: fleqn.clo 1998/08/17 v1.1c Standard LaTeX option (flush left equations)
+\mathindent=\dimen102
+)
+Class Springer-SVJour3 Info: extra/valid Springer sub-package (-> *.clo) 
+(Springer-SVJour3)           not found in option list of \documentclass
+(Springer-SVJour3)           - autoactivating "global" style.
+ (./svglov3.clo
+File: svglov3.clo 2009/12/18 v3.2 style option for standardised journals
+
+SVJour Class option: svglov3.clo for standardised journals
+)
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 147.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 148.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 149.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 150.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 151.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 152.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 153.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 155.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 156.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 157.
+\logodepth=\dimen103
+\headerboxheight=\dimen104
+\betweenumberspace=\dimen105
+\aftertext=\dimen106
+\headlineindent=\dimen107
+\c@inst=\count79
+\c@auth=\count80
+\instindent=\dimen108
+\authrun=\box26
+\authorrunning=\toks14
+\titrun=\box27
+\titlerunning=\toks15
+\combirun=\box28
+\c@lastpage=\count81
+\rubricwidth=\dimen109
+\c@section=\count82
+\c@subsection=\count83
+\c@subsubsection=\count84
+\c@paragraph=\count85
+\c@subparagraph=\count86
+\spthmsep=\dimen110
+\c@theorem=\count87
+\c@case=\count88
+\c@conjecture=\count89
+\c@corollary=\count90
+\c@definition=\count91
+\c@example=\count92
+\c@exercise=\count93
+\c@lemma=\count94
+\c@note=\count95
+\c@problem=\count96
+\c@property=\count97
+\c@proposition=\count98
+\c@question=\count99
+\c@solution=\count100
+\c@remark=\count101
+\c@figure=\count102
+\c@table=\count103
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\figcapgap=\dimen111
+\tabcapgap=\dimen112
+\figgap=\dimen113
+\bibindent=\dimen114
+\@tempcntc=\count104
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count105
+))
+\Gin@req@height=\dimen115
+\Gin@req@width=\dimen116
+)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/epsfig.sty
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+\epsfxsize=\dimen117
+\epsfysize=\dimen118
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf.sty
+Package: epstopdf 2010/02/09 v2.5 Conversion with epstopdf on the fly (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+)))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2013/01/14 v2.14 AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks17
+\ex@=\dimen119
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen120
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count106
+LaTeX Info: Redefining \frac on input line 210.
+\uproot@=\count107
+\leftroot@=\count108
+LaTeX Info: Redefining \overline on input line 306.
+\classnum@=\count109
+\DOTSCASE@=\count110
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
+\Mathstrutbox@=\box29
+\strutbox@=\box30
+\big@size=\dimen121
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+
+
+Package amsmath Warning: Unable to redefine math accent \vec.
+
+\macc@depth=\count111
+\c@MaxMatrixCols=\count112
+\dotsspace@=\muskip10
+\c@parentequation=\count113
+\dspbrk@lvl=\count114
+\tag@help=\toks18
+\row@=\count115
+\column@=\count116
+\maxfields@=\count117
+\andhelp@=\toks19
+\eqnshift@=\dimen122
+\alignsep@=\dimen123
+\tagshift@=\dimen124
+\tagwidth@=\dimen125
+\totwidth@=\dimen126
+\lineht@=\dimen127
+\@envbody=\toks20
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip46
+\subfigcapskip=\skip47
+\subfigcaptopadj=\dimen128
+\subfigbottomskip=\skip48
+\subfigcapmargin=\dimen129
+\subfiglabelskip=\skip49
+\c@subfigure=\count118
+\c@lofdepth=\count119
+\c@subtable=\count120
+\c@lotdepth=\count121
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip50
+\subfig@bottom=\skip51
+)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen130
+\captionmargin@=\dimen131
+\captionwidth=\dimen132
+\caption@tempdima=\dimen133
+\caption@indent=\dimen134
+\caption@parindent=\dimen135
+\caption@hangindent=\dimen136
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+)
+
+Package caption Warning: Unsupported document class (or package) detected,
+(caption)                usage of the caption package is not recommended.
+See the caption package documentation for explanation.
+
+Package caption Info: \@makecaption = \long macro:#1#2->\captionstyle \ifx \@ca
+ptype \fig@type \vskip \figcapgap \fi \setbox \@tempboxa \hbox {{\floatlegendst
+yle #1\floatcounterend }\capstrut #2}\ifdim \wd \@tempboxa >\hsize {\floatlegen
+dstyle #1\floatcounterend }\capstrut #2\par \else \hbox to\hsize {\leftlegendgl
+ue \unhbox \@tempboxa \hfil }\fi \ifx \@captype \fig@type \else \vskip \tabcapg
+ap \fi .
+\c@ContinuedFloat=\count122
+Package caption Info: subfigure package is loaded.
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen137
+\extrarowheight=\dimen138
+\NC@list=\toks22
+\extratabsurround=\skip52
+\backup@length=\skip53
+)
+\TX@col@width=\dimen139
+\TX@old@table=\dimen140
+\TX@old@col=\dimen141
+\TX@target=\dimen142
+\TX@delta=\dimen143
+\TX@cols=\count123
+\TX@ftn=\toks23
+)
+(/usr/share/texmf/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
+\everycr=\toks24
+\minrowclearance=\skip54
+)
+\rownum=\count124
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+)
+(./template.aux)
+\openout1 = `template.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 89.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count125
+\scratchdimen=\dimen144
+\scratchbox=\box31
+\nofMPsegments=\count126
+\nofMParguments=\count127
+\everyMPshowfont=\toks25
+\MPscratchCnt=\count128
+\MPscratchDim=\dimen145
+\MPnumerator=\count129
+\makeMPintoPDFobject=\count130
+\everyMPtoPDFconversion=\toks26
+)
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 136.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <16> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 136.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 136.
+LaTeX Font Info:    Try loading font information for U+msa on input line 136.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 136.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 136.
+
+<imgs/titleTeX.png, id=1, 734.745pt x 241.65282pt>
+File: imgs/titleTeX.png Graphic file (type png)
+ <use imgs/titleTeX.png>
+Package pdftex.def Info: imgs/titleTeX.png used on input line 136.
+(pdftex.def)             Requested size: 420.75302pt x 138.38512pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (1.64287pt too wide) in paragraph at lines 152--154
+\OT1/ptm/m/n/10 the query and database im-ages may de-pict the same 3D struc-
+ []
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+ <./imgs/titleTeX.png>]
+Underfull \hbox (badness 10000) has occurred while \output is active
+[][]
+ []
+
+[2]
+Overfull \hbox (3.51352pt too wide) in paragraph at lines 255--256
+ \OT1/ptm/m/it/10 Cal-i-bra-tion \OT1/ptm/m/n/10 via \OT1/ptm/m/it/10 sig-nif-i
+-cance lev-els. [] \OT1/ptm/m/n/10 In the fol-low-ing, we view
+ []
+
+
+Overfull \hbox (0.89297pt too wide) in paragraph at lines 255--256
+\OT1/ptm/m/n/10 from the tra-di-tional fre-quen-tist hy-poth-e-sis test-ing fra
+me-work
+ []
+
+
+Overfull \hbox (4.02345pt too wide) in paragraph at lines 255--256
+\OT1/ptm/m/n/10 also known as Neyman-Pearson (NP) frame-work (see e.g. [2],
+ []
+
+
+Overfull \hbox (55.18532pt too wide) in paragraph at lines 257--258
+[]\OT1/ptm/m/n/10 We de-fine the null hy-poth-e-sis as $\OML/cmm/m/it/10 H[] \O
+T1/cmr/m/n/10 = \OMS/cmsy/m/n/10 f[]g$
+ []
+
+
+Overfull \hbox (48.75461pt too wide) in paragraph at lines 257--258
+\OT1/ptm/m/n/10 and the al-ter-na-tive as $\OML/cmm/m/it/10 H[] \OT1/cmr/m/n/10
+ = \OMS/cmsy/m/n/10 f[]g$\OT1/ptm/m/n/10 .
+ []
+
+
+LaTeX Warning: Reference `fig:qntExample' on page 3 undefined on input line 259
+.
+
+[3] <imgs/qnt1x.pdf, id=26, 583.17876pt x 234.8775pt>
+File: imgs/qnt1x.pdf Graphic file (type pdf)
+ <use imgs/qnt1x.pdf>
+Package pdftex.def Info: imgs/qnt1x.pdf used on input line 275.
+(pdftex.def)             Requested size: 238.96417pt x 96.24304pt.
+
+<imgs/qnt2x.pdf, id=27, 583.17876pt x 234.8775pt>
+File: imgs/qnt2x.pdf Graphic file (type pdf)
+ <use imgs/qnt2x.pdf>
+Package pdftex.def Info: imgs/qnt2x.pdf used on input line 280.
+(pdftex.def)             Requested size: 238.96417pt x 96.24304pt.
+
+Overfull \hbox (6.375pt too wide) in paragraph at lines 275--284
+[][]
+ []
+
+
+Overfull \hbox (4.25pt too wide) in paragraph at lines 275--284
+[]
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[][]
+ []
+
+[4 <./imgs/qnt1x.pdf> <./imgs/qnt2x.pdf
+
+pdfTeX warning: pdflatex (file ./imgs/qnt2x.pdf): PDF inclusion: multiple pdfs 
+with page group included in a single page
+>]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 324.
+
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Overfull \hbox (15.57384pt too wide) in paragraph at lines 339--344
+\OT1/ptm/m/n/10 sup-pres-sion ap-proach (Conf. supp.) of [13] that, in each dat
+abase
+ []
+
+
+Overfull \hbox (5.1035pt too wide) in paragraph at lines 345--346
+[]\OT1/ptm/m/n/10 For all meth-ods, we im-ple-mented a two-stage place recog-
+ []
+
+
+Underfull \hbox (badness 10000) in alignment at lines 362--362
+[][][] 
+ []
+
+
+Overfull \hbox (15.67226pt too wide) in paragraph at lines 380--384
+ \OT1/ptm/m/it/10 Scal-a-bil-ity. [] \OT1/ptm/m/n/10 The lin-ear SVM clas-si-fi
+ers trained for each database
+ []
+
+[5] (./myFigure02.tex <imgs/demo01d.pdf, id=75, 766.75859pt x 576.07219pt>
+File: imgs/demo01d.pdf Graphic file (type pdf)
+
+<use imgs/demo01d.pdf>
+Package pdftex.def Info: imgs/demo01d.pdf used on input line 26.
+(pdftex.def)             Requested size: 103.94872pt x 78.09161pt.
+ <imgs/demo02d.pdf, id=76, 766.75859pt x 576.07219pt>
+File: imgs/demo02d.pdf Graphic file (type pdf)
+
+<use imgs/demo02d.pdf>
+Package pdftex.def Info: imgs/demo02d.pdf used on input line 36.
+(pdftex.def)             Requested size: 103.94872pt x 78.09161pt.
+ <imgs/demo03d.pdf, id=77, 766.75859pt x 576.07219pt>
+File: imgs/demo03d.pdf Graphic file (type pdf)
+
+<use imgs/demo03d.pdf>
+Package pdftex.def Info: imgs/demo03d.pdf used on input line 44.
+(pdftex.def)             Requested size: 103.94872pt x 78.09161pt.
+ <imgs/demo04d.pdf, id=78, 766.865pt x 576.1525pt>
+File: imgs/demo04d.pdf Graphic file (type pdf)
+
+<use imgs/demo04d.pdf>
+Package pdftex.def Info: imgs/demo04d.pdf used on input line 52.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+ <imgs/demo01.pdf, id=79, 766.865pt x 576.1525pt>
+File: imgs/demo01.pdf Graphic file (type pdf)
+
+<use imgs/demo01.pdf>
+Package pdftex.def Info: imgs/demo01.pdf used on input line 62.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+ <imgs/demo02.pdf, id=80, 766.865pt x 576.1525pt>
+File: imgs/demo02.pdf Graphic file (type pdf)
+
+<use imgs/demo02.pdf>
+Package pdftex.def Info: imgs/demo02.pdf used on input line 72.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+ <imgs/demo03.pdf, id=81, 766.865pt x 576.1525pt>
+File: imgs/demo03.pdf Graphic file (type pdf)
+
+<use imgs/demo03.pdf>
+Package pdftex.def Info: imgs/demo03.pdf used on input line 80.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+ <imgs/demo04.pdf, id=82, 766.865pt x 576.1525pt>
+File: imgs/demo04.pdf Graphic file (type pdf)
+
+<use imgs/demo04.pdf>
+Package pdftex.def Info: imgs/demo04.pdf used on input line 88.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+ <imgs/demo01b.pdf, id=83, 766.865pt x 576.1525pt>
+File: imgs/demo01b.pdf Graphic file (type pdf)
+
+<use imgs/demo01b.pdf>
+Package pdftex.def Info: imgs/demo01b.pdf used on input line 98.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+ <imgs/demo02b.pdf, id=84, 766.75859pt x 576.07219pt>
+File: imgs/demo02b.pdf Graphic file (type pdf)
+
+<use imgs/demo02b.pdf>
+Package pdftex.def Info: imgs/demo02b.pdf used on input line 108.
+(pdftex.def)             Requested size: 103.94872pt x 78.09161pt.
+ <imgs/demo03b.pdf, id=85, 766.865pt x 576.1525pt>
+File: imgs/demo03b.pdf Graphic file (type pdf)
+
+<use imgs/demo03b.pdf>
+Package pdftex.def Info: imgs/demo03b.pdf used on input line 116.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+ <imgs/demo04b.pdf, id=86, 766.865pt x 576.1525pt>
+File: imgs/demo04b.pdf Graphic file (type pdf)
+
+<use imgs/demo04b.pdf>
+Package pdftex.def Info: imgs/demo04b.pdf used on input line 124.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+ <imgs/demo01c.pdf, id=87, 766.865pt x 576.1525pt>
+File: imgs/demo01c.pdf Graphic file (type pdf)
+
+<use imgs/demo01c.pdf>
+Package pdftex.def Info: imgs/demo01c.pdf used on input line 134.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+ <imgs/demo02c.pdf, id=88, 766.75859pt x 576.07219pt>
+File: imgs/demo02c.pdf Graphic file (type pdf)
+
+<use imgs/demo02c.pdf>
+Package pdftex.def Info: imgs/demo02c.pdf used on input line 144.
+(pdftex.def)             Requested size: 103.94872pt x 78.09161pt.
+ <imgs/demo03c.pdf, id=89, 766.865pt x 576.1525pt>
+File: imgs/demo03c.pdf Graphic file (type pdf)
+
+<use imgs/demo03c.pdf>
+Package pdftex.def Info: imgs/demo03c.pdf used on input line 152.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+ <imgs/demo04c.pdf, id=90, 766.865pt x 576.1525pt>
+File: imgs/demo04c.pdf Graphic file (type pdf)
+
+<use imgs/demo04c.pdf>
+Package pdftex.def Info: imgs/demo04c.pdf used on input line 160.
+(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+
+Overfull \hbox (14.125pt too wide) in paragraph at lines 165--171
+ [][] 
+ []
+
+<imgs/aggrv/05aggrvQ.pdf, id=91, 770.82878pt x 554.03287pt>
+File: imgs/aggrv/05aggrvQ.pdf Graphic file (type pdf)
+
+<use imgs/aggrv/05aggrvQ.pdf>
+Package pdftex.def Info: imgs/aggrv/05aggrvQ.pdf used on input line 180.
+(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+
+<imgs/aggrv/05aggrvS.pdf, id=92, 770.82878pt x 554.03287pt>
+File: imgs/aggrv/05aggrvS.pdf Graphic file (type pdf)
+
+<use imgs/aggrv/05aggrvS.pdf>
+Package pdftex.def Info: imgs/aggrv/05aggrvS.pdf used on input line 190.
+(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+
+<imgs/aggrv/05aggrvK.pdf, id=93, 770.82878pt x 554.03287pt>
+File: imgs/aggrv/05aggrvK.pdf Graphic file (type pdf)
+
+<use imgs/aggrv/05aggrvK.pdf>
+Package pdftex.def Info: imgs/aggrv/05aggrvK.pdf used on input line 198.
+(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+
+<imgs/aggrv/05aggrvB.pdf, id=94, 770.82878pt x 554.03287pt>
+File: imgs/aggrv/05aggrvB.pdf Graphic file (type pdf)
+
+<use imgs/aggrv/05aggrvB.pdf>
+Package pdftex.def Info: imgs/aggrv/05aggrvB.pdf used on input line 206.
+(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+
+<imgs/aggrv/08aggrvQ.pdf, id=95, 770.82878pt x 554.03287pt>
+File: imgs/aggrv/08aggrvQ.pdf Graphic file (type pdf)
+
+<use imgs/aggrv/08aggrvQ.pdf>
+Package pdftex.def Info: imgs/aggrv/08aggrvQ.pdf used on input line 216.
+(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+
+<imgs/aggrv/08aggrvS.pdf, id=96, 770.82878pt x 554.03287pt>
+File: imgs/aggrv/08aggrvS.pdf Graphic file (type pdf)
+
+<use imgs/aggrv/08aggrvS.pdf>
+Package pdftex.def Info: imgs/aggrv/08aggrvS.pdf used on input line 226.
+(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+
+<imgs/aggrv/08aggrvK.pdf, id=97, 770.82878pt x 554.03287pt>
+File: imgs/aggrv/08aggrvK.pdf Graphic file (type pdf)
+
+<use imgs/aggrv/08aggrvK.pdf>
+Package pdftex.def Info: imgs/aggrv/08aggrvK.pdf used on input line 234.
+(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+
+<imgs/aggrv/08aggrvB.pdf, id=98, 770.82878pt x 554.03287pt>
+File: imgs/aggrv/08aggrvB.pdf Graphic file (type pdf)
+
+<use imgs/aggrv/08aggrvB.pdf>
+Package pdftex.def Info: imgs/aggrv/08aggrvB.pdf used on input line 242.
+(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+)
+Overfull \hbox (0.93362pt too wide) in paragraph at lines 389--390
+\OT1/ptm/m/n/10 fi-ca-tion prob-lem and have used geo-tags as a readily-availab
+le
+ []
+
+
+Overfull \hbox (8.96379pt too wide) in paragraph at lines 389--390
+\OT1/ptm/m/n/10 avail-able for each lo-ca-tion, we have pro-posed a non-paramet
+ric
+ []
+
+
+Overfull \hbox (3.10411pt too wide) in paragraph at lines 395--401
+\OT1/ptm/m/n/8.5 lab-o-ra-tory, the EIT-ICT labs, PRo-ViDE EU FP7-SPACE-312377 
+project
+ []
+
+
+Overfull \hbox (1.83905pt too wide) in paragraph at lines 395--401
+\OT1/ptm/m/n/8.5 and SGS13/140/OHK3/2T/13.  Sup-ported by the In-tel-li-gence A
+d-vanced
+ []
+
+(./myFigure01.tex
+<imgs/wVS3q/2882/graphBigO.pdf, id=99, 475.7775pt x 164.615pt>
+File: imgs/wVS3q/2882/graphBigO.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2882/graphBigO.pdf>
+Package pdftex.def Info: imgs/wVS3q/2882/graphBigO.pdf used on input line 8.
+(pdftex.def)             Requested size: 154.43716pt x 53.43393pt.
+
+<imgs/wVS3q/2882/j.pdf, id=100, 774.895pt x 582.175pt>
+File: imgs/wVS3q/2882/j.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2882/j.pdf>
+Package pdftex.def Info: imgs/wVS3q/2882/j.pdf used on input line 14.
+(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+
+<imgs/wVS3q/2882/a.pdf, id=101, 774.895pt x 582.175pt>
+File: imgs/wVS3q/2882/a.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2882/a.pdf>
+Package pdftex.def Info: imgs/wVS3q/2882/a.pdf used on input line 22.
+(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+
+<imgs/wVS3q/2882/b.pdf, id=102, 774.895pt x 582.175pt>
+File: imgs/wVS3q/2882/b.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2882/b.pdf>
+Package pdftex.def Info: imgs/wVS3q/2882/b.pdf used on input line 27.
+(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+
+<imgs/wVS3q/2882/c.pdf, id=103, 774.895pt x 582.175pt>
+File: imgs/wVS3q/2882/c.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2882/c.pdf>
+Package pdftex.def Info: imgs/wVS3q/2882/c.pdf used on input line 32.
+(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+
+<imgs/wVS3q/2882/aftrs.pdf, id=104, 780.9175pt x 582.175pt>
+File: imgs/wVS3q/2882/aftrs.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2882/aftrs.pdf>
+Package pdftex.def Info: imgs/wVS3q/2882/aftrs.pdf used on input line 37.
+(pdftex.def)             Requested size: 76.74365pt x 57.2082pt.
+
+<imgs/wVS3q/2882/bftrs.pdf, id=105, 774.895pt x 582.175pt>
+File: imgs/wVS3q/2882/bftrs.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2882/bftrs.pdf>
+Package pdftex.def Info: imgs/wVS3q/2882/bftrs.pdf used on input line 43.
+(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+
+<imgs/wVS3q/2882/cftrs.pdf, id=106, 774.895pt x 582.175pt>
+File: imgs/wVS3q/2882/cftrs.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2882/cftrs.pdf>
+Package pdftex.def Info: imgs/wVS3q/2882/cftrs.pdf used on input line 49.
+(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+
+<imgs/wVS3q/2932/graphBigO.pdf, id=107, 475.7775pt x 164.615pt>
+File: imgs/wVS3q/2932/graphBigO.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2932/graphBigO.pdf>
+Package pdftex.def Info: imgs/wVS3q/2932/graphBigO.pdf used on input line 67.
+(pdftex.def)             Requested size: 156.81546pt x 54.2578pt.
+
+<imgs/wVS3q/2932/j.pdf, id=108, 774.895pt x 582.175pt>
+File: imgs/wVS3q/2932/j.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2932/j.pdf>
+Package pdftex.def Info: imgs/wVS3q/2932/j.pdf used on input line 73.
+(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+
+<imgs/wVS3q/2932/a.pdf, id=109, 774.895pt x 582.175pt>
+File: imgs/wVS3q/2932/a.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2932/a.pdf>
+Package pdftex.def Info: imgs/wVS3q/2932/a.pdf used on input line 81.
+(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+
+<imgs/wVS3q/2932/b.pdf, id=110, 774.895pt x 582.175pt>
+File: imgs/wVS3q/2932/b.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2932/b.pdf>
+Package pdftex.def Info: imgs/wVS3q/2932/b.pdf used on input line 85.
+(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+
+<imgs/wVS3q/2932/c.pdf, id=111, 774.895pt x 582.175pt>
+File: imgs/wVS3q/2932/c.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2932/c.pdf>
+Package pdftex.def Info: imgs/wVS3q/2932/c.pdf used on input line 89.
+(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+
+<imgs/wVS3q/2932/aftrs.pdf, id=112, 774.895pt x 583.17876pt>
+File: imgs/wVS3q/2932/aftrs.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2932/aftrs.pdf>
+Package pdftex.def Info: imgs/wVS3q/2932/aftrs.pdf used on input line 94.
+(pdftex.def)             Requested size: 76.74365pt x 57.75177pt.
+
+<imgs/wVS3q/2932/bftrs.pdf, id=113, 778.91pt x 582.175pt>
+File: imgs/wVS3q/2932/bftrs.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2932/bftrs.pdf>
+Package pdftex.def Info: imgs/wVS3q/2932/bftrs.pdf used on input line 100.
+(pdftex.def)             Requested size: 76.74365pt x 57.35922pt.
+
+<imgs/wVS3q/2932/cftrs.pdf, id=114, 778.91pt x 582.175pt>
+File: imgs/wVS3q/2932/cftrs.pdf Graphic file (type pdf)
+
+<use imgs/wVS3q/2932/cftrs.pdf>
+Package pdftex.def Info: imgs/wVS3q/2932/cftrs.pdf used on input line 106.
+(pdftex.def)             Requested size: 76.74365pt x 57.35922pt.
+
+Overfull \hbox (1.60747pt too wide) in paragraph at lines 2--113
+[]$[]$$[]$ $[]$ 
+ []
+
+) (./template.bbl
+Underfull \vbox (badness 1852) has occurred while \output is active []
+
+
+Underfull \hbox (badness 2512) in paragraph at lines 59--64
+\OT1/ptm/m/n/8.5 DOI 10.1109/TPAMI.2010.57.  URL http://hal.inria.fr/inria-
+ []
+
+
+Underfull \hbox (badness 1005) in paragraph at lines 66--69
+[]\OT1/ptm/m/n/8.5 J[]egou, H., Per-ronnin, F., Douze, M., S[]anchez, J., P[]er
+ez, P.,
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[][]
+ []
+
+[6]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [7 <./imgs/demo01d.pdf> <./imgs/demo02d.pdf> <./imgs/demo03d.pdf> <./imgs/demo
+04d.pdf> <./imgs/demo01.pdf> <./imgs/demo02.pdf> <./imgs/demo03.pdf> <./imgs/de
+mo04.pdf> <./imgs/demo01b.pdf> <./imgs/demo02b.pdf> <./imgs/demo03b.pdf> <./img
+s/demo04b.pdf> <./imgs/demo01c.pdf> <./imgs/demo02c.pdf> <./imgs/demo03c.pdf> <
+./imgs/demo04c.pdf> <./imgs/aggrv/05aggrvQ.pdf> <./imgs/aggrv/05aggrvS.pdf> <./
+imgs/aggrv/05aggrvK.pdf> <./imgs/aggrv/05aggrvB.pdf> <./imgs/aggrv/08aggrvQ.pdf
+> <./imgs/aggrv/08aggrvS.pdf> <./imgs/aggrv/08aggrvK.pdf> <./imgs/aggrv/08aggrv
+B.pdf>])
+Underfull \hbox (badness 10000) has occurred while \output is active
+[][]
+ []
+
+[8
+
+ <./imgs/wVS3q/2882/graphBigO.pdf> <./imgs/wVS3q/2882/j.pdf> <./imgs/wVS3q/2882
+/a.pdf> <./imgs/wVS3q/2882/b.pdf> <./imgs/wVS3q/2882/c.pdf> <./imgs/wVS3q/2882/
+aftrs.pdf> <./imgs/wVS3q/2882/bftrs.pdf> <./imgs/wVS3q/2882/cftrs.pdf> <./imgs/
+wVS3q/2932/graphBigO.pdf
+
+pdfTeX warning: pdflatex (file ./imgs/wVS3q/2932/graphBigO.pdf): PDF inclusion:
+ multiple pdfs with page group included in a single page
+> <./imgs/wVS3q/2932/j.pdf> <./imgs/wVS3q/2932/a.pdf> <./imgs/wVS3q/2932/b.pdf>
+ <./imgs/wVS3q/2932/c.pdf> <./imgs/wVS3q/2932/aftrs.pdf> <./imgs/wVS3q/2932/bft
+rs.pdf> <./imgs/wVS3q/2932/cftrs.pdf>] (./template.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 5296 strings out of 493307
+ 78294 string characters out of 6139906
+ 157170 words of memory out of 5000000
+ 8606 multiletter control sequences out of 15000+600000
+ 32962 words of font info for 78 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 42i,12n,38p,1673b,378s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
+tmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on template.pdf (8 pages, 27610167 bytes).
+PDF statistics:
+ 389 PDF objects out of 1000 (max. 8388607)
+ 247 compressed objects within 3 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 216 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,0 +1,340 @@
+
+
+@misc{GSV,
+Title = {Google Street View},
+howpublished = {\url{http://maps.google.com/help/maps/streetview/}} 
+}
+
+@ONLINE{Flicker,
+url = {http://maps.google.com/help/maps/streetview/}
+}
+
+
+@TechReport{Gronat2011,
+  UPDATE  = { 2010-01-18 },
+  author =	 { Gron{\'a}t, Petr and Havlena, Michal and {\v S}ivic, Josef and Pajdla, Tom{\'a}{\v s} },
+  title =	 {Building Streetview Datasets for Place Recognition and City Reconstruction},
+  institution =	 {Center for Machine Perception, K13133 FEE Czech Technical
+                  University},
+  address =	 {Prague, Czech Republic},
+  year =	 {2011},
+  month =	 {January},
+  type =	 {Research Report},
+  number =	 {CTU--CMP--2011--01},
+  issn =	 {1213-2365},
+  pages =	 {13},
+  figures =	 {5},
+  authorship =	 {25-25-25-25},
+  psurl =	 {[Gronat-TR-2011-16.pdf]},
+  annote = {Google Maps API combined with Street View images can serve
+as a powerful tool for place recognition or city reconstruction tasks.
+In this paper, we present a way how to build geotagged datasets of
+perspective views from Google Maps. Given the initial GPS coordi-
+nates, the algorithm can build a list of panoramas in a certain area,
+download corresponding panoramas, and generate perspective views.
+In more detail, each panorama on Google Maps Street View contains
+meta data from which the GPS location and the direction of the view
+can be extracted. Moreover, the information about the neighbouring
+panoramas can be obtained as well, hence, a list of panoramas cov-
+ering a certain area can be built. Downloading panoramas from the
+list and combining it with the meta data, each downloaded panorama
+is cut into a set of overlaping perspective views and stored while the
+camera GPS location, yaw, and pitch are coded in the filename of the
+perspective view. The geotagged database is subsequently used for
+place recognition and structure from motion 3D reconstruction.},
+keywords = {geo-tagged database, visual localization, google streetview},
+}
+
+
+@InProceedings{Sivic2003,
+   author = "Sivic, J. and Zisserman, A.",
+   title = "{Video Google}: {A} Text Retrieval Approach to
+   Object Matching in Videos",
+   booktitle =iccv,
+   year = "2003",
+   URL = "http://www.robots.ox.ac.uk/~vgg",
+} 
+
+@article{Jegou2011,
+    hal_id = {inria-00514462},
+    url = {http://hal.inria.fr/inria-00514462/en/},
+    title = {{Product Quantization for Nearest Neighbor Search}},
+    author = {J{\'e}gou, Herv{\'e} and Douze, Matthijs and Schmid, Cordelia},
+    abstract = {{We propose an approximate nearest neighbor search method based on product quantization, which decomposes the space into a Cartesian product of low dimensional subspaces and quantizes each subspace separately. A vector is represented by a short code corresponding to the quantization index. The Euclidean distance between two vectors can be efficiently estimated from their codes. Our method has an advantageous asymmetric version, where an estimated distance is computed between a vector and a code. Our approach is used to search for nearest neighbors efficiently, in particular in combination with an inverted file system. Experiments performed on SIFT and GIST image descriptors show excellent search accuracy outperforming three state-of-the-art approaches. The scalability of our approach is validated on a dataset of two billion vectors.}},
+    keywords = {Sorting and searching; Computer vision; Representations; data structures; transforms},
+    language = {English},
+    affiliation = {TEXMEX - INRIA - IRISA , LEAR - INRIA Grenoble Rh{\^o}ne-Alpes / LJK Laboratoire Jean Kuntzmann},
+    publisher = {IEEE},
+    pages = {117--128},
+    journal = pami,
+    volume = {33},
+    number = {1 },
+    audience = {international },
+    doi = {10.1109/TPAMI.2010.57 },
+    year = {2011},
+    month = Jan,
+    pdf = {http://hal.inria.fr/inria-00514462/PDF/paper\_hal.pdf},
+}
+
+
+@inproceedings{Nister2006,
+ author = {Nister, David and Stewenius, Henrik},
+ title = {Scalable Recognition with a Vocabulary Tree},
+ booktitle = cvpr,
+ series = {CVPR '06},
+ year = {2006},
+ isbn = {0-7695-2597-0},
+ pages = {2161--2168},
+ numpages = {8},
+ url = {http://dx.doi.org/10.1109/CVPR.2006.264},
+ doi = {http://dx.doi.org/10.1109/CVPR.2006.264},
+ acmid = {1153548},
+ publisher = {IEEE Computer Society},
+ address = {Washington, DC, USA},
+} 
+
+
+@incollection{Frome2006,
+ title = {Image Retrieval and Classification Using Local Distance Functions},
+ author = {Andrea Frome and Yoram Singer and Jitendra Malik},
+ booktitle = nips,
+ year = {2007}
+}
+
+@inproceedings{Weinberger2006,
+    author = {Kilian Q. Weinberger and John Blitzer and Lawrence K. Saul},
+    title = {Distance metric learning for large margin nearest neighbor classification},
+    booktitle = nips,
+    year = {2006},
+    publisher = {MIT Press}
+}
+
+@inproceedings{Irschara2009,
+  title = {From structure-from-motion point clouds to fast location recognition.},
+  author = {Irschara, Arnold and Zach, Christopher and Frahm, Jan-Michael and Bischof, Horst},
+  booktitle = cvpr,
+  year = 2009,
+}
+
+@MISC{Wendel,
+    author = {Andreas Wendel and Arnold Irschara and Horst Bischof},
+    title = {Natural Landmark–based Monocular Localization for MAVs},
+    year = {}
+}
+
+@MISC{Irschara,
+    author = {Arnold Irschara and Horst Bischof and Christopher Zach},
+    title = {Towards Wiki-based Dense City Modeling},
+    year = {}
+}
+
+
+@inproceedings{Mikulik2010,
+  author    = {Andrej Mikul\'{\i}k and
+               Michal Perdoch and
+               Ondrej Chum and
+               Jiri Matas},
+  title     = {Learning a Fine Vocabulary},
+  booktitle = {ECCV},
+  year      = {2010},
+}
+
+@INPROCEEDINGS{Turcot09,
+
+  author = {Turcot, P. and Lowe, D.},
+
+  title = {Better matching with fewer features: The selection of useful features
+
+	in large database recognition problem},
+
+  booktitle = {{WS-LAVD, ICCV}},
+
+  year = {2009}
+
+}
+
+@INPROCEEDINGS{Chum07b,
+
+  author = {Chum, O. and Philbin, J. and Sivic, J. and Isard, M. and Zisserman,
+
+	A.},
+
+  title = {Total Recall: Automatic Query Expansion with a Generative Feature
+
+	Model for Object Retrieval},
+
+  booktitle = iccv,
+
+  year = {2007}
+
+}
+
+
+@INPROCEEDINGS{Philbin08,
+
+  author = {Philbin, J. and Chum, O. and Isard, M. and Sivic, J. and Zisserman,
+
+	A.},
+
+  title = {Lost in Quantization: Improving Particular Object Retrieval in Large
+
+	Scale Image Databases},
+
+  booktitle = cvpr,
+
+  year = {2008}
+
+}
+
+@ARTICLE{Philbin10c,
+
+  author = {Philbin, J. and Sivic, J. and Zisserman, A.},
+
+  title = {Geometric Latent Dirichlet Allocation on a Matching Graph for Large-scale
+
+	Image Datasets},
+
+  journal = ijcv,
+
+  year = {2010}
+
+}
+
+@INPROCEEDINGS{Schindler07,
+
+  author = {Schindler, G. and Brown, M. and Szeliski, R.},
+
+  title = {City-scale location recognition},
+
+  booktitle = cvpr,
+
+  year = {2007}
+
+}
+
+@INPROCEEDINGS{Cummins09,
+
+  author = {Cummins, M. and Newman, P.},
+
+  title = {Highly scalable appearance-only {SLAM} - {FAB-MAP} 2.0},
+
+  booktitle = {Proceedings of Robotics: Science and Systems},
+
+  year = {2009},
+
+  address = {Seattle, USA},
+
+  month = {June}
+
+}
+
+
+@INPROCEEDINGS{Nister06,
+
+  author = {Nister, D. and Stewenius, H.},
+
+  title = {Scalable Recognition with a Vocabulary Tree},
+
+  booktitle = cvpr,
+
+  year = {2006}
+
+}
+
+
+@INPROCEEDINGS{Philbin07,
+
+  author = {Philbin, J. and Chum, O. and Isard, M. and Sivic, J. and Zisserman,
+
+	A.},
+
+  title = {Object retrieval with large vocabularies and fast spatial matching},
+
+  booktitle = cvpr,
+
+  year = {2007}
+
+}
+
+
+ARTICLE{Philbin10c,
+
+  author = {Philbin, J. and Sivic, J. and Zisserman, A.},
+
+  title = {Geometric Latent Dirichlet Allocation on a Matching Graph for Large-scale
+
+	Image Datasets},
+
+  journal = ijcv,
+
+  year = {2010}
+
+}
+
+@InProceedings{torii11,
+   author = "Torii, A. and Sivic, J. and Pajdla, T.",
+   title = "Visual localization by linear combination of image descriptors",
+   booktitle = "IEEE Workshop on Mobile Vision",
+   year = "2011",
+}
+
+@INPROCEEDINGS{Bay06,
+
+  author = {Bay, H. and Tuytelaars, T. and Van Gool, L.},
+
+  title = {{SURF}: Speeded Up Robust Features},
+
+  booktitle = eccv,
+
+  year = {2006},
+
+  date-added = {2009-03-08 12:53:48 +0100},
+
+  date-modified = {2009-03-08 12:53:48 +0100}
+
+}
+
+@InProceedings{Philbin10b,
+   author = "Philbin, J. and Isard, M. and Sivic, J. and Zisserman, A.",
+   title = "Descriptor learning for efficient retrieval",
+   booktitle =eccv,
+   year = "2010",
+} 
+
+
+@InProceedings{Chum11,
+   author = "Chum, O. and Mikulik, A. and Perdroch, M. and Matas, J.",
+   title = "Total Recall {II}: Query Expansion Revisited",
+   booktitle = cvpr,
+   year = "2011",
+} 
+
+@INPROCEEDINGS{Zamir10,
+  author = {Zamir, A. and Shah, M.},
+  title = {Accurate Image Localization Based on Google Maps Street View},
+  booktitle = eccv,
+  year = {2010}
+}
+
+
+@InProceedings{Li12,
+   author = "Li, Y. and Snavely, N. and Huttenlocher, D. and Fua, P.",
+   title = "Worldwide Pose Estimation using 3D Point Clouds",
+   booktitle = eccv,
+   year = "2012",
+} 
+
+@INPROCEEDINGS{Li09,
+  author = {Li, Y. and Crandall, D. and Huttenlocher, D.},
+  title = {Landmark classification in large-scale image collections},
+  booktitle = iccv,
+  year = {2009}
+}
+
+@INPROCEEDINGS{Li10,
+  author = {Li, Y. and Snavely, N. and Huttenlocher, D.},
+  title = {Location Recognition using Prioritized Feature Matching},
+  booktitle = eccv,
+  year = {2010}
+}
+
