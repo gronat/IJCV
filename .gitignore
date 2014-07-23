@@ -1,4 +1,7 @@
 *.png
 *.pdf
 !graphBigO.pdf
+!qnt1x.pdf
+!qnt2x.pdf
+
 
