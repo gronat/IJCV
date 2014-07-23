@@ -1,3 +1,4 @@
 *.png
 *.pdf
+!*.graphBigO.pdf
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.6.2)  18 JUL 2014 13:19
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.6.2)  23 JUL 2014 16:19
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -509,162 +509,162 @@ Overfull \hbox (15.67226pt too wide) in paragraph at lines 380--384
 ers trained for each database
  []
 
-[5] (./myFigure02.tex <imgs/demo01d.pdf, id=75, 766.75859pt x 576.07219pt>
-File: imgs/demo01d.pdf Graphic file (type pdf)
+[5] (./myFigure02.tex <imgs/demo01d.jpg, id=75, 785.80902pt x 590.37465pt>
+File: imgs/demo01d.jpg Graphic file (type jpg)
 
-<use imgs/demo01d.pdf>
-Package pdftex.def Info: imgs/demo01d.pdf used on input line 26.
-(pdftex.def)             Requested size: 103.94872pt x 78.09161pt.
- <imgs/demo02d.pdf, id=76, 766.75859pt x 576.07219pt>
-File: imgs/demo02d.pdf Graphic file (type pdf)
+<use imgs/demo01d.jpg>
+Package pdftex.def Info: imgs/demo01d.jpg used on input line 26.
+(pdftex.def)             Requested size: 103.94872pt x 78.09364pt.
+ <imgs/demo02d.jpg, id=76, 785.80902pt x 590.37465pt>
+File: imgs/demo02d.jpg Graphic file (type jpg)
 
-<use imgs/demo02d.pdf>
-Package pdftex.def Info: imgs/demo02d.pdf used on input line 36.
-(pdftex.def)             Requested size: 103.94872pt x 78.09161pt.
- <imgs/demo03d.pdf, id=77, 766.75859pt x 576.07219pt>
-File: imgs/demo03d.pdf Graphic file (type pdf)
+<use imgs/demo02d.jpg>
+Package pdftex.def Info: imgs/demo02d.jpg used on input line 36.
+(pdftex.def)             Requested size: 103.94872pt x 78.09364pt.
+ <imgs/demo03d.jpg, id=77, 785.80902pt x 590.37465pt>
+File: imgs/demo03d.jpg Graphic file (type jpg)
 
-<use imgs/demo03d.pdf>
-Package pdftex.def Info: imgs/demo03d.pdf used on input line 44.
-(pdftex.def)             Requested size: 103.94872pt x 78.09161pt.
- <imgs/demo04d.pdf, id=78, 766.865pt x 576.1525pt>
-File: imgs/demo04d.pdf Graphic file (type pdf)
+<use imgs/demo03d.jpg>
+Package pdftex.def Info: imgs/demo03d.jpg used on input line 44.
+(pdftex.def)             Requested size: 103.94872pt x 78.09364pt.
+ <imgs/demo04d.jpg, id=78, 774.895pt x 582.175pt>
+File: imgs/demo04d.jpg Graphic file (type jpg)
 
-<use imgs/demo04d.pdf>
-Package pdftex.def Info: imgs/demo04d.pdf used on input line 52.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
- <imgs/demo01.pdf, id=79, 766.865pt x 576.1525pt>
-File: imgs/demo01.pdf Graphic file (type pdf)
+<use imgs/demo04d.jpg>
+Package pdftex.def Info: imgs/demo04d.jpg used on input line 52.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
+ <imgs/demo01.jpg, id=79, 774.895pt x 582.175pt>
+File: imgs/demo01.jpg Graphic file (type jpg)
 
-<use imgs/demo01.pdf>
-Package pdftex.def Info: imgs/demo01.pdf used on input line 62.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
- <imgs/demo02.pdf, id=80, 766.865pt x 576.1525pt>
-File: imgs/demo02.pdf Graphic file (type pdf)
+<use imgs/demo01.jpg>
+Package pdftex.def Info: imgs/demo01.jpg used on input line 62.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
+ <imgs/demo02.jpg, id=80, 774.895pt x 582.175pt>
+File: imgs/demo02.jpg Graphic file (type jpg)
 
-<use imgs/demo02.pdf>
-Package pdftex.def Info: imgs/demo02.pdf used on input line 72.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
- <imgs/demo03.pdf, id=81, 766.865pt x 576.1525pt>
-File: imgs/demo03.pdf Graphic file (type pdf)
+<use imgs/demo02.jpg>
+Package pdftex.def Info: imgs/demo02.jpg used on input line 72.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
+ <imgs/demo03.jpg, id=81, 774.895pt x 582.175pt>
+File: imgs/demo03.jpg Graphic file (type jpg)
 
-<use imgs/demo03.pdf>
-Package pdftex.def Info: imgs/demo03.pdf used on input line 80.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
- <imgs/demo04.pdf, id=82, 766.865pt x 576.1525pt>
-File: imgs/demo04.pdf Graphic file (type pdf)
+<use imgs/demo03.jpg>
+Package pdftex.def Info: imgs/demo03.jpg used on input line 80.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
+ <imgs/demo04.jpg, id=82, 774.895pt x 582.175pt>
+File: imgs/demo04.jpg Graphic file (type jpg)
 
-<use imgs/demo04.pdf>
-Package pdftex.def Info: imgs/demo04.pdf used on input line 88.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
- <imgs/demo01b.pdf, id=83, 766.865pt x 576.1525pt>
-File: imgs/demo01b.pdf Graphic file (type pdf)
+<use imgs/demo04.jpg>
+Package pdftex.def Info: imgs/demo04.jpg used on input line 88.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
+ <imgs/demo01b.jpg, id=83, 774.895pt x 582.175pt>
+File: imgs/demo01b.jpg Graphic file (type jpg)
 
-<use imgs/demo01b.pdf>
-Package pdftex.def Info: imgs/demo01b.pdf used on input line 98.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
- <imgs/demo02b.pdf, id=84, 766.75859pt x 576.07219pt>
-File: imgs/demo02b.pdf Graphic file (type pdf)
+<use imgs/demo01b.jpg>
+Package pdftex.def Info: imgs/demo01b.jpg used on input line 98.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
+ <imgs/demo02b.jpg, id=84, 785.80902pt x 590.37465pt>
+File: imgs/demo02b.jpg Graphic file (type jpg)
 
-<use imgs/demo02b.pdf>
-Package pdftex.def Info: imgs/demo02b.pdf used on input line 108.
-(pdftex.def)             Requested size: 103.94872pt x 78.09161pt.
- <imgs/demo03b.pdf, id=85, 766.865pt x 576.1525pt>
-File: imgs/demo03b.pdf Graphic file (type pdf)
+<use imgs/demo02b.jpg>
+Package pdftex.def Info: imgs/demo02b.jpg used on input line 108.
+(pdftex.def)             Requested size: 103.94872pt x 78.09364pt.
+ <imgs/demo03b.jpg, id=85, 774.895pt x 582.175pt>
+File: imgs/demo03b.jpg Graphic file (type jpg)
 
-<use imgs/demo03b.pdf>
-Package pdftex.def Info: imgs/demo03b.pdf used on input line 116.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
- <imgs/demo04b.pdf, id=86, 766.865pt x 576.1525pt>
-File: imgs/demo04b.pdf Graphic file (type pdf)
+<use imgs/demo03b.jpg>
+Package pdftex.def Info: imgs/demo03b.jpg used on input line 116.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
+ <imgs/demo04b.jpg, id=86, 774.895pt x 582.175pt>
+File: imgs/demo04b.jpg Graphic file (type jpg)
 
-<use imgs/demo04b.pdf>
-Package pdftex.def Info: imgs/demo04b.pdf used on input line 124.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
- <imgs/demo01c.pdf, id=87, 766.865pt x 576.1525pt>
-File: imgs/demo01c.pdf Graphic file (type pdf)
+<use imgs/demo04b.jpg>
+Package pdftex.def Info: imgs/demo04b.jpg used on input line 124.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
+ <imgs/demo01c.jpg, id=87, 774.895pt x 582.175pt>
+File: imgs/demo01c.jpg Graphic file (type jpg)
 
-<use imgs/demo01c.pdf>
-Package pdftex.def Info: imgs/demo01c.pdf used on input line 134.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
- <imgs/demo02c.pdf, id=88, 766.75859pt x 576.07219pt>
-File: imgs/demo02c.pdf Graphic file (type pdf)
+<use imgs/demo01c.jpg>
+Package pdftex.def Info: imgs/demo01c.jpg used on input line 134.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
+ <imgs/demo02c.jpg, id=88, 785.80902pt x 590.37465pt>
+File: imgs/demo02c.jpg Graphic file (type jpg)
 
-<use imgs/demo02c.pdf>
-Package pdftex.def Info: imgs/demo02c.pdf used on input line 144.
-(pdftex.def)             Requested size: 103.94872pt x 78.09161pt.
- <imgs/demo03c.pdf, id=89, 766.865pt x 576.1525pt>
-File: imgs/demo03c.pdf Graphic file (type pdf)
+<use imgs/demo02c.jpg>
+Package pdftex.def Info: imgs/demo02c.jpg used on input line 144.
+(pdftex.def)             Requested size: 103.94872pt x 78.09364pt.
+ <imgs/demo03c.jpg, id=89, 774.895pt x 582.175pt>
+File: imgs/demo03c.jpg Graphic file (type jpg)
 
-<use imgs/demo03c.pdf>
-Package pdftex.def Info: imgs/demo03c.pdf used on input line 152.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
- <imgs/demo04c.pdf, id=90, 766.865pt x 576.1525pt>
-File: imgs/demo04c.pdf Graphic file (type pdf)
+<use imgs/demo03c.jpg>
+Package pdftex.def Info: imgs/demo03c.jpg used on input line 152.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
+ <imgs/demo04c.jpg, id=90, 774.895pt x 582.175pt>
+File: imgs/demo04c.jpg Graphic file (type jpg)
 
-<use imgs/demo04c.pdf>
-Package pdftex.def Info: imgs/demo04c.pdf used on input line 160.
-(pdftex.def)             Requested size: 103.94872pt x 78.09372pt.
+<use imgs/demo04c.jpg>
+Package pdftex.def Info: imgs/demo04c.jpg used on input line 160.
+(pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
 
 Overfull \hbox (14.125pt too wide) in paragraph at lines 165--171
  [][] 
  []
 
-<imgs/aggrv/05aggrvQ.pdf, id=91, 770.82878pt x 554.03287pt>
-File: imgs/aggrv/05aggrvQ.pdf Graphic file (type pdf)
+<imgs/aggrv/05aggrvQ.jpg, id=91, 911.86308pt x 654.7953pt>
+File: imgs/aggrv/05aggrvQ.jpg Graphic file (type jpg)
 
-<use imgs/aggrv/05aggrvQ.pdf>
-Package pdftex.def Info: imgs/aggrv/05aggrvQ.pdf used on input line 180.
-(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+<use imgs/aggrv/05aggrvQ.jpg>
+Package pdftex.def Info: imgs/aggrv/05aggrvQ.jpg used on input line 180.
+(pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/05aggrvS.pdf, id=92, 770.82878pt x 554.03287pt>
-File: imgs/aggrv/05aggrvS.pdf Graphic file (type pdf)
+<imgs/aggrv/05aggrvS.jpg, id=92, 911.86308pt x 654.7953pt>
+File: imgs/aggrv/05aggrvS.jpg Graphic file (type jpg)
 
-<use imgs/aggrv/05aggrvS.pdf>
-Package pdftex.def Info: imgs/aggrv/05aggrvS.pdf used on input line 190.
-(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+<use imgs/aggrv/05aggrvS.jpg>
+Package pdftex.def Info: imgs/aggrv/05aggrvS.jpg used on input line 190.
+(pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/05aggrvK.pdf, id=93, 770.82878pt x 554.03287pt>
-File: imgs/aggrv/05aggrvK.pdf Graphic file (type pdf)
+<imgs/aggrv/05aggrvK.jpg, id=93, 911.86308pt x 654.7953pt>
+File: imgs/aggrv/05aggrvK.jpg Graphic file (type jpg)
 
-<use imgs/aggrv/05aggrvK.pdf>
-Package pdftex.def Info: imgs/aggrv/05aggrvK.pdf used on input line 198.
-(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+<use imgs/aggrv/05aggrvK.jpg>
+Package pdftex.def Info: imgs/aggrv/05aggrvK.jpg used on input line 198.
+(pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/05aggrvB.pdf, id=94, 770.82878pt x 554.03287pt>
-File: imgs/aggrv/05aggrvB.pdf Graphic file (type pdf)
+<imgs/aggrv/05aggrvB.jpg, id=94, 911.86308pt x 654.7953pt>
+File: imgs/aggrv/05aggrvB.jpg Graphic file (type jpg)
 
-<use imgs/aggrv/05aggrvB.pdf>
-Package pdftex.def Info: imgs/aggrv/05aggrvB.pdf used on input line 206.
-(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+<use imgs/aggrv/05aggrvB.jpg>
+Package pdftex.def Info: imgs/aggrv/05aggrvB.jpg used on input line 206.
+(pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/08aggrvQ.pdf, id=95, 770.82878pt x 554.03287pt>
-File: imgs/aggrv/08aggrvQ.pdf Graphic file (type pdf)
+<imgs/aggrv/08aggrvQ.jpg, id=95, 911.86308pt x 654.7953pt>
+File: imgs/aggrv/08aggrvQ.jpg Graphic file (type jpg)
 
-<use imgs/aggrv/08aggrvQ.pdf>
-Package pdftex.def Info: imgs/aggrv/08aggrvQ.pdf used on input line 216.
-(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+<use imgs/aggrv/08aggrvQ.jpg>
+Package pdftex.def Info: imgs/aggrv/08aggrvQ.jpg used on input line 216.
+(pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/08aggrvS.pdf, id=96, 770.82878pt x 554.03287pt>
-File: imgs/aggrv/08aggrvS.pdf Graphic file (type pdf)
+<imgs/aggrv/08aggrvS.jpg, id=96, 911.86308pt x 654.7953pt>
+File: imgs/aggrv/08aggrvS.jpg Graphic file (type jpg)
 
-<use imgs/aggrv/08aggrvS.pdf>
-Package pdftex.def Info: imgs/aggrv/08aggrvS.pdf used on input line 226.
-(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+<use imgs/aggrv/08aggrvS.jpg>
+Package pdftex.def Info: imgs/aggrv/08aggrvS.jpg used on input line 226.
+(pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/08aggrvK.pdf, id=97, 770.82878pt x 554.03287pt>
-File: imgs/aggrv/08aggrvK.pdf Graphic file (type pdf)
+<imgs/aggrv/08aggrvK.jpg, id=97, 911.86308pt x 654.7953pt>
+File: imgs/aggrv/08aggrvK.jpg Graphic file (type jpg)
 
-<use imgs/aggrv/08aggrvK.pdf>
-Package pdftex.def Info: imgs/aggrv/08aggrvK.pdf used on input line 234.
-(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+<use imgs/aggrv/08aggrvK.jpg>
+Package pdftex.def Info: imgs/aggrv/08aggrvK.jpg used on input line 234.
+(pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/08aggrvB.pdf, id=98, 770.82878pt x 554.03287pt>
-File: imgs/aggrv/08aggrvB.pdf Graphic file (type pdf)
+<imgs/aggrv/08aggrvB.jpg, id=98, 911.86308pt x 654.7953pt>
+File: imgs/aggrv/08aggrvB.jpg Graphic file (type jpg)
 
-<use imgs/aggrv/08aggrvB.pdf>
-Package pdftex.def Info: imgs/aggrv/08aggrvB.pdf used on input line 242.
-(pdftex.def)             Requested size: 103.94872pt x 74.70667pt.
+<use imgs/aggrv/08aggrvB.jpg>
+Package pdftex.def Info: imgs/aggrv/08aggrvB.jpg used on input line 242.
+(pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 )
 Overfull \hbox (0.93362pt too wide) in paragraph at lines 389--390
 \OT1/ptm/m/n/10 fi-ca-tion prob-lem and have used geo-tags as a readily-availab
@@ -697,54 +697,54 @@ File: imgs/wVS3q/2882/graphBigO.pdf Graphic file (type pdf)
 Package pdftex.def Info: imgs/wVS3q/2882/graphBigO.pdf used on input line 8.
 (pdftex.def)             Requested size: 154.43716pt x 53.43393pt.
 
-<imgs/wVS3q/2882/j.pdf, id=100, 774.895pt x 582.175pt>
-File: imgs/wVS3q/2882/j.pdf Graphic file (type pdf)
+<imgs/wVS3q/2882/j.jpg, id=100, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2882/j.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2882/j.pdf>
-Package pdftex.def Info: imgs/wVS3q/2882/j.pdf used on input line 14.
-(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+<use imgs/wVS3q/2882/j.jpg>
+Package pdftex.def Info: imgs/wVS3q/2882/j.jpg used on input line 14.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/a.pdf, id=101, 774.895pt x 582.175pt>
-File: imgs/wVS3q/2882/a.pdf Graphic file (type pdf)
+<imgs/wVS3q/2882/a.jpg, id=101, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2882/a.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2882/a.pdf>
-Package pdftex.def Info: imgs/wVS3q/2882/a.pdf used on input line 22.
-(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+<use imgs/wVS3q/2882/a.jpg>
+Package pdftex.def Info: imgs/wVS3q/2882/a.jpg used on input line 22.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/b.pdf, id=102, 774.895pt x 582.175pt>
-File: imgs/wVS3q/2882/b.pdf Graphic file (type pdf)
+<imgs/wVS3q/2882/b.jpg, id=102, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2882/b.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2882/b.pdf>
-Package pdftex.def Info: imgs/wVS3q/2882/b.pdf used on input line 27.
-(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+<use imgs/wVS3q/2882/b.jpg>
+Package pdftex.def Info: imgs/wVS3q/2882/b.jpg used on input line 27.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/c.pdf, id=103, 774.895pt x 582.175pt>
-File: imgs/wVS3q/2882/c.pdf Graphic file (type pdf)
+<imgs/wVS3q/2882/c.jpg, id=103, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2882/c.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2882/c.pdf>
-Package pdftex.def Info: imgs/wVS3q/2882/c.pdf used on input line 32.
-(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+<use imgs/wVS3q/2882/c.jpg>
+Package pdftex.def Info: imgs/wVS3q/2882/c.jpg used on input line 32.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/aftrs.pdf, id=104, 780.9175pt x 582.175pt>
-File: imgs/wVS3q/2882/aftrs.pdf Graphic file (type pdf)
+<imgs/wVS3q/2882/aftrs.jpg, id=104, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2882/aftrs.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2882/aftrs.pdf>
-Package pdftex.def Info: imgs/wVS3q/2882/aftrs.pdf used on input line 37.
-(pdftex.def)             Requested size: 76.74365pt x 57.2082pt.
+<use imgs/wVS3q/2882/aftrs.jpg>
+Package pdftex.def Info: imgs/wVS3q/2882/aftrs.jpg used on input line 37.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/bftrs.pdf, id=105, 774.895pt x 582.175pt>
-File: imgs/wVS3q/2882/bftrs.pdf Graphic file (type pdf)
+<imgs/wVS3q/2882/bftrs.jpg, id=105, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2882/bftrs.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2882/bftrs.pdf>
-Package pdftex.def Info: imgs/wVS3q/2882/bftrs.pdf used on input line 43.
-(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+<use imgs/wVS3q/2882/bftrs.jpg>
+Package pdftex.def Info: imgs/wVS3q/2882/bftrs.jpg used on input line 43.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/cftrs.pdf, id=106, 774.895pt x 582.175pt>
-File: imgs/wVS3q/2882/cftrs.pdf Graphic file (type pdf)
+<imgs/wVS3q/2882/cftrs.jpg, id=106, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2882/cftrs.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2882/cftrs.pdf>
-Package pdftex.def Info: imgs/wVS3q/2882/cftrs.pdf used on input line 49.
-(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+<use imgs/wVS3q/2882/cftrs.jpg>
+Package pdftex.def Info: imgs/wVS3q/2882/cftrs.jpg used on input line 49.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
 <imgs/wVS3q/2932/graphBigO.pdf, id=107, 475.7775pt x 164.615pt>
 File: imgs/wVS3q/2932/graphBigO.pdf Graphic file (type pdf)
@@ -753,54 +753,54 @@ File: imgs/wVS3q/2932/graphBigO.pdf Graphic file (type pdf)
 Package pdftex.def Info: imgs/wVS3q/2932/graphBigO.pdf used on input line 67.
 (pdftex.def)             Requested size: 156.81546pt x 54.2578pt.
 
-<imgs/wVS3q/2932/j.pdf, id=108, 774.895pt x 582.175pt>
-File: imgs/wVS3q/2932/j.pdf Graphic file (type pdf)
+<imgs/wVS3q/2932/j.jpg, id=108, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2932/j.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2932/j.pdf>
-Package pdftex.def Info: imgs/wVS3q/2932/j.pdf used on input line 73.
-(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+<use imgs/wVS3q/2932/j.jpg>
+Package pdftex.def Info: imgs/wVS3q/2932/j.jpg used on input line 73.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/a.pdf, id=109, 774.895pt x 582.175pt>
-File: imgs/wVS3q/2932/a.pdf Graphic file (type pdf)
+<imgs/wVS3q/2932/a.jpg, id=109, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2932/a.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2932/a.pdf>
-Package pdftex.def Info: imgs/wVS3q/2932/a.pdf used on input line 81.
-(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+<use imgs/wVS3q/2932/a.jpg>
+Package pdftex.def Info: imgs/wVS3q/2932/a.jpg used on input line 81.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/b.pdf, id=110, 774.895pt x 582.175pt>
-File: imgs/wVS3q/2932/b.pdf Graphic file (type pdf)
+<imgs/wVS3q/2932/b.jpg, id=110, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2932/b.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2932/b.pdf>
-Package pdftex.def Info: imgs/wVS3q/2932/b.pdf used on input line 85.
-(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+<use imgs/wVS3q/2932/b.jpg>
+Package pdftex.def Info: imgs/wVS3q/2932/b.jpg used on input line 85.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/c.pdf, id=111, 774.895pt x 582.175pt>
-File: imgs/wVS3q/2932/c.pdf Graphic file (type pdf)
+<imgs/wVS3q/2932/c.jpg, id=111, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2932/c.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2932/c.pdf>
-Package pdftex.def Info: imgs/wVS3q/2932/c.pdf used on input line 89.
-(pdftex.def)             Requested size: 76.74365pt x 57.65237pt.
+<use imgs/wVS3q/2932/c.jpg>
+Package pdftex.def Info: imgs/wVS3q/2932/c.jpg used on input line 89.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/aftrs.pdf, id=112, 774.895pt x 583.17876pt>
-File: imgs/wVS3q/2932/aftrs.pdf Graphic file (type pdf)
+<imgs/wVS3q/2932/aftrs.jpg, id=112, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2932/aftrs.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2932/aftrs.pdf>
-Package pdftex.def Info: imgs/wVS3q/2932/aftrs.pdf used on input line 94.
-(pdftex.def)             Requested size: 76.74365pt x 57.75177pt.
+<use imgs/wVS3q/2932/aftrs.jpg>
+Package pdftex.def Info: imgs/wVS3q/2932/aftrs.jpg used on input line 94.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/bftrs.pdf, id=113, 778.91pt x 582.175pt>
-File: imgs/wVS3q/2932/bftrs.pdf Graphic file (type pdf)
+<imgs/wVS3q/2932/bftrs.jpg, id=113, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2932/bftrs.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2932/bftrs.pdf>
-Package pdftex.def Info: imgs/wVS3q/2932/bftrs.pdf used on input line 100.
-(pdftex.def)             Requested size: 76.74365pt x 57.35922pt.
+<use imgs/wVS3q/2932/bftrs.jpg>
+Package pdftex.def Info: imgs/wVS3q/2932/bftrs.jpg used on input line 100.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/cftrs.pdf, id=114, 778.91pt x 582.175pt>
-File: imgs/wVS3q/2932/cftrs.pdf Graphic file (type pdf)
+<imgs/wVS3q/2932/cftrs.jpg, id=114, 911.86308pt x 654.7953pt>
+File: imgs/wVS3q/2932/cftrs.jpg Graphic file (type jpg)
 
-<use imgs/wVS3q/2932/cftrs.pdf>
-Package pdftex.def Info: imgs/wVS3q/2932/cftrs.pdf used on input line 106.
-(pdftex.def)             Requested size: 76.74365pt x 57.35922pt.
+<use imgs/wVS3q/2932/cftrs.jpg>
+Package pdftex.def Info: imgs/wVS3q/2932/cftrs.jpg used on input line 106.
+(pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
 Overfull \hbox (1.60747pt too wide) in paragraph at lines 2--113
 []$[]$$[]$ $[]$ 
@@ -831,42 +831,42 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [7 <./imgs/demo01d.pdf> <./imgs/demo02d.pdf> <./imgs/demo03d.pdf> <./imgs/demo
-04d.pdf> <./imgs/demo01.pdf> <./imgs/demo02.pdf> <./imgs/demo03.pdf> <./imgs/de
-mo04.pdf> <./imgs/demo01b.pdf> <./imgs/demo02b.pdf> <./imgs/demo03b.pdf> <./img
-s/demo04b.pdf> <./imgs/demo01c.pdf> <./imgs/demo02c.pdf> <./imgs/demo03c.pdf> <
-./imgs/demo04c.pdf> <./imgs/aggrv/05aggrvQ.pdf> <./imgs/aggrv/05aggrvS.pdf> <./
-imgs/aggrv/05aggrvK.pdf> <./imgs/aggrv/05aggrvB.pdf> <./imgs/aggrv/08aggrvQ.pdf
-> <./imgs/aggrv/08aggrvS.pdf> <./imgs/aggrv/08aggrvK.pdf> <./imgs/aggrv/08aggrv
-B.pdf>])
+ [7 <./imgs/demo01d.jpg> <./imgs/demo02d.jpg> <./imgs/demo03d.jpg> <./imgs/demo
+04d.jpg> <./imgs/demo01.jpg> <./imgs/demo02.jpg> <./imgs/demo03.jpg> <./imgs/de
+mo04.jpg> <./imgs/demo01b.jpg> <./imgs/demo02b.jpg> <./imgs/demo03b.jpg> <./img
+s/demo04b.jpg> <./imgs/demo01c.jpg> <./imgs/demo02c.jpg> <./imgs/demo03c.jpg> <
+./imgs/demo04c.jpg> <./imgs/aggrv/05aggrvQ.jpg> <./imgs/aggrv/05aggrvS.jpg> <./
+imgs/aggrv/05aggrvK.jpg> <./imgs/aggrv/05aggrvB.jpg> <./imgs/aggrv/08aggrvQ.jpg
+> <./imgs/aggrv/08aggrvS.jpg> <./imgs/aggrv/08aggrvK.jpg> <./imgs/aggrv/08aggrv
+B.jpg>])
 Underfull \hbox (badness 10000) has occurred while \output is active
 [][]
  []
 
 [8
 
- <./imgs/wVS3q/2882/graphBigO.pdf> <./imgs/wVS3q/2882/j.pdf> <./imgs/wVS3q/2882
-/a.pdf> <./imgs/wVS3q/2882/b.pdf> <./imgs/wVS3q/2882/c.pdf> <./imgs/wVS3q/2882/
-aftrs.pdf> <./imgs/wVS3q/2882/bftrs.pdf> <./imgs/wVS3q/2882/cftrs.pdf> <./imgs/
+ <./imgs/wVS3q/2882/graphBigO.pdf> <./imgs/wVS3q/2882/j.jpg> <./imgs/wVS3q/2882
+/a.jpg> <./imgs/wVS3q/2882/b.jpg> <./imgs/wVS3q/2882/c.jpg> <./imgs/wVS3q/2882/
+aftrs.jpg> <./imgs/wVS3q/2882/bftrs.jpg> <./imgs/wVS3q/2882/cftrs.jpg> <./imgs/
 wVS3q/2932/graphBigO.pdf
 
 pdfTeX warning: pdflatex (file ./imgs/wVS3q/2932/graphBigO.pdf): PDF inclusion:
  multiple pdfs with page group included in a single page
-> <./imgs/wVS3q/2932/j.pdf> <./imgs/wVS3q/2932/a.pdf> <./imgs/wVS3q/2932/b.pdf>
- <./imgs/wVS3q/2932/c.pdf> <./imgs/wVS3q/2932/aftrs.pdf> <./imgs/wVS3q/2932/bft
-rs.pdf> <./imgs/wVS3q/2932/cftrs.pdf>] (./template.aux)
+> <./imgs/wVS3q/2932/j.jpg> <./imgs/wVS3q/2932/a.jpg> <./imgs/wVS3q/2932/b.jpg>
+ <./imgs/wVS3q/2932/c.jpg> <./imgs/wVS3q/2932/aftrs.jpg> <./imgs/wVS3q/2932/bft
+rs.jpg> <./imgs/wVS3q/2932/cftrs.jpg>] (./template.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 5296 strings out of 493307
- 78294 string characters out of 6139906
+ 5297 strings out of 493307
+ 78298 string characters out of 6139906
  157170 words of memory out of 5000000
  8606 multiletter control sequences out of 15000+600000
  32962 words of font info for 78 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 42i,12n,38p,1673b,378s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,12n,38p,1673b,380s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist
@@ -886,10 +886,10 @@ e1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
 tmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on template.pdf (8 pages, 27610167 bytes).
+Output written on template.pdf (8 pages, 13488753 bytes).
 PDF statistics:
- 389 PDF objects out of 1000 (max. 8388607)
- 247 compressed objects within 3 object streams
+ 250 PDF objects out of 1000 (max. 8388607)
+ 147 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  216 words of extra memory for PDF output out of 10000 (max. 10000000)
 
