@@ -1,11 +1,21 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.6.2)  23 JUL 2014 16:19
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.8.7)  29 JUL 2014 14:31
 entering extended mode
- \write18 enabled.
+ restricted \write18 enabled.
  %&-line parsing enabled.
-**template.tex
+**template
 (./template.tex
 LaTeX2e <2011/06/27>
-Babel <3.9f> and hyphenation patterns for 78 languages loaded.
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, et
+hiopic, farsi, arabic, pinyin, croatian, bulgarian, ukrainian, russian, slovak,
+ czech, danish, dutch, usenglishmax, ukenglish, finnish, french, basque, ngerma
+n, german, swissgerman, ngerman-x-2012-05-30, german-x-2012-05-30, monogreek, g
+reek, ibycus, ancientgreek, hungarian, bengali, tamil, hindi, telugu, gujarati,
+ sanskrit, malayalam, kannada, assamese, marathi, oriya, panjabi, italian, lati
+n, latvian, lithuanian, mongolian, mongolianlmc, nynorsk, bokmal, indonesian, e
+speranto, coptic, welsh, irish, interlingua, serbian, serbianc, slovenian, friu
+lan, romansh, estonian, romanian, armenian, uppersorbian, turkish, afrikaans, i
+celandic, kurmanji, polish, portuguese, galician, catalan, spanish, swedish, lo
+aded.
 
 LaTeX Warning: File `example.eps' already exists on the system.
                Not generating it from this source.
@@ -179,7 +189,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 )))
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2013/01/14 v2.14 AMS math features
+Package: amsmath 2000/07/18 v2.13 AMS math features
 \@mathmargin=\skip43
 
 For additional information on amsmath, use the `?' option.
@@ -199,20 +209,20 @@ Package: amsbsy 1999/11/29 v1.2d
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count106
-LaTeX Info: Redefining \frac on input line 210.
+LaTeX Info: Redefining \frac on input line 211.
 \uproot@=\count107
 \leftroot@=\count108
-LaTeX Info: Redefining \overline on input line 306.
+LaTeX Info: Redefining \overline on input line 307.
 \classnum@=\count109
 \DOTSCASE@=\count110
-LaTeX Info: Redefining \ldots on input line 378.
-LaTeX Info: Redefining \dots on input line 381.
-LaTeX Info: Redefining \cdots on input line 466.
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
 \Mathstrutbox@=\box29
 \strutbox@=\box30
 \big@size=\dimen121
-LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 
 
 Package amsmath Warning: Unable to redefine math accent \vec.
@@ -237,17 +247,17 @@ Package amsmath Warning: Unable to redefine math accent \vec.
 \multlinegap=\skip44
 \multlinetaggap=\skip45
 \mathdisplay@stack=\toks21
-LaTeX Info: Redefining \[ on input line 2665.
-LaTeX Info: Redefining \] on input line 2666.
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
 ) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
-Package: amssymb 2013/01/14 v3.01 AMS font symbols
+Package: amssymb 2009/06/22 v3.00
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
-Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
-(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
 Package: subfigure 2002/03/15 v2.1.5 subfigure package
@@ -270,18 +280,16 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfig@bottom=\skip51
 )
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+Package: caption 2012/02/19 v3.2f Customizing captions (AR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
-Package caption3 Info: TeX engine: e-TeX on input line 57.
+Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
 \captionmargin=\dimen130
 \captionmargin@=\dimen131
 \captionwidth=\dimen132
-\caption@tempdima=\dimen133
-\caption@indent=\dimen134
-\caption@parindent=\dimen135
-\caption@hangindent=\dimen136
+\caption@indent=\dimen133
+\caption@parindent=\dimen134
+\caption@hangindent=\dimen135
 Package caption Info: Unknown document class (or package),
 (caption)             standard defaults will be used.
 )
@@ -303,17 +311,17 @@ Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
 
 (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
-\col@sep=\dimen137
-\extrarowheight=\dimen138
+\col@sep=\dimen136
+\extrarowheight=\dimen137
 \NC@list=\toks22
 \extratabsurround=\skip52
 \backup@length=\skip53
 )
-\TX@col@width=\dimen139
-\TX@old@table=\dimen140
-\TX@old@col=\dimen141
-\TX@target=\dimen142
-\TX@delta=\dimen143
+\TX@col@width=\dimen138
+\TX@old@table=\dimen139
+\TX@old@col=\dimen140
+\TX@target=\dimen141
+\TX@delta=\dimen142
 \TX@cols=\count123
 \TX@ftn=\toks23
 )
@@ -365,13 +373,13 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count125
-\scratchdimen=\dimen144
+\scratchdimen=\dimen143
 \scratchbox=\box31
 \nofMPsegments=\count126
 \nofMParguments=\count127
 \everyMPshowfont=\toks25
 \MPscratchCnt=\count128
-\MPscratchDim=\dimen145
+\MPscratchDim=\dimen144
 \MPnumerator=\count129
 \makeMPintoPDFobject=\count130
 \everyMPtoPDFconversion=\toks26
@@ -386,19 +394,19 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 136.
 LaTeX Font Info:    Try loading font information for U+msa on input line 136.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 136.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 136.
 
-<imgs/titleTeX.png, id=1, 734.745pt x 241.65282pt>
-File: imgs/titleTeX.png Graphic file (type png)
- <use imgs/titleTeX.png>
-Package pdftex.def Info: imgs/titleTeX.png used on input line 136.
+<imgs/titleTeX.jpg, id=1, 734.745pt x 241.65282pt>
+File: imgs/titleTeX.jpg Graphic file (type jpg)
+ <use imgs/titleTeX.jpg>
+Package pdftex.def Info: imgs/titleTeX.jpg used on input line 136.
 (pdftex.def)             Requested size: 420.75302pt x 138.38512pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -411,67 +419,75 @@ Overfull \hbox (1.64287pt too wide) in paragraph at lines 152--154
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./imgs/titleTeX.png>]
+ <./imgs/titleTeX.jpg>]
 Underfull \hbox (badness 10000) has occurred while \output is active
 [][]
  []
 
 [2]
-Overfull \hbox (3.51352pt too wide) in paragraph at lines 255--256
+Overfull \hbox (3.82933pt too wide) in paragraph at lines 248--250
+\OT1/ptm/m/n/10 tains de-scrip-tors of all database. No-tice that vec-tor $[]$ 
+is sparse
+ []
+
+
+Overfull \hbox (3.2932pt too wide) in paragraph at lines 258--259
+\OT1/ptm/m/n/10 SVM score be-tween the query im-age and each of the database
+ []
+
+[3]
+Overfull \hbox (3.51352pt too wide) in paragraph at lines 285--286
  \OT1/ptm/m/it/10 Cal-i-bra-tion \OT1/ptm/m/n/10 via \OT1/ptm/m/it/10 sig-nif-i
 -cance lev-els. [] \OT1/ptm/m/n/10 In the fol-low-ing, we view
  []
 
 
-Overfull \hbox (0.89297pt too wide) in paragraph at lines 255--256
+Overfull \hbox (0.89297pt too wide) in paragraph at lines 285--286
 \OT1/ptm/m/n/10 from the tra-di-tional fre-quen-tist hy-poth-e-sis test-ing fra
 me-work
  []
 
 
-Overfull \hbox (4.02345pt too wide) in paragraph at lines 255--256
+Overfull \hbox (4.02345pt too wide) in paragraph at lines 285--286
 \OT1/ptm/m/n/10 also known as Neyman-Pearson (NP) frame-work (see e.g. [2],
  []
 
 
-Overfull \hbox (55.18532pt too wide) in paragraph at lines 257--258
+Overfull \hbox (55.18532pt too wide) in paragraph at lines 287--288
 []\OT1/ptm/m/n/10 We de-fine the null hy-poth-e-sis as $\OML/cmm/m/it/10 H[] \O
 T1/cmr/m/n/10 = \OMS/cmsy/m/n/10 f[]g$
  []
 
 
-Overfull \hbox (48.75461pt too wide) in paragraph at lines 257--258
+Overfull \hbox (48.75461pt too wide) in paragraph at lines 287--288
 \OT1/ptm/m/n/10 and the al-ter-na-tive as $\OML/cmm/m/it/10 H[] \OT1/cmr/m/n/10
  = \OMS/cmsy/m/n/10 f[]g$\OT1/ptm/m/n/10 .
  []
 
 
-LaTeX Warning: Reference `fig:qntExample' on page 3 undefined on input line 259
+LaTeX Warning: Reference `fig:qntExample' on page 4 undefined on input line 289
 .
 
-[3] <imgs/qnt1x.pdf, id=26, 583.17876pt x 234.8775pt>
+<imgs/qnt1x.pdf, id=27, 583.17876pt x 234.8775pt>
 File: imgs/qnt1x.pdf Graphic file (type pdf)
  <use imgs/qnt1x.pdf>
-Package pdftex.def Info: imgs/qnt1x.pdf used on input line 275.
+Package pdftex.def Info: imgs/qnt1x.pdf used on input line 305.
 (pdftex.def)             Requested size: 238.96417pt x 96.24304pt.
 
-<imgs/qnt2x.pdf, id=27, 583.17876pt x 234.8775pt>
+<imgs/qnt2x.pdf, id=28, 583.17876pt x 234.8775pt>
 File: imgs/qnt2x.pdf Graphic file (type pdf)
  <use imgs/qnt2x.pdf>
-Package pdftex.def Info: imgs/qnt2x.pdf used on input line 280.
+Package pdftex.def Info: imgs/qnt2x.pdf used on input line 310.
 (pdftex.def)             Requested size: 238.96417pt x 96.24304pt.
 
-Overfull \hbox (6.375pt too wide) in paragraph at lines 275--284
+Overfull \hbox (6.375pt too wide) in paragraph at lines 305--314
 [][]
  []
 
 
-Overfull \hbox (4.25pt too wide) in paragraph at lines 275--284
+Overfull \hbox (4.25pt too wide) in paragraph at lines 305--314
 []
  []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \hbox (badness 10000) has occurred while \output is active
@@ -483,123 +499,123 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 pdfTeX warning: pdflatex (file ./imgs/qnt2x.pdf): PDF inclusion: multiple pdfs 
 with page group included in a single page
 >]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 324.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 354.
 
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Overfull \hbox (15.57384pt too wide) in paragraph at lines 339--344
+Overfull \hbox (15.57384pt too wide) in paragraph at lines 369--374
 \OT1/ptm/m/n/10 sup-pres-sion ap-proach (Conf. supp.) of [13] that, in each dat
 abase
  []
 
-
-Overfull \hbox (5.1035pt too wide) in paragraph at lines 345--346
+[5]
+Overfull \hbox (5.1035pt too wide) in paragraph at lines 375--376
 []\OT1/ptm/m/n/10 For all meth-ods, we im-ple-mented a two-stage place recog-
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 362--362
+Underfull \hbox (badness 10000) in alignment at lines 392--392
 [][][] 
  []
 
 
-Overfull \hbox (15.67226pt too wide) in paragraph at lines 380--384
+Overfull \hbox (15.67226pt too wide) in paragraph at lines 410--414
  \OT1/ptm/m/it/10 Scal-a-bil-ity. [] \OT1/ptm/m/n/10 The lin-ear SVM clas-si-fi
 ers trained for each database
  []
 
-[5] (./myFigure02.tex <imgs/demo01d.jpg, id=75, 785.80902pt x 590.37465pt>
+(./myFigure02.tex <imgs/demo01d.jpg, id=76, 785.80902pt x 590.37465pt>
 File: imgs/demo01d.jpg Graphic file (type jpg)
 
 <use imgs/demo01d.jpg>
 Package pdftex.def Info: imgs/demo01d.jpg used on input line 26.
 (pdftex.def)             Requested size: 103.94872pt x 78.09364pt.
- <imgs/demo02d.jpg, id=76, 785.80902pt x 590.37465pt>
+ <imgs/demo02d.jpg, id=77, 785.80902pt x 590.37465pt>
 File: imgs/demo02d.jpg Graphic file (type jpg)
 
 <use imgs/demo02d.jpg>
 Package pdftex.def Info: imgs/demo02d.jpg used on input line 36.
 (pdftex.def)             Requested size: 103.94872pt x 78.09364pt.
- <imgs/demo03d.jpg, id=77, 785.80902pt x 590.37465pt>
+ <imgs/demo03d.jpg, id=78, 785.80902pt x 590.37465pt>
 File: imgs/demo03d.jpg Graphic file (type jpg)
 
 <use imgs/demo03d.jpg>
 Package pdftex.def Info: imgs/demo03d.jpg used on input line 44.
 (pdftex.def)             Requested size: 103.94872pt x 78.09364pt.
- <imgs/demo04d.jpg, id=78, 774.895pt x 582.175pt>
+ <imgs/demo04d.jpg, id=79, 774.895pt x 582.175pt>
 File: imgs/demo04d.jpg Graphic file (type jpg)
 
 <use imgs/demo04d.jpg>
 Package pdftex.def Info: imgs/demo04d.jpg used on input line 52.
 (pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
- <imgs/demo01.jpg, id=79, 774.895pt x 582.175pt>
+ <imgs/demo01.jpg, id=80, 774.895pt x 582.175pt>
 File: imgs/demo01.jpg Graphic file (type jpg)
 
 <use imgs/demo01.jpg>
 Package pdftex.def Info: imgs/demo01.jpg used on input line 62.
 (pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
- <imgs/demo02.jpg, id=80, 774.895pt x 582.175pt>
+ <imgs/demo02.jpg, id=81, 774.895pt x 582.175pt>
 File: imgs/demo02.jpg Graphic file (type jpg)
 
 <use imgs/demo02.jpg>
 Package pdftex.def Info: imgs/demo02.jpg used on input line 72.
 (pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
- <imgs/demo03.jpg, id=81, 774.895pt x 582.175pt>
+ <imgs/demo03.jpg, id=82, 774.895pt x 582.175pt>
 File: imgs/demo03.jpg Graphic file (type jpg)
 
 <use imgs/demo03.jpg>
 Package pdftex.def Info: imgs/demo03.jpg used on input line 80.
 (pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
- <imgs/demo04.jpg, id=82, 774.895pt x 582.175pt>
+ <imgs/demo04.jpg, id=83, 774.895pt x 582.175pt>
 File: imgs/demo04.jpg Graphic file (type jpg)
 
 <use imgs/demo04.jpg>
 Package pdftex.def Info: imgs/demo04.jpg used on input line 88.
 (pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
- <imgs/demo01b.jpg, id=83, 774.895pt x 582.175pt>
+ <imgs/demo01b.jpg, id=84, 774.895pt x 582.175pt>
 File: imgs/demo01b.jpg Graphic file (type jpg)
 
 <use imgs/demo01b.jpg>
 Package pdftex.def Info: imgs/demo01b.jpg used on input line 98.
 (pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
- <imgs/demo02b.jpg, id=84, 785.80902pt x 590.37465pt>
+ <imgs/demo02b.jpg, id=85, 785.80902pt x 590.37465pt>
 File: imgs/demo02b.jpg Graphic file (type jpg)
 
 <use imgs/demo02b.jpg>
 Package pdftex.def Info: imgs/demo02b.jpg used on input line 108.
 (pdftex.def)             Requested size: 103.94872pt x 78.09364pt.
- <imgs/demo03b.jpg, id=85, 774.895pt x 582.175pt>
+ <imgs/demo03b.jpg, id=86, 774.895pt x 582.175pt>
 File: imgs/demo03b.jpg Graphic file (type jpg)
 
 <use imgs/demo03b.jpg>
 Package pdftex.def Info: imgs/demo03b.jpg used on input line 116.
 (pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
- <imgs/demo04b.jpg, id=86, 774.895pt x 582.175pt>
+ <imgs/demo04b.jpg, id=87, 774.895pt x 582.175pt>
 File: imgs/demo04b.jpg Graphic file (type jpg)
 
 <use imgs/demo04b.jpg>
 Package pdftex.def Info: imgs/demo04b.jpg used on input line 124.
 (pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
- <imgs/demo01c.jpg, id=87, 774.895pt x 582.175pt>
+ <imgs/demo01c.jpg, id=88, 774.895pt x 582.175pt>
 File: imgs/demo01c.jpg Graphic file (type jpg)
 
 <use imgs/demo01c.jpg>
 Package pdftex.def Info: imgs/demo01c.jpg used on input line 134.
 (pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
- <imgs/demo02c.jpg, id=88, 785.80902pt x 590.37465pt>
+ <imgs/demo02c.jpg, id=89, 785.80902pt x 590.37465pt>
 File: imgs/demo02c.jpg Graphic file (type jpg)
 
 <use imgs/demo02c.jpg>
 Package pdftex.def Info: imgs/demo02c.jpg used on input line 144.
 (pdftex.def)             Requested size: 103.94872pt x 78.09364pt.
- <imgs/demo03c.jpg, id=89, 774.895pt x 582.175pt>
+ <imgs/demo03c.jpg, id=90, 774.895pt x 582.175pt>
 File: imgs/demo03c.jpg Graphic file (type jpg)
 
 <use imgs/demo03c.jpg>
 Package pdftex.def Info: imgs/demo03c.jpg used on input line 152.
 (pdftex.def)             Requested size: 103.94872pt x 78.09276pt.
- <imgs/demo04c.jpg, id=90, 774.895pt x 582.175pt>
+ <imgs/demo04c.jpg, id=91, 774.895pt x 582.175pt>
 File: imgs/demo04c.jpg Graphic file (type jpg)
 
 <use imgs/demo04c.jpg>
@@ -610,192 +626,195 @@ Overfull \hbox (14.125pt too wide) in paragraph at lines 165--171
  [][] 
  []
 
-<imgs/aggrv/05aggrvQ.jpg, id=91, 911.86308pt x 654.7953pt>
+<imgs/aggrv/05aggrvQ.jpg, id=92, 911.86308pt x 654.7953pt>
 File: imgs/aggrv/05aggrvQ.jpg Graphic file (type jpg)
 
 <use imgs/aggrv/05aggrvQ.jpg>
 Package pdftex.def Info: imgs/aggrv/05aggrvQ.jpg used on input line 180.
 (pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/05aggrvS.jpg, id=92, 911.86308pt x 654.7953pt>
+<imgs/aggrv/05aggrvS.jpg, id=93, 911.86308pt x 654.7953pt>
 File: imgs/aggrv/05aggrvS.jpg Graphic file (type jpg)
 
 <use imgs/aggrv/05aggrvS.jpg>
 Package pdftex.def Info: imgs/aggrv/05aggrvS.jpg used on input line 190.
 (pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/05aggrvK.jpg, id=93, 911.86308pt x 654.7953pt>
+<imgs/aggrv/05aggrvK.jpg, id=94, 911.86308pt x 654.7953pt>
 File: imgs/aggrv/05aggrvK.jpg Graphic file (type jpg)
 
 <use imgs/aggrv/05aggrvK.jpg>
 Package pdftex.def Info: imgs/aggrv/05aggrvK.jpg used on input line 198.
 (pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/05aggrvB.jpg, id=94, 911.86308pt x 654.7953pt>
+<imgs/aggrv/05aggrvB.jpg, id=95, 911.86308pt x 654.7953pt>
 File: imgs/aggrv/05aggrvB.jpg Graphic file (type jpg)
 
 <use imgs/aggrv/05aggrvB.jpg>
 Package pdftex.def Info: imgs/aggrv/05aggrvB.jpg used on input line 206.
 (pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/08aggrvQ.jpg, id=95, 911.86308pt x 654.7953pt>
+<imgs/aggrv/08aggrvQ.jpg, id=96, 911.86308pt x 654.7953pt>
 File: imgs/aggrv/08aggrvQ.jpg Graphic file (type jpg)
 
 <use imgs/aggrv/08aggrvQ.jpg>
 Package pdftex.def Info: imgs/aggrv/08aggrvQ.jpg used on input line 216.
 (pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/08aggrvS.jpg, id=96, 911.86308pt x 654.7953pt>
+<imgs/aggrv/08aggrvS.jpg, id=97, 911.86308pt x 654.7953pt>
 File: imgs/aggrv/08aggrvS.jpg Graphic file (type jpg)
 
 <use imgs/aggrv/08aggrvS.jpg>
 Package pdftex.def Info: imgs/aggrv/08aggrvS.jpg used on input line 226.
 (pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/08aggrvK.jpg, id=97, 911.86308pt x 654.7953pt>
+<imgs/aggrv/08aggrvK.jpg, id=98, 911.86308pt x 654.7953pt>
 File: imgs/aggrv/08aggrvK.jpg Graphic file (type jpg)
 
 <use imgs/aggrv/08aggrvK.jpg>
 Package pdftex.def Info: imgs/aggrv/08aggrvK.jpg used on input line 234.
 (pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 
-<imgs/aggrv/08aggrvB.jpg, id=98, 911.86308pt x 654.7953pt>
+<imgs/aggrv/08aggrvB.jpg, id=99, 911.86308pt x 654.7953pt>
 File: imgs/aggrv/08aggrvB.jpg Graphic file (type jpg)
 
 <use imgs/aggrv/08aggrvB.jpg>
 Package pdftex.def Info: imgs/aggrv/08aggrvB.jpg used on input line 242.
 (pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 )
-Overfull \hbox (0.93362pt too wide) in paragraph at lines 389--390
+Overfull \hbox (0.93362pt too wide) in paragraph at lines 419--420
 \OT1/ptm/m/n/10 fi-ca-tion prob-lem and have used geo-tags as a readily-availab
 le
  []
 
 
-Overfull \hbox (8.96379pt too wide) in paragraph at lines 389--390
+Overfull \hbox (8.96379pt too wide) in paragraph at lines 419--420
 \OT1/ptm/m/n/10 avail-able for each lo-ca-tion, we have pro-posed a non-paramet
 ric
  []
 
 
-Overfull \hbox (3.10411pt too wide) in paragraph at lines 395--401
+Underfull \vbox (badness 2409) has occurred while \output is active []
+
+
+Overfull \hbox (3.10411pt too wide) in paragraph at lines 425--431
 \OT1/ptm/m/n/8.5 lab-o-ra-tory, the EIT-ICT labs, PRo-ViDE EU FP7-SPACE-312377 
 project
  []
 
 
-Overfull \hbox (1.83905pt too wide) in paragraph at lines 395--401
+Overfull \hbox (1.83905pt too wide) in paragraph at lines 425--431
 \OT1/ptm/m/n/8.5 and SGS13/140/OHK3/2T/13.  Sup-ported by the In-tel-li-gence A
 d-vanced
  []
 
 (./myFigure01.tex
-<imgs/wVS3q/2882/graphBigO.pdf, id=99, 475.7775pt x 164.615pt>
+<imgs/wVS3q/2882/graphBigO.pdf, id=100, 475.7775pt x 164.615pt>
 File: imgs/wVS3q/2882/graphBigO.pdf Graphic file (type pdf)
 
 <use imgs/wVS3q/2882/graphBigO.pdf>
 Package pdftex.def Info: imgs/wVS3q/2882/graphBigO.pdf used on input line 8.
 (pdftex.def)             Requested size: 154.43716pt x 53.43393pt.
 
-<imgs/wVS3q/2882/j.jpg, id=100, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2882/j.jpg, id=101, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2882/j.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2882/j.jpg>
 Package pdftex.def Info: imgs/wVS3q/2882/j.jpg used on input line 14.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/a.jpg, id=101, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2882/a.jpg, id=102, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2882/a.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2882/a.jpg>
 Package pdftex.def Info: imgs/wVS3q/2882/a.jpg used on input line 22.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/b.jpg, id=102, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2882/b.jpg, id=103, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2882/b.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2882/b.jpg>
 Package pdftex.def Info: imgs/wVS3q/2882/b.jpg used on input line 27.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/c.jpg, id=103, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2882/c.jpg, id=104, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2882/c.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2882/c.jpg>
 Package pdftex.def Info: imgs/wVS3q/2882/c.jpg used on input line 32.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/aftrs.jpg, id=104, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2882/aftrs.jpg, id=105, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2882/aftrs.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2882/aftrs.jpg>
 Package pdftex.def Info: imgs/wVS3q/2882/aftrs.jpg used on input line 37.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/bftrs.jpg, id=105, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2882/bftrs.jpg, id=106, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2882/bftrs.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2882/bftrs.jpg>
 Package pdftex.def Info: imgs/wVS3q/2882/bftrs.jpg used on input line 43.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2882/cftrs.jpg, id=106, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2882/cftrs.jpg, id=107, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2882/cftrs.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2882/cftrs.jpg>
 Package pdftex.def Info: imgs/wVS3q/2882/cftrs.jpg used on input line 49.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/graphBigO.pdf, id=107, 475.7775pt x 164.615pt>
+<imgs/wVS3q/2932/graphBigO.pdf, id=108, 475.7775pt x 164.615pt>
 File: imgs/wVS3q/2932/graphBigO.pdf Graphic file (type pdf)
 
 <use imgs/wVS3q/2932/graphBigO.pdf>
 Package pdftex.def Info: imgs/wVS3q/2932/graphBigO.pdf used on input line 67.
 (pdftex.def)             Requested size: 156.81546pt x 54.2578pt.
 
-<imgs/wVS3q/2932/j.jpg, id=108, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2932/j.jpg, id=109, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2932/j.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2932/j.jpg>
 Package pdftex.def Info: imgs/wVS3q/2932/j.jpg used on input line 73.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/a.jpg, id=109, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2932/a.jpg, id=110, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2932/a.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2932/a.jpg>
 Package pdftex.def Info: imgs/wVS3q/2932/a.jpg used on input line 81.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/b.jpg, id=110, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2932/b.jpg, id=111, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2932/b.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2932/b.jpg>
 Package pdftex.def Info: imgs/wVS3q/2932/b.jpg used on input line 85.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/c.jpg, id=111, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2932/c.jpg, id=112, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2932/c.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2932/c.jpg>
 Package pdftex.def Info: imgs/wVS3q/2932/c.jpg used on input line 89.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/aftrs.jpg, id=112, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2932/aftrs.jpg, id=113, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2932/aftrs.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2932/aftrs.jpg>
 Package pdftex.def Info: imgs/wVS3q/2932/aftrs.jpg used on input line 94.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/bftrs.jpg, id=113, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2932/bftrs.jpg, id=114, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2932/bftrs.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2932/bftrs.jpg>
 Package pdftex.def Info: imgs/wVS3q/2932/bftrs.jpg used on input line 100.
 (pdftex.def)             Requested size: 76.74365pt x 55.10234pt.
 
-<imgs/wVS3q/2932/cftrs.jpg, id=114, 911.86308pt x 654.7953pt>
+<imgs/wVS3q/2932/cftrs.jpg, id=115, 911.86308pt x 654.7953pt>
 File: imgs/wVS3q/2932/cftrs.jpg Graphic file (type jpg)
 
 <use imgs/wVS3q/2932/cftrs.jpg>
@@ -807,9 +826,6 @@ Overfull \hbox (1.60747pt too wide) in paragraph at lines 2--113
  []
 
 ) (./template.bbl
-Underfull \vbox (badness 1852) has occurred while \output is active []
-
-
 Underfull \hbox (badness 2512) in paragraph at lines 59--64
 \OT1/ptm/m/n/8.5 DOI 10.1109/TPAMI.2010.57.  URL http://hal.inria.fr/inria-
  []
@@ -843,12 +859,10 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 [][]
  []
 
-[8
-
- <./imgs/wVS3q/2882/graphBigO.pdf> <./imgs/wVS3q/2882/j.jpg> <./imgs/wVS3q/2882
-/a.jpg> <./imgs/wVS3q/2882/b.jpg> <./imgs/wVS3q/2882/c.jpg> <./imgs/wVS3q/2882/
-aftrs.jpg> <./imgs/wVS3q/2882/bftrs.jpg> <./imgs/wVS3q/2882/cftrs.jpg> <./imgs/
-wVS3q/2932/graphBigO.pdf
+[8 <./imgs/wVS3q/2882/graphBigO.pdf> <./imgs/wVS3q/2882/j.jpg> <./imgs/wVS3q/28
+82/a.jpg> <./imgs/wVS3q/2882/b.jpg> <./imgs/wVS3q/2882/c.jpg> <./imgs/wVS3q/288
+2/aftrs.jpg> <./imgs/wVS3q/2882/bftrs.jpg> <./imgs/wVS3q/2882/cftrs.jpg> <./img
+s/wVS3q/2932/graphBigO.pdf
 
 pdfTeX warning: pdflatex (file ./imgs/wVS3q/2932/graphBigO.pdf): PDF inclusion:
  multiple pdfs with page group included in a single page
@@ -860,36 +874,37 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 5297 strings out of 493307
- 78298 string characters out of 6139906
- 157170 words of memory out of 5000000
- 8606 multiletter control sequences out of 15000+600000
- 32962 words of font info for 78 fonts, out of 8000000 for 9000
+ 5247 strings out of 493493
+ 77331 string characters out of 3143798
+ 151246 words of memory out of 3000000
+ 8406 multiletter control sequences out of 15000+200000
+ 32962 words of font info for 78 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 42i,12n,38p,1673b,380s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,12n,38p,1669b,380s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
-tmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on template.pdf (8 pages, 13488753 bytes).
+mf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
+courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on template.pdf (8 pages, 13050075 bytes).
 PDF statistics:
- 250 PDF objects out of 1000 (max. 8388607)
- 147 compressed objects within 2 object streams
+ 254 PDF objects out of 1000 (max. 8388607)
+ 150 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  216 words of extra memory for PDF output out of 10000 (max. 10000000)
 

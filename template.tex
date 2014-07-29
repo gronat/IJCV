@@ -92,7 +92,7 @@ grestore
 about the article that should go on the front page should be
 placed here. General acknowledgments should be placed at the end of the article.}
 }
-\subtitle{...and embedding compact descriptors}
+\subtitle{...and learning compact descriptors}
 
 %\titlerunning{Short form of title}        % if too long for running head
 
@@ -176,7 +176,7 @@ This is a challenging task due to changes in viewpoint, imaging conditions and t
 \section{Per-location classifiers for place recognition}
 \label{sec:classifiers}
 %%%%%%%%%%%%%%%%%%%%%%%%
-   We are given tf-idf vectors $d_j$, one for each database image $j$. The goal is to learn a score $f_j$ for each database image $j$, so that, at test time, given the descriptor $q$ of the query image, we can either retrieve the correct target image as the image $j^*$ with the highest score 
+   We are given tf-idf vectors $x_j$, one for each database image $j$. The goal is to learn a score $f_j$ for each database image $j$, so that, at test time, given the descriptor $q$ of the query image, we can either retrieve the correct target image as the image $j^*$ with the highest score 
    \begin{equation}
    \label{eq:class}
     j^*=\operatorname*{arg\;max}_{j} f_j(q) 
@@ -185,9 +185,12 @@ This is a challenging task due to changes in viewpoint, imaging conditions and t
    \noindent
    or use these scores to rank candidate images and use geometric verification to try and identify the correct location in an $n$-best list.
    Instead of approaching the problem directly as a large multiclass classification problem, we tackle the problem by learning a per-exemplar linear SVM classifier~\cite{Malisiewicz11}  for each database image $j$.
-   Similar to~\cite{Knopp2010}, we use the available geotags to construct the negative set $\mathcal N_j$ for each image $j$. The negative set is constructed so as to concentrate difficult negative examples, i.e.\ from images that are far away from the location of image $j$ and at the same time similar to the target image as measured by the dot product between their feature vectors. The details of the construction procedure will be given in section~\ref{sec:experiments}.  The positive set $\mathcal P_j$ is represented by the only positive example, which is $d_j$ itself. 
+   Similar to~\cite{Knopp2010}, we use the available geotags to construct the negative set $\mathcal N_j$ for each image $j$. The negative set is constructed so as to concentrate difficult negative examples, i.e.\ from images that are far away from the location of image $j$ and at the same time similar to the target image as measured by the dot product between their feature vectors. The details of the construction procedure will be given in section~\ref{sec:experiments}.  The positive set $\mathcal P_j$ is represented by the only positive example, which is $x_j$ itself. 
 
+   \textcolor{red}{
    Each SVM classifier produces a score $s_j$ which is a priori not comparable with the score of the other classifiers. A calibration of these scores will therefore be key to convert them to comparable scores $f_j$. This calibration problem is more difficult than usual given that we only have a single positive example and will be addressed in section~\ref{sec:calibration}.
+   \textit{(Later we speak about positive set expansion which sounds fishy... For IJCV paper we should really do exemplar SVM only.)}
+   }
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    \paragraph{Learning per-location SVM classifiers. }
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -199,7 +202,11 @@ This is a challenging task due to changes in viewpoint, imaging conditions and t
       \end{equation}
 
       \noindent
-      where $w_j$ is a weight vector re-weighting contributions of individual visual words and $b_j$ is the bias specific for image $j$. Given the training sets $\mathcal P_j$ and $\mathcal N_j$, the aim is to find a vector $w_j$ and bias $b_j$ such that the score difference between $d_j$ and the closest neighbor from its negative set $\mathcal N_j$ is {\em maximized}. Learning the weight vector $w_j$ and bias $b_j$ is formulated as a minimization of the convex objective 
+      where $w_j$ is a weight vector re-weighting contributions of individual visual words and $b_j$ is the bias specific for image $j$. Given the training sets $\mathcal P_j$ and $\mathcal N_j$, the aim is to find a vector $w_j$ and bias $b_j$ such that the score difference between $x_j$ and the closest neighbor from its negative set $\mathcal N_j$ is {\em maximized}.
+      \textcolor{red}{
+      \emph{(This is not true as we do a soft margin SVM. This statement is valid only for hard margin formulation.)}
+      }
+      Learning the weight vector $w_j$ and bias $b_j$ is formulated as a minimization of the convex objective 
 
       \begin{align}
         \nonumber
@@ -212,7 +219,12 @@ This is a challenging task due to changes in viewpoint, imaging conditions and t
       where the first term is the regularizer, the second term is the loss on the positive training data weighted by scalar parameter $C_1$, and the third term is the loss on the negative training data weighted by scalar parameter $C_2$.   
       This is a standard SVM formulation \eqref{eq:obj}, also used in exemplar-SVM~\cite{Malisiewicz11}.
       In our case $h$ is the squared hinge loss, which we found to work better in our setting than the standard hinge-loss. $w_j$ and $b_j$ are learned separately for each database image $j$ in turn. 
-      In our case (details in section~\ref{sec:experiments}), we use about 1-5 positive examples, and 200 negative examples. As the dimensionality of $w$ is $100,000$ all training data points are typically support vectors. 
+      In our case (details in section~\ref{sec:experiments}), we use about 1-5 positive examples 
+      \textcolor{red}{
+        \emph{(Above we claim that only a single positive is available)}
+      }
+      , and 200 negative examples. As the dimensionality of $w$ is $100,000$ all training data points are typically support vectors. 
+   \textcolor{red}{
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    \paragraph{Expanding the positive set.}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -220,25 +232,43 @@ This is a challenging task due to changes in viewpoint, imaging conditions and t
       If such images are identified, they may provide a few additional positive examples for the particular place and improve the quality of that per-location classifier. Moreover, treating them erroneously as negatives is likely to bias the learnt classifier.
       We automatically identify such images as geo-graphically close-by images to the location $j$.
       These images can be further verified using geometric verification~\cite{Philbin07} and included in the positive training data for location $j$. Details are given in section~\ref{sec:experiments}.
+      }
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \paragraph{Dual representation.}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-      For each image $j$ in the database the linear SVM \ref{eq:linear} is learned. The image is then represented by corresponding weight $w_j$ and bias $b_j$. The main drawback is that while the original high dimensional tf-idf vector $d_j$ was sparse the learned weight vector $w_j$ is dense. Hence a memory requirement for storage of the new representation is enormous.
+      For each image $j$ in the database the linear SVM \eqref{eq:linear} is learned. The image is then represented by corresponding weight $w_j$ and bias $b_j$. The main disadvantage of this representation is that while the original high dimensional tf-idf vector $x_j$ is sparse the learned weight vector $w_j$ is dense. Hence a memory requirement for storage of the new representation is enormous.
 
-      Since the number of training data $k$ is significantly lower then the dimensionality $d$ of the vector $w$ one can benefit from the dual representation. As $d>>k$ all the training data are typically support vectors and each vector $w$ can be expressed in dual form as
+      This drawback can be efficiently solved by storing SVM vectors in dual representation. The key observation is that the number of training data $K$ is significantly lower then dimensionality $D$ of the original tfidf vector. In the following we omit index $j$ for clarity. Since $K\ll D$ all the training data points are support vectors, hence each vector $w$ can be then expressed in dual form as lienar combination
 
       \begin{equation}
-        w=\sum_{i\in \mathcal{P},\mathcal{N}} \alpha_i d_i = D \cdot \vec{\alpha}
+        w=\sum_{i\in \mathcal{P},\mathcal{N}} \alpha_i d_i = \mathcal{X} \cdot \vec{\alpha}
+        \label{eq:dual}
       \end{equation}
 
       \noindent
-      where $\alpha_i$ are coefficients of linear combination of training data $d_i$. A column wise matrix $W$ that contains all learned weights can be then expressed in matrix form as follows
+      where $\alpha_i$, elemnts of vector $\vec{\alpha}$, are coefficients of linear combination of training data for $x_i$ and the matrix $\mathcal{X}$ contains descriptors of all database. Notice that vector $\vec{\alpha}$ is sparse and number of non-zero elements depends on the number of training data $K$. Finally, a column wise matrix $\mathcal{W}$ containing all learned weights can be expressed in dual form as
 
       \begin{equation}
-        W=D*A  
+        \mathcal{W} = \mathcal{X}\cdot \mathcal{A}  
       \end{equation}
 
+      \noindent
+      where $\mathcal{A}$ is a sparse cofficient matrix where each column corresponds to vector $\vec{\alpha}$ from equation \eqref{eq:dual}. Hence, to be able to reconstruct the matrix $\mathcal{W}$ one has to keep only two sparse matrixes, the descriptor matrix $\mathcal{X}$ and coefficient matrix $\mathcal{A}$.
 
+      At query time, given the query image $q$, the uncalibrated SVM score between the query image and each of the database images can be computed by equation \eqref{eq:linear} which can be expressed in a matrix form as follows
+      \begin{equation}
+        \vec{s}=\vec{q}^T \mathcal{W}+\vec{b}
+      \end{equation}
+
+      Let $\vec{\sigma}^T=\vec{q}^T \mathcal{X}$ be a dot product cosine similarity between original descriptors. Then the equation above can be re-written as
+      \begin{equation}
+        \vec{s}=\vec{\sigma}^T \mathcal{A}+\vec{b}
+      \end{equation}
+
+      \noindent
+      It is worth noting that the new score $s$ is a linear combination of cosine similarity scores plus the bias term.
+
+    
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
 \section{Non-parametric calibration of the  SVM-scores from negative examples only}
 \label{sec:calibration}
