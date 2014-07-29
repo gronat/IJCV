@@ -176,6 +176,9 @@ This is a challenging task due to changes in viewpoint, imaging conditions and t
 \section{Per-location classifiers for place recognition}
 \label{sec:classifiers}
 %%%%%%%%%%%%%%%%%%%%%%%%
+  \textcolor{red}{
+  This section (and almost the whole paper) implicitly speaks about tf-idf. However, there will be a section about FV later. We should re-design this section to be more general. We can keep \emph{Dual representaton} outside as separate section related to tf-idf.
+  } \newline
    We are given tf-idf vectors $x_j$, one for each database image $j$. The goal is to learn a score $f_j$ for each database image $j$, so that, at test time, given the descriptor $q$ of the query image, we can either retrieve the correct target image as the image $j^*$ with the highest score 
    \begin{equation}
    \label{eq:class}

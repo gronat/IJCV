@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.8.7)  29 JUL 2014 14:31
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.8.7)  29 JUL 2014 15:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -425,67 +425,67 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 [2]
-Overfull \hbox (3.82933pt too wide) in paragraph at lines 248--250
+Overfull \hbox (3.82933pt too wide) in paragraph at lines 251--253
 \OT1/ptm/m/n/10 tains de-scrip-tors of all database. No-tice that vec-tor $[]$ 
 is sparse
  []
 
 
-Overfull \hbox (3.2932pt too wide) in paragraph at lines 258--259
+Overfull \hbox (3.2932pt too wide) in paragraph at lines 261--262
 \OT1/ptm/m/n/10 SVM score be-tween the query im-age and each of the database
  []
 
 [3]
-Overfull \hbox (3.51352pt too wide) in paragraph at lines 285--286
+Overfull \hbox (3.51352pt too wide) in paragraph at lines 288--289
  \OT1/ptm/m/it/10 Cal-i-bra-tion \OT1/ptm/m/n/10 via \OT1/ptm/m/it/10 sig-nif-i
 -cance lev-els. [] \OT1/ptm/m/n/10 In the fol-low-ing, we view
  []
 
 
-Overfull \hbox (0.89297pt too wide) in paragraph at lines 285--286
+Overfull \hbox (0.89297pt too wide) in paragraph at lines 288--289
 \OT1/ptm/m/n/10 from the tra-di-tional fre-quen-tist hy-poth-e-sis test-ing fra
 me-work
  []
 
 
-Overfull \hbox (4.02345pt too wide) in paragraph at lines 285--286
+Overfull \hbox (4.02345pt too wide) in paragraph at lines 288--289
 \OT1/ptm/m/n/10 also known as Neyman-Pearson (NP) frame-work (see e.g. [2],
  []
 
 
-Overfull \hbox (55.18532pt too wide) in paragraph at lines 287--288
+Overfull \hbox (55.18532pt too wide) in paragraph at lines 290--291
 []\OT1/ptm/m/n/10 We de-fine the null hy-poth-e-sis as $\OML/cmm/m/it/10 H[] \O
 T1/cmr/m/n/10 = \OMS/cmsy/m/n/10 f[]g$
  []
 
 
-Overfull \hbox (48.75461pt too wide) in paragraph at lines 287--288
+Overfull \hbox (48.75461pt too wide) in paragraph at lines 290--291
 \OT1/ptm/m/n/10 and the al-ter-na-tive as $\OML/cmm/m/it/10 H[] \OT1/cmr/m/n/10
  = \OMS/cmsy/m/n/10 f[]g$\OT1/ptm/m/n/10 .
  []
 
 
-LaTeX Warning: Reference `fig:qntExample' on page 4 undefined on input line 289
+LaTeX Warning: Reference `fig:qntExample' on page 4 undefined on input line 292
 .
 
 <imgs/qnt1x.pdf, id=27, 583.17876pt x 234.8775pt>
 File: imgs/qnt1x.pdf Graphic file (type pdf)
  <use imgs/qnt1x.pdf>
-Package pdftex.def Info: imgs/qnt1x.pdf used on input line 305.
+Package pdftex.def Info: imgs/qnt1x.pdf used on input line 308.
 (pdftex.def)             Requested size: 238.96417pt x 96.24304pt.
 
 <imgs/qnt2x.pdf, id=28, 583.17876pt x 234.8775pt>
 File: imgs/qnt2x.pdf Graphic file (type pdf)
  <use imgs/qnt2x.pdf>
-Package pdftex.def Info: imgs/qnt2x.pdf used on input line 310.
+Package pdftex.def Info: imgs/qnt2x.pdf used on input line 313.
 (pdftex.def)             Requested size: 238.96417pt x 96.24304pt.
 
-Overfull \hbox (6.375pt too wide) in paragraph at lines 305--314
+Overfull \hbox (6.375pt too wide) in paragraph at lines 308--317
 [][]
  []
 
 
-Overfull \hbox (4.25pt too wide) in paragraph at lines 305--314
+Overfull \hbox (4.25pt too wide) in paragraph at lines 308--317
 []
  []
 
@@ -499,28 +499,28 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 pdfTeX warning: pdflatex (file ./imgs/qnt2x.pdf): PDF inclusion: multiple pdfs 
 with page group included in a single page
 >]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 354.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 357.
 
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Overfull \hbox (15.57384pt too wide) in paragraph at lines 369--374
+Overfull \hbox (15.57384pt too wide) in paragraph at lines 372--377
 \OT1/ptm/m/n/10 sup-pres-sion ap-proach (Conf. supp.) of [13] that, in each dat
 abase
  []
 
 [5]
-Overfull \hbox (5.1035pt too wide) in paragraph at lines 375--376
+Overfull \hbox (5.1035pt too wide) in paragraph at lines 378--379
 []\OT1/ptm/m/n/10 For all meth-ods, we im-ple-mented a two-stage place recog-
  []
 
 
-Underfull \hbox (badness 10000) in alignment at lines 392--392
+Underfull \hbox (badness 10000) in alignment at lines 395--395
 [][][] 
  []
 
 
-Overfull \hbox (15.67226pt too wide) in paragraph at lines 410--414
+Overfull \hbox (15.67226pt too wide) in paragraph at lines 413--417
  \OT1/ptm/m/it/10 Scal-a-bil-ity. [] \OT1/ptm/m/n/10 The lin-ear SVM clas-si-fi
 ers trained for each database
  []
@@ -682,28 +682,25 @@ File: imgs/aggrv/08aggrvB.jpg Graphic file (type jpg)
 Package pdftex.def Info: imgs/aggrv/08aggrvB.jpg used on input line 242.
 (pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 )
-Overfull \hbox (0.93362pt too wide) in paragraph at lines 419--420
+Overfull \hbox (0.93362pt too wide) in paragraph at lines 422--423
 \OT1/ptm/m/n/10 fi-ca-tion prob-lem and have used geo-tags as a readily-availab
 le
  []
 
 
-Overfull \hbox (8.96379pt too wide) in paragraph at lines 419--420
+Overfull \hbox (8.96379pt too wide) in paragraph at lines 422--423
 \OT1/ptm/m/n/10 avail-able for each lo-ca-tion, we have pro-posed a non-paramet
 ric
  []
 
 
-Underfull \vbox (badness 2409) has occurred while \output is active []
-
-
-Overfull \hbox (3.10411pt too wide) in paragraph at lines 425--431
+Overfull \hbox (3.10411pt too wide) in paragraph at lines 428--434
 \OT1/ptm/m/n/8.5 lab-o-ra-tory, the EIT-ICT labs, PRo-ViDE EU FP7-SPACE-312377 
 project
  []
 
 
-Overfull \hbox (1.83905pt too wide) in paragraph at lines 425--431
+Overfull \hbox (1.83905pt too wide) in paragraph at lines 428--434
 \OT1/ptm/m/n/8.5 and SGS13/140/OHK3/2T/13.  Sup-ported by the In-tel-li-gence A
 d-vanced
  []
@@ -831,12 +828,6 @@ Underfull \hbox (badness 2512) in paragraph at lines 59--64
  []
 
 
-Underfull \hbox (badness 1005) in paragraph at lines 66--69
-[]\OT1/ptm/m/n/8.5 J[]egou, H., Per-ronnin, F., Douze, M., S[]anchez, J., P[]er
-ez, P.,
- []
-
-
 Underfull \hbox (badness 10000) has occurred while \output is active
 [][]
  []
@@ -854,7 +845,13 @@ s/demo04b.jpg> <./imgs/demo01c.jpg> <./imgs/demo02c.jpg> <./imgs/demo03c.jpg> <
 ./imgs/demo04c.jpg> <./imgs/aggrv/05aggrvQ.jpg> <./imgs/aggrv/05aggrvS.jpg> <./
 imgs/aggrv/05aggrvK.jpg> <./imgs/aggrv/05aggrvB.jpg> <./imgs/aggrv/08aggrvQ.jpg
 > <./imgs/aggrv/08aggrvS.jpg> <./imgs/aggrv/08aggrvK.jpg> <./imgs/aggrv/08aggrv
-B.jpg>])
+B.jpg>]
+Underfull \hbox (badness 1005) in paragraph at lines 66--69
+[]\OT1/ptm/m/n/8.5 J[]egou, H., Per-ronnin, F., Douze, M., S[]anchez, J., P[]er
+ez, P.,
+ []
+
+)
 Underfull \hbox (badness 10000) has occurred while \output is active
 [][]
  []
@@ -901,7 +898,7 @@ lic/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
 courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.
 pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on template.pdf (8 pages, 13050075 bytes).
+Output written on template.pdf (8 pages, 13050311 bytes).
 PDF statistics:
  254 PDF objects out of 1000 (max. 8388607)
  150 compressed objects within 2 object streams
