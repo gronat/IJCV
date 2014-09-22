@@ -39,7 +39,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3}Non-parametric calibration of the SVM-scores from negative examples only}{3}}
 \newlabel{sec:calibration}{{3}{3}}
 \citation{casella2001statistical}
-\@writefile{toc}{\contentsline {paragraph}{Calibration \emph  {via} significance levels.}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Calibration \emph  {via} significance levels.}{4}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:subfig1}{{2(a)}{4}}
 \newlabel{sub@fig:subfig1}{{(a)}{4}}
@@ -48,22 +48,31 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{4}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{4}}
 \newlabel{fig:calib}{{2}{4}}
-\@writefile{toc}{\contentsline {paragraph}{Summary of the calibration procedure.}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Summary of the calibration procedure.}{4}}
+\newlabel{eq:interp}{{8}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Discussion.}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Calibration by re-normalization}{5}}
+\newlabel{sec:calibrationRenorm}{{4}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Affine approximation}{5}}
+\newlabel{eq:affiine}{{9}{5}}
+\newlabel{eq:affiine}{{11}{5}}
 \citation{Sivic2003}
 \citation{Bay06}
 \citation{Philbin07}
 \citation{libsvm}
 \citation{Chen11}
-\@writefile{toc}{\contentsline {paragraph}{Discussion.}{5}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Affine calibration by re-normalization}{5}}
-\newlabel{sec:calibrationRenorm}{{4}{5}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{5}}
-\newlabel{sec:experiments}{{5}{5}}
-\@writefile{toc}{\contentsline {paragraph}{Implementation details.}{5}}
-\@writefile{toc}{\contentsline {paragraph}{Image dataset.}{5}}
 \citation{Malisiewicz11}
 \citation{Philbin07}
 \citation{Knopp2010}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Calibration by re-scaling}{6}}
+\newlabel{eq:rescale}{{13}{6}}
+\newlabel{eq:rescale}{{14}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Discussion}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{6}}
+\newlabel{sec:experiments}{{5}{6}}
+\@writefile{toc}{\contentsline {paragraph}{Implementation details.}{6}}
+\@writefile{toc}{\contentsline {paragraph}{Image dataset.}{6}}
+\@writefile{toc}{\contentsline {paragraph}{Results.}{6}}
 \citation{Philbin07}
 \citation{Knopp2010}
 \citation{Philbin07}
@@ -80,18 +89,17 @@
 \bibcite{Chum11}{4}
 \bibcite{Chum07b}{5}
 \bibcite{Csurka04}{6}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces  The percentage of correctly localized test queries for which the top-ranked database image is within $20$ meters from the ground truth query position. The proposed method (SVM p-val) outperforms the baseline methods. Results are shown for the initial retrieval (left column) and after re-ranking the top 20 retrieved images using geometric verification. Notice that SVM output without calibration gives $0\%$ of correctly localized queries. \relax }}{6}}
-\newlabel{tab:eval}{{1}{6}}
-\@writefile{toc}{\contentsline {paragraph}{Results.}{6}}
-\@writefile{toc}{\contentsline {paragraph}{Scalability.}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{6}}
 \bibcite{Cummins09}{7}
 \bibcite{libsvm}{8}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  {\bf  Examples of query images (gray) correctly (green) and incorrectly (red) localized by different methods.} \tmspace  +\thickmuskip {.2777em}(a) query image. \tmspace  +\thickmuskip {.2777em}(b) the top-ranked image retrieved by per-location classifiers (proposed method). \tmspace  +\thickmuskip {.2777em}(c) the top-ranked image retrieved by the baseline confuser suppression method\nobreakspace  {}\cite  {Knopp2010}. \tmspace  +\thickmuskip {.2777em}(d) the top-ranked image retrieved by the baseline bag-of-visual-words method. Bottom two rows: the proposed method is sometimes confused by high-scoring similar repeated texture patterns on facades. \relax }}{7}}
-\newlabel{fig:demo1}{{3}{7}}
 \bibcite{gebel2007calibrating}{9}
 \bibcite{Irschara2009}{10}
 \bibcite{Jegou2011}{11}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces  The percentage of correctly localized test queries for which the top-ranked database image is within $20$ meters from the ground truth query position. The proposed method (SVM p-val) outperforms the baseline methods. Results are shown for the initial retrieval (left column) and after re-ranking the top 20 retrieved images using geometric verification. Notice that SVM output without calibration gives $0\%$ of correctly localized queries. \relax }}{7}}
+\newlabel{tab:eval}{{1}{7}}
+\@writefile{toc}{\contentsline {paragraph}{Scalability.}{7}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  {\bf  Examples of query images (gray) correctly (green) and incorrectly (red) localized by different methods.} \tmspace  +\thickmuskip {.2777em}(a) query image. \tmspace  +\thickmuskip {.2777em}(b) the top-ranked image retrieved by per-location classifiers (proposed method). \tmspace  +\thickmuskip {.2777em}(c) the top-ranked image retrieved by the baseline confuser suppression method\nobreakspace  {}\cite  {Knopp2010}. \tmspace  +\thickmuskip {.2777em}(d) the top-ranked image retrieved by the baseline bag-of-visual-words method. Bottom two rows: the proposed method is sometimes confused by high-scoring similar repeated texture patterns on facades. \relax }}{8}}
+\newlabel{fig:demo1}{{3}{8}}
 \bibcite{Jegou12}{12}
 \bibcite{Knopp2010}{13}
 \bibcite{Li09}{14}
@@ -110,7 +118,7 @@
 \bibcite{Sivic2003}{27}
 \bibcite{Torii11}{28}
 \bibcite{Turcot09}{29}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  {\bf  A visualization of learnt feature wights for two database images. In each panel:} \emph  {first\nobreakspace  {}row:} (Right) Target database image $j$. (Left) Cumulative density function (or calibrated score) learnt for the SVM scores of the corresponding classifier $f_j$; three query images displayed on the \emph  {second row} are represented by their SVM scores and cdf values $F_0(s)$, denoted (a)-(c) on the graph. \emph  {Third\nobreakspace  {}row:} A visualization of the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score. \par Notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a). {\it  Left panel:} Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place. {\it  Right panel:} Query (b) is in fact also an image of the same location with a portion of the left skyscraper in the target image detected in the upper left corner and the side of the rightmost building in the target image detected in the top right corner. Both are clearly detected by the method as indicated by a large quantity of green circles in the corresponding regions. \relax }}{8}}
-\newlabel{fig:3qVSw}{{4}{8}}
 \bibcite{zadrozny2002transforming}{30}
 \bibcite{Zamir10}{31}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  {\bf  A visualization of learnt feature wights for two database images. In each panel:} \emph  {first\nobreakspace  {}row:} (Right) Target database image $j$. (Left) Cumulative density function (or calibrated score) learnt for the SVM scores of the corresponding classifier $f_j$; three query images displayed on the \emph  {second row} are represented by their SVM scores and cdf values $F_0(s)$, denoted (a)-(c) on the graph. \emph  {Third\nobreakspace  {}row:} A visualization of the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score. \par Notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a). {\it  Left panel:} Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place. {\it  Right panel:} Query (b) is in fact also an image of the same location with a portion of the left skyscraper in the target image detected in the upper left corner and the side of the rightmost building in the target image detected in the top right corner. Both are clearly detected by the method as indicated by a large quantity of green circles in the corresponding regions. \relax }}{9}}
+\newlabel{fig:3qVSw}{{4}{9}}

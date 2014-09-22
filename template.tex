@@ -85,6 +85,8 @@ grestore
    {\it Right panel:}
    Query (b) is in fact also an image of the same location with a portion of the left skyscraper in the target image detected in the upper left corner and the side of the rightmost building in the target image detected in the top right corner. Both are clearly detected by the method as indicated by a large quantity of green circles in the corresponding regions.
 }
+\newcommand{\diag}{\mathop{\mathrm{diag}}}
+
 %
 % Insert the name of "your journal" with
 \journalname{IJCV}
@@ -101,7 +103,8 @@ placed here. General acknowledgments should be placed at the end of the article.
 
 \author{Petr Gron{\'a}t         \and
         Josef {S}ivic          \and
-        Tom{\'a}{\v s} Pajdla%etc.
+        Tom{\'a}{\v s} Pajdla   \and
+        Guillaume Obozinski%etc.
 }
 
 %\authorrunning{Short form of author list} % if too long for running head
@@ -224,9 +227,9 @@ Second, as only few positive training examples are available for each location, 
 
       \begin{align}
         \nonumber
-        \Omega(\vec{w_j},b_j)=||\vec{w_j}||^{2}& +C_1\sum_{x\in \mathcal P_j}h(\vec{w_j}^Tx+b_j)   \\
+        \Omega(\vec{w_j},b_j)=||\vec{w_j}||^{2}& +C_1\sum_{\vec{x}\in \mathcal P_j}h(\vec{w_j}^T\vec{x}+b_j)   \\
         \label{eq:obj}
-                           & +C_2\sum_{x\in \mathcal N_j}h(-\vec{w_j}^Tx-b_j), 
+                           & +C_2\sum_{\vec{x}\in \mathcal N_j}h(-\vec{w_j}^T\vec{x}-b_j), 
       \end{align}
 
       \noindent
@@ -258,7 +261,7 @@ Second, as only few positive training examples are available for each location, 
       This drawback can be efficiently solved by storing SVM vectors in dual representation. The key observation is that a number of training data $K$ is significantly lower then dimensionality $D$ of the original tfidf vector. In the following we omit index $j$ for clarity. Since $K\ll D$ all the training data points are support vectors, hence each vector $w$ can be then expressed in dual form as lienar combination
 
       \begin{equation}
-        w=\sum_{i\in \mathcal{P},\mathcal{N}} \alpha_i d_i = \mathcal{X} \cdot \vec{\alpha}
+        \vec{w}=\sum_{i\in \mathcal{P},\mathcal{N}} \alpha_i \vec{x_i} = \mathcal{X} \cdot \vec{\alpha}
         \label{eq:dual}
       \end{equation}
 
@@ -274,7 +277,7 @@ Second, as only few positive training examples are available for each location, 
 
       At query time, given the query image $q$, the uncalibrated SVM score between the query image and each of the database images can be computed by equation \eqref{eq:linear} which can be expressed in a matrix form as follows
       \begin{equation}
-        \vec{s}=\vec{q}^T \mathcal{W}+\vec{b}
+        \vec{s}=\vec{q}^T \mathcal{W}+\vec{b}=\vec{q}^T \mathcal{X}\cdot \mathcal{A}+\vec{b}
       \end{equation}
 
       Let $\vec{\sigma}^T=\vec{q}^T \mathcal{X}$ be a dot product cosine similarity between original descriptors. Then the equation above can be re-written as
@@ -297,7 +300,7 @@ Second, as only few positive training examples are available for each location, 
    However, given the availability of negative data, it is easy to estimate the significance of the score of a test example compared to the typical score of (plentifully available) negative examples. Intuitively, we will use a large dataset of negative examples to calibrate the individual classifiers so that they {\em reject the same number of negative examples} at each level of the calibrated score.
    We will expand this idea in detail and use concepts from hypothesis testing to propose a calibration method.
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   \paragraph{Calibration \emph{via} significance levels.}
+   \subsection{Calibration \emph{via} significance levels.}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
       In the following, we view  the problem of deciding whether a query image matches a given location based on the corresponding SVM score as a hypothesis testing problem. In particular, we appeal to ideas from the traditional frequentist hypothesis testing framework also known as Neyman-Pearson (NP) framework (see e.g.~\cite{casella2001statistical}, chap.~8).
 
@@ -334,7 +337,7 @@ Second, as only few positive training examples are available for each location, 
          \label{fig:calib}
       \end{figure}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   \paragraph{Summary of the calibration procedure.}
+   \subsection{Summary of the calibration procedure.}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       \;.\newline
       OFFLINE\newline
@@ -345,21 +348,72 @@ Second, as only few positive training examples are available for each location, 
       For each place, keep $\Ncal$ scores from negative examples $(s_n)_{1 \leq n \leq \Ncal}$ used for calibration together with the associated cumulative probability values $\hat{F}_0(s_n)$.
       Given the score of the query $s_q$:\\
       1.  Find $n$ such that $s_{n} \leq s_q < s_{n+1} $\\
-      2.  Compute the interpolated empirical cdf value $$\hat{F}_0(s_q)\approx \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).$$
+      2.  Compute the interpolated empirical cdf value
+      \begin{equation}
+        \hat{F}_0(s_q)\approx 
+        \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
+        \label{eq:interp}
+      \end{equation}
    %%%%%%%%%%%%%%%%%%%%%%%
-   \paragraph{Discussion.}
+   \subsection{Discussion.}
    %%%%%%%%%%%%%%%%%%%%%%% 
       It should be noted that basing the calibration only on the negative data has the advantage that we privilege precision over recall, which is justified given the imbalance of the available training data (much more negatives than positives).
       Indeed, since we are learning with a single positive example, intuitively, we cannot guarantee that the learned partition of the space will generalize well to other positives, whose scores in the test set can potentially drop significantly (this is indeed what we observe in practice). By contrast, since we are learning from a comparatively large number of negative examples, we can trust the fact that new negative examples will stay in the half-space containing the negative training set, so that their scores are very unlikely to be large. Our method is therefore based on the fact that we can measure reliably how surprising a high score would be if it was the score of a negative example. This exactly means that we can control false positives (type I error) reasonably well but not false negatives (type II error or equivalently the power of our test/classifier), exactly as in the Neyman-Pearson framework.
 
-      An additional reason for not relying on positive examples for the calibration in our case is that (even if we had sufficiently many of them) the positive examples that we collect using location and geometric verification from the geotagged database typically have illumination conditions that are extremely similar to each other and not representative of the distribution of test positives which can have very different illuminations. This is because of the controlled nature of the capturing process of geotagged street-level imagery (e.g.\ Google street-view) used for experiments in this work. Close-by images are typically captured at a similar time (e.g. on the same day) and under similar imaging conditions.
+      An additional reason for not relying on positive examples for the calibration in our case is that (even if we had sufficiently many of them) the positive examples that we collect using location and geometric verification from the geotagged database typically have illumination conditions that are extremely similar to each other and not representative of the distribution of test positives which can have very different illuminations. This is because of the controlled nature of the capturing process of geotagged street-level imagery (e.g.\ Google street-view) used for experiments in this work. Close-by images are typically captured at a similar time (e.g. on the same day)and under similar imaging conditions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
-\section{Affine calibration by re-normalization}
+\section{Calibration by re-normalization}
 \label{sec:calibrationRenorm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
+  The calibration method described above requires to store a non-parametric model of each calibration function of learned SVM. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost. If $K$ values ot the empirical cumulative density function is kept for each database image, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a dabase of size $N$. At query time, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} which yields a computational complexity of $O(N\;log(K))$. To construct a calibration function at offline phase the SVM scores just be sorted for each database image in turn. A complexity $O(N^2 log(N))$ makes this method hard to scale up.
 
+  In this section we first simplify the calibration by approximating the cumulative density function by an affine line and show that no additional memory nor computationla cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline comlexity to $O(N)$.
 
+   \subsection{Affine approximation}
+     Clearly the main disadvantage is the memory footprint and need for additional computation online. This can be eliminated simplification of the model such that each calibration function is represented as an affine line such that each calibration function
+     \begin{equation}
+       f_j(\vec{q}) = c_j\cdot s_j(\vec{q}) + d_j
+       \label{eq:affiine}
+     \end{equation}
+
+     \noindent
+     Substituting for $s_j(\vec{q})$ from equation \eqref{eq:svm} into equation above we get
+     \begin{align}
+         f_j(\vec{q})  & = c_j\cdot s_j(\vec{q}) + d=\\ \nonumber
+                       & = c (\vec{w}_j^T \vec{q}+b_j)+d =\\ \nonumber
+                       & = c_j\vec{w}_j^T \vec{q}+ (c_j b_j+d)=\\ \nonumber
+                       & = (c_j\vec{w}_j)^T \vec{q} + \beta_j \\
+         \label{eq:affiine}
+     \end{align}
+
+     \noindent
+     which can be further written as a  dot product
+     \begin{equation}
+       f_j(\vec{q}) = \vec{\widetilde{q}}^T \vec{\widetilde{w}}_j
+     \end{equation}
+     
+     \noindent
+     where $\vec{\tilde{q}_j}=[\vec{q}_j^T 1]^T$ and $\vec{\widetilde{w}}_j = [\vec{w}_j^T \beta_j]^T$. It is worthnoting that the vector $\vec{\tilde{w}_j}$  consisting of scaled SVM weight pus one coordinate can be computed offline. Therefore no additonal memory storage or computational cost is required at query time. The paremeters $c_j$, $d_j$ represent an approximation the calibration function. A selection of these parameters requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log(N))$ at offiline phase.
+
+   \subsection{Calibration by re-scaling}
+      Each SVM score can be calibrated such that first the bias term is substracted and second the score is scaled by inverse of the SVM weight vector. The calibraiton function can be then written as follows
+      \begin{equation}
+         f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{q}^T\vec{w}_j
+         \label{eq:rescale}
+      \end{equation}
+
+      This sort of calibration can be viewed as a spacial case of affine calibration where calibration parameters rely on SVM only. The equation \eqref{eq:rescale} can be further re-written such that
+      
+      \begin{equation}
+         f_j(\vec{q}) = \vec{q}^T\vec{\tilde{w}}_j
+         \label{eq:rescale}
+      \end{equation}
+
+      \noindent
+      where $\vec{\tilde{w}}_j=\frac{\vec{\tilde{w}}_j}{||\vec{w}_j||}$ can be computed offline or online and requires only one additional computation.
+   \subsection{Discussion}
+      The proposed calibration method works when the SVM is properelly regularized. The resulting direction of $\vec{\tilde{w}}$ havily depends on $C_2$ parameter of the objective \eqref{eq:obj}. It can be shown that when $C_2 \rightarrow 0$ the resulting $\vec{\tilde{w_j}} \rightarrow \vec{x}_j^+$ where $\vec{x}_j^+$ is a single positive exemplar used for training. Though this calibration is simple we observe that this type of calibration is more suited for dense descriptors such as Fisher vectors. Details will be given next in the experimental section. 
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiments}
