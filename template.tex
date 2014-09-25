@@ -57,6 +57,8 @@ grestore
 \usepackage[table]{xcolor}
 % Strike through text
  \usepackage[normalem]{ulem}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 %
 % \usepackage{mathptmx}      % use Times fonts if available on your TeX system
 %
@@ -64,10 +66,15 @@ grestore
 %\usepackage{latexsym}
 % etc.
 %
+% Somethong for pseudo algorithms
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
 % COLORS
 \definecolor{myGreen}{HTML}{33FF00}
 \definecolor{myRed}{HTML}{FF3030}
 \definecolor{myGrey}{HTML}{AA5555}
+\definecolor{maroon}{cmyk}{0,0.87,0.68,0.32}
 % please place your own definitions here and don't use \def but
 % \newcommand{}{}
 \newcommand{\PP}{\mathbb{P}}
@@ -182,9 +189,9 @@ Second, as only few positive training examples are available for each location, 
    The classifiers are learnt offline. At query time, the query photograph is localized by transferring the GPS tag of the best scoring location classifier.
 
    While learning classifiers for each place may be appealing, calibrating outputs of the individual classifiers is a critical issue. In object recognition~\cite{Malisiewicz11}, it is addressed in a separate calibration stage on a held-out set of training data.
-   This is not possible in the place recognition set-up as only a small number, typically one to five, of positive training images are available for each location (e.g. street-view images viewing the same building facade). To address this issue, we propose a calibration procedure inspired by the use of p-values in statistics and based on ranking the score of a query image amongst scores of other images in the database.
+   This is not possible in the place recognition set-up as only a small number, typically one to five, of positive training images are available for each location (e.g. street-view images viewing the same building facade). To address this issue, we propose two calibration methods. The first calibration procedure is inspired by the use of p-values in statistics and based on ranking the score of a query image amongst scores of other images in the database. The second method can be interpreted as a special case of affine calibration that relies only on learned SVM weight.
 
-   The rest of the paper is organized as follows: Section~\ref{sec:classifiers} describes how per-location classifiers are learnt. Section~\ref{sec:calibration} details the classifier calibration procedure.   Implementation details and experimental results are given in Section~\ref{sec:experiments}.
+   The rest of the paper is organized as follows: Section~\ref{sec:classifiers} describes how per-location classifiers are learnt. Sections~\ref{sec:calibration}~and~\ref{sec:calibrationRenorm} detail the classifier calibration procedure.   Implementation details and experimental results are given in Section~\ref{sec:experiments}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \section{Per-location classifiers for place recognition}
@@ -209,13 +216,13 @@ Second, as only few positive training examples are available for each location, 
    \textit{(Later we speak about positive set expansion which sounds fishy... For IJCV paper we should really do exemplar SVM only.)}
    }
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   \paragraph{Learning per-location SVM classifiers. }
+   \subsection{Learning per-location SVM classifiers. }
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       Each linear SVM classifier learns a score $s_j$ of the form 
 
       \begin{align}
-       \label{eq:linear}
         s_j(\vec{q})=\vec{q}^T \vec{w_j}+b_j
+        \label{eq:linear}
       \end{align}
 
       \noindent
@@ -242,19 +249,19 @@ Second, as only few positive training examples are available for each location, 
       \textcolor{myGrey}{
         \emph{(Above we claim that only a single positive is available)}
       }
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   \paragraph{Expanding the positive set.}
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      \sout{
-      A typical geotagged database may contain several images depicting a particular location. For example, neighboring street-view panoramas depict the same store front from different viewpoints. However, a specific place is often imaged only in a small number (2-5) of neighboring panoramas. 
-      If such images are identified, they may provide a few additional positive examples for the particular place and improve the quality of that per-location classifier. Moreover, treating them erroneously as negatives is likely to bias the learnt classifier.
-      We automatically identify such images as geo-graphically close-by images to the location $j$.
-      These images can be further verified using geometric verification~\cite{Philbin07} and included in the positive training data for location $j$. Details are given in section~\ref{sec:experiments}.
-      }
+   % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % \paragraph{Expanding the positive set.}
+   % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   %    \sout{
+   %    A typical geotagged database may contain several images depicting a particular location. For example, neighboring street-view panoramas depict the same store front from different viewpoints. However, a specific place is often imaged only in a small number (2-5) of neighboring panoramas. 
+   %    If such images are identified, they may provide a few additional positive examples for the particular place and improve the quality of that per-location classifier. Moreover, treating them erroneously as negatives is likely to bias the learnt classifier.
+   %    We automatically identify such images as geo-graphically close-by images to the location $j$.
+   %    These images can be further verified using geometric verification~\cite{Philbin07} and included in the positive training data for location $j$. Details are given in section~\ref{sec:experiments}.
+   %    }
       
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \paragraph{Dual representation.}
+  \subsection{Dual representation.}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
       For each image $j$ in the database the linear SVM \eqref{eq:linear} is learned. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main disadvantage of this representation is that when the original vector $\vec{x_j}$ is high dimensional and sparse, for instance tf-idf vector, the learned weight vector $\vec{w_j}$ is dense. Hence a memory requirement for storage of the new representation is enormous.
 
@@ -288,12 +295,14 @@ Second, as only few positive training examples are available for each location, 
       \noindent
       It is worth noting that the new score $s$ is a linear combination of cosine similarity scores plus the bias term.
 
+   \vspace{5mm}   
+   Since the classification scores $s_j$ are learned independently for each location $j$, they cannot be directly used as the scores $f_j$ from eq.~\eqref{eq:class}. As illustrated in figure~\ref{fig:calib}, for a given query $q$, a classifier from an incorrect location (b) can have a higher score~\eqref{eq:linear} than the classifier from the target location (a). Indeed, the SVM score is a signed distance from the discriminating hyperplane and is a priori not comparable between different classifiers. This issue is addressed by calibrating scores of the learnt classifiers. The goal of the calibration is to convert the output of each classifier into a probability (or in general a ``universal" score), which can be meaningfully compared across classifiers. 
+
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
 \section{Non-parametric calibration of the  SVM-scores from negative examples only}
 \label{sec:calibration}
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
-   Since the classification scores $s_j$ are learned independently for each location $j$, they cannot be directly used as the scores $f_j$ from eq.~\eqref{eq:class}. As illustrated in figure~\ref{fig:calib}, for a given query $q$, a classifier from an incorrect location (b) can have a higher score~\eqref{eq:linear} than the classifier from the target location (a). Indeed, the SVM score is a signed distance from the discriminating hyperplane and is a priori not comparable between different classifiers. This issue is addressed by calibrating scores of the learnt classifiers. The goal of the calibration is to convert the output of each classifier into a probability (or in general a ``universal" score), which can be meaningfully compared across classifiers. 
 
    Several calibration approaches have been proposed in the literature (see~\cite{gebel2007calibrating} and references therein for a review). The most known consists of fitting a logistic regression to the output of the SVM~\cite{Platt99}.  This approach, however, has a major drawback as it imposes a parametric form (the logistic a.k.a.\ sigmoid function) of the likelihood ratio of the two classes, which typically leads to biased estimates of the calibrated scores. Another important calibration method is the isotonic regression~\cite{zadrozny2002transforming}, which allows for a non-parametric estimate of the output probability.
    Unfortunately, the fact that we have only a single positive example \sout{(or only very few of them, and which are all used for training)} essentially prevents us from using any of these methods. 
@@ -336,15 +345,69 @@ Second, as only few positive training examples are available for each location, 
          \vspace*{-2mm}
          \label{fig:calib}
       \end{figure}
+
+      \begin{figure}[t]
+         \subfigure[]{
+            \includegraphics[width=\linewidth]{imgs/qntEx1.pdf}
+         }
+         \subfigure[]{
+            \includegraphics[width=\linewidth]{imgs/qntEx2.pdf}
+         }
+         \vspace*{-3mm}
+         \caption{A figure showing the relation between (a) the probability density of the random variable $S_0$ modeling the scores of the negative examples and (b) the corresponding cumulative density function $F_0(s)=\PP(S_0 \leq s)$.
+         }
+               \vspace*{-3mm}
+         \label{fig:qntExample}
+      \end{figure}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    \subsection{Summary of the calibration procedure.}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      \;.\newline
-      OFFLINE\newline
-      ...
-      \newline
-      ONLINE\newline
-      ...
+
+      \begin{algorithm}
+         \caption{OFFLINE}\label{alg:offline}
+         \begin{algorithmic}[1]
+         \Procedure{p-value calibration}{}
+         \State $N \gets$ database size
+         \State $K \gets$ size of the cdf tail to be kept
+         \State $X \gets$ descriptor matrix of all database images
+         \For{$\forall j \in 1 \dots N$}
+            \State $w \gets$ learned SVM weight for image $j$
+            \State $b \gets$ learned SVM bias for image $j$
+            \State $score \gets w^TX+b$
+            \State $aux \gets$ sorted $score$ in descending order
+            \State $calib_j \gets aux[1\dots K]$
+         \EndFor
+         \EndProcedure
+         \end{algorithmic}
+      \end{algorithm}
+
+       \begin{algorithm}
+         \caption{ONLINE}\label{alg:online}
+         \begin{algorithmic}[1]
+         \Procedure{calibrating scores}{}
+         \State $q \gets$ query image descriptor
+         \State $T \gets$ length of a shortlist
+         \State $N \gets$ database size
+         \State $K \gets$ size of the cdf tail that was kept
+         \State $y \gets [0,1,\dots (K-1)]$
+         \For{$\forall j \in 1 \dots N$}
+            \State $w \gets$ learned SVM weight for image $j$
+            \State $b \gets$ learned SVM bias for image $j$
+            \State $s \gets q^Tw+b$
+            \State $x \gets calib_j$
+            \If{$s>calib_j[1]$}
+               \State $aux \gets 0$
+            \ElsIf{$calib_j[K]>s$}
+               \State $aux \gets N$
+            \Else
+               \State $aux \gets interpolate(x,y,s)$
+            \EndIf
+            \State $pVal[j] \gets (N-aux)/N$
+         \EndFor
+         \EndProcedure
+         \end{algorithmic}
+      \end{algorithm}
+
       For each place, keep $\Ncal$ scores from negative examples $(s_n)_{1 \leq n \leq \Ncal}$ used for calibration together with the associated cumulative probability values $\hat{F}_0(s_n)$.
       Given the score of the query $s_q$:\\
       1.  Find $n$ such that $s_{n} \leq s_q < s_{n+1} $\\
@@ -362,23 +425,28 @@ Second, as only few positive training examples are available for each location, 
 
       An additional reason for not relying on positive examples for the calibration in our case is that (even if we had sufficiently many of them) the positive examples that we collect using location and geometric verification from the geotagged database typically have illumination conditions that are extremely similar to each other and not representative of the distribution of test positives which can have very different illuminations. This is because of the controlled nature of the capturing process of geotagged street-level imagery (e.g.\ Google street-view) used for experiments in this work. Close-by images are typically captured at a similar time (e.g. on the same day)and under similar imaging conditions.
 
+
+      Scheirer et al.~\cite{Scheirer12} propose a method, which is related to ours, and calibrate SVM scores by computing the corresponding cdf value of a Weibull distribution fitted to the top negative scores. The main difficulty is that the Weibull model should be fitted only to the tail of the distribution of the negatives, which is in general difficult to identify. As a heuristic, Scheirer et al. propose to fit the Weibul model to false positives (i.e. the negative samples classified incorrectly as positives). But in our case, most of the exemplar SVMs that we are training have $0$ false positives in a held out set, which precludes the application of their method. To avoid that issue our approach forgoes any parametric form of the distribution and instead relies directly on a standard non-parametric estimate of the cumulative density function.
+
+      Finally, we should remark that we are not doing here calibration in the same sense of the word as the calibration based on logistic regression (or isotonic regression), since logistic regression estimates a probability of making a correct prediction by assigning a new data to class $1$, while we are estimating how unlikely it would be for a negative example to have such a high score. The calibration with either methods yields ``universal" scores in the sense that they are comparable from one SVM to another, but the calibrated values obtained from logistic regression are not comparable to the values obtained from our approach.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
 \section{Calibration by re-normalization}
 \label{sec:calibrationRenorm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
-  The calibration method described above requires to store a non-parametric model of each calibration function of learned SVM. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost. If $K$ values ot the empirical cumulative density function is kept for each database image, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a dabase of size $N$. At query time, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} which yields a computational complexity of $O(N\;log(K))$. To construct a calibration function at offline phase the SVM scores just be sorted for each database image in turn. A complexity $O(N^2 log(N))$ makes this method hard to scale up.
+  The calibration method described above requires to store a non-parametric models of calibration functions for each learned SVM. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost in both offline and online phase. If $K$ is a fraction of values of the empirical cumulative density function that is kept for each SVM, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a dabase of size $N$. At query time, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} which yields a computational complexity of $O(N \log{K})$. To construct a calibration function at offline phase the SVM scores just be sorted for each database image in turn. A complexity $O(N^2 \log{K})$ makes this method hard to scale up.
 
-  In this section we first simplify the calibration by approximating the cumulative density function by an affine line and show that no additional memory nor computationla cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline comlexity to $O(N)$.
+  In this section we, first, simplify the calibration by approximating the cumulative density function by an affine line and show that nor additional memory nor computationla cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline comlexity to $O(N)$.
 
    \subsection{Affine approximation}
-     Clearly the main disadvantage is the memory footprint and need for additional computation online. This can be eliminated simplification of the model such that each calibration function is represented as an affine line such that each calibration function
+     The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation online. This can be eliminated simplification of the calibration model. Each calibration function can be approximated by an affine line such that each calibration function can be written as follows
      \begin{equation}
        f_j(\vec{q}) = c_j\cdot s_j(\vec{q}) + d_j
        \label{eq:affiine}
      \end{equation}
 
      \noindent
-     Substituting for $s_j(\vec{q})$ from equation \eqref{eq:svm} into equation above we get
+     Substituting for $s_j(\vec{q})$ from equation \eqref{eq:linear} into the equation above we get
      \begin{align}
          f_j(\vec{q})  & = c_j\cdot s_j(\vec{q}) + d=\\ \nonumber
                        & = c (\vec{w}_j^T \vec{q}+b_j)+d =\\ \nonumber
@@ -457,30 +525,32 @@ Second, as only few positive training examples are available for each location, 
 
       For all methods, we implemented a two-stage place recognition approach. Given a query image, the aim of the first stage is to efficiently find a small subset (20) of candidates that are likely to depict the same place as the query image. In the second stage, we search for restricted homographies between candidates and the query image using RANSAC~\cite{Philbin07}. The candidates are finally re-ranked by decreasing number of inliers.
 
-      \begin{table}[t]
-         \begin{center}
-            \begin{tabularx}{\linewidth}{l c c}
-               \hline
-               \rowcolor{lightgray}
-               Method \hspace{47pt}      & $\%$ correct          &   $\%$ correct \\
-               \rowcolor{lightgray}
-                          & {\it init. retrieval} &  {\it with geom. verif.} \\
-               \hline \hline
-               SVM                          & $00.0$     & $12.7 $      \\
-               SVM logistic                 & $03.6$     & $10.3$       \\
-               BOW                          & $32.0$     & $53.1$       \\
-               Conf. supp.~\cite{Knopp2010} & $36.5$     & $58.1$       \\
-               {\bf SVM p-val}              & $\bf 41.9$ & $\bf 60.8$   \\
-               \hline
-            \end{tabularx}
-            \vspace*{-2mm}
-            \caption{
-            The percentage of correctly localized test queries for which the top-ranked database image is within $20$ meters from the ground truth query position. The proposed method (SVM p-val) outperforms the baseline methods. Results are shown for the initial retrieval (left column) and after re-ranking the top 20 retrieved images using geometric verification. Notice that SVM output without calibration gives $0\%$ of correctly localized queries.
-            }
-            \label{tab:eval}
-         \end{center}
-         \vspace*{-6mm}
-      \end{table}
+      % \begin{table}[t]
+      %    \begin{center}
+      %       \begin{tabularx}{\linewidth}{l c c}
+      %          \hline
+      %          \rowcolor{lightgray}
+      %          Method \hspace{47pt}      & $\%$ correct          &   $\%$ correct \\
+      %          \rowcolor{lightgray}
+      %                     & {\it init. retrieval} &  {\it with geom. verif.} \\
+      %          \hline \hline
+      %          SVM                          & $00.0$     & $12.7 $      \\
+      %          SVM logistic                 & $03.6$     & $10.3$       \\
+      %          BOW                          & $32.0$     & $53.1$       \\
+      %          Conf. supp.~\cite{Knopp2010} & $36.5$     & $58.1$       \\
+      %          {\bf SVM p-val}              & $\bf 41.9$ & $\bf 60.8$   \\
+      %          \hline
+      %       \end{tabularx}
+      %       \vspace*{-2mm}
+      %       \caption{
+      %       The percentage of correctly localized test queries for which the top-ranked database image is within $20$ meters from the ground truth query position. The proposed method (SVM p-val) outperforms the baseline methods. Results are shown for the initial retrieval (left column) and after re-ranking the top 20 retrieved images using geometric verification. Notice that SVM output without calibration gives $0\%$ of correctly localized queries.
+      %       }
+      %       \label{tab:eval}
+      %    \end{center}
+      %    \vspace*{-6mm}
+      % \end{table}
+
+      \input{myTable.tex}
 
       Since the ground truth GPS position for each query image is available, we measure the overall recognition performance by the percentage of query test images for which the top-ranked database image was located within a distance of $20$ meters from the ground truth query location.  Results are summarized in table~\ref{tab:eval} and clearly demonstrate the benefits of  careful calibration of the per-location classifiers. In addition, the proposed per-location classifier method outperforms the baseline bag-of-visual-word approach~\cite{Philbin07} including confuser suppression~\cite{Knopp2010}.
 
