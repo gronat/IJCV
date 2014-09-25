@@ -263,9 +263,9 @@ Second, as only few positive training examples are available for each location, 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \subsection{Dual representation.}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-      For each image $j$ in the database the linear SVM \eqref{eq:linear} is learned. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main disadvantage of this representation is that when the original vector $\vec{x_j}$ is high dimensional and sparse, for instance tf-idf vector, the learned weight vector $\vec{w_j}$ is dense. Hence a memory requirement for storage of the new representation is enormous.
+      For each image $j$ in the database the linear SVM \eqref{eq:linear} is learnt. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main drawback of this representation is that when the original vector $\vec{x_j}$ is sparse and high dimensional, for instance tf-idf vector, the learned weight vector $\vec{w_j}$ of the same dimensionality is dense. Hence a memory requirement for storage of the new representation grows dramatically.
 
-      This drawback can be efficiently solved by storing SVM vectors in dual representation. The key observation is that a number of training data $K$ is significantly lower then dimensionality $D$ of the original tfidf vector. In the following we omit index $j$ for clarity. Since $K\ll D$ all the training data points are support vectors, hence each vector $w$ can be then expressed in dual form as lienar combination
+      This drawback can be efficiently solved by storing SVM vectors in its dual representation. The key observation is that number of training data $K$ is significantly lower then dimensionality $D$ of the original tfidf vector. In the following we omit index $j$ for clarity. Since $K\ll D$ all the training data points are typically support vectors, hence each vector $\vec{w}$ can be then expressed in dual form as linear combination
 
       \begin{equation}
         \vec{w}=\sum_{i\in \mathcal{P},\mathcal{N}} \alpha_i \vec{x_i} = \mathcal{X} \cdot \vec{\alpha}
@@ -273,16 +273,16 @@ Second, as only few positive training examples are available for each location, 
       \end{equation}
 
       \noindent
-      where $\alpha_i$, the elemnts of vector $\vec{\alpha}$, are coefficients of linear combination of training data $\vec{x_i}$ and the matrix $\mathcal{X}$ contains descriptors of all database. Notice that the vector $\vec{\alpha}$ is sparse and number of non-zero elements depends on the number of training data $K$. Finally, a column wise matrix $\mathcal{W}$ containing all learned weights can be expressed in dual form as
+      where $\alpha_i$, the elemnts of vector $\vec{\alpha}$, are coefficients of linear combination of training data $\vec{x_i}$ and the matrix $\mathcal{X}$ contains descriptors of all database. Notice that the vector $\vec{\alpha}$ is sparse and number of non-zero elements depends on the number of training data $K$. Finally, a column wise matrix $\mathcal{W}$ containing all learned SVM weights can be expressed in a dual form as
 
       \begin{equation}
         \mathcal{W} = \mathcal{X}\cdot \mathcal{A}  
       \end{equation}
 
       \noindent
-      where $\mathcal{A}$ is a sparse cofficient matrix where each column corresponds to vector $\vec{\alpha}$ from equation \eqref{eq:dual}. Hence, to be able to reconstruct the matrix $\mathcal{W}$ one has to keep only two sparse matrixes, the descriptor matrix $\mathcal{X}$ and the coefficient matrix $\mathcal{A}$.
+      where $\mathcal{A}$ is a sparse coefficient matrix where each column corresponds to vector $\vec{\alpha}$ from equation \eqref{eq:dual}. To be able to reconstruct the matrix $\mathcal{W}$ one has to keep only two sparse matrices, the descriptor matrix $\mathcal{X}$ and the coefficient matrix~$\mathcal{A}$.
 
-      At query time, given the query image $q$, the uncalibrated SVM score between the query image and each of the database images can be computed by equation \eqref{eq:linear} which can be expressed in a matrix form as follows
+      At query time, given the query image $\vec{q}$, the uncalibrated SVM score between the query image and each of the database images can be computed by equation \eqref{eq:linear} which can be expressed in a matrix form as follows
       \begin{equation}
         \vec{s}=\vec{q}^T \mathcal{W}+\vec{b}=\vec{q}^T \mathcal{X}\cdot \mathcal{A}+\vec{b}
       \end{equation}
@@ -293,7 +293,7 @@ Second, as only few positive training examples are available for each location, 
       \end{equation}
 
       \noindent
-      It is worth noting that the new score $s$ is a linear combination of cosine similarity scores plus the bias term.
+      It is worth noting that the new score $s$ consists of linear combination of the cosine similarity measure and the bias term.
 
    \vspace{5mm}   
    Since the classification scores $s_j$ are learned independently for each location $j$, they cannot be directly used as the scores $f_j$ from eq.~\eqref{eq:class}. As illustrated in figure~\ref{fig:calib}, for a given query $q$, a classifier from an incorrect location (b) can have a higher score~\eqref{eq:linear} than the classifier from the target location (a). Indeed, the SVM score is a signed distance from the discriminating hyperplane and is a priori not comparable between different classifiers. This issue is addressed by calibrating scores of the learnt classifiers. The goal of the calibration is to convert the output of each classifier into a probability (or in general a ``universal" score), which can be meaningfully compared across classifiers. 
@@ -402,7 +402,7 @@ Second, as only few positive training examples are available for each location, 
             \Else
                \State $aux \gets interpolate(x,y,s)$
             \EndIf
-            \State $pVal[j] \gets (N-aux)/N$
+            \State $p\_val[j] \gets (N-aux)/N$
          \EndFor
          \EndProcedure
          \end{algorithmic}
@@ -417,6 +417,8 @@ Second, as only few positive training examples are available for each location, 
         \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
         \label{eq:interp}
       \end{equation}
+
+      ... here we have to put references to algorithms....
    %%%%%%%%%%%%%%%%%%%%%%%
    \subsection{Discussion.}
    %%%%%%%%%%%%%%%%%%%%%%% 
@@ -434,15 +436,15 @@ Second, as only few positive training examples are available for each location, 
 \section{Calibration by re-normalization}
 \label{sec:calibrationRenorm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
-  The calibration method described above requires to store a non-parametric models of calibration functions for each learned SVM. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost in both offline and online phase. If $K$ is a fraction of values of the empirical cumulative density function that is kept for each SVM, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a dabase of size $N$. At query time, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} which yields a computational complexity of $O(N \log{K})$. To construct a calibration function at offline phase the SVM scores just be sorted for each database image in turn. A complexity $O(N^2 \log{K})$ makes this method hard to scale up.
+  The calibration method described above requires to store a non-parametric models of calibration functions for each learned SVM. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost in both offline and online phase. If $K$ is a fraction of values of the empirical cumulative density function that is kept for each SVM, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a database of size $N$. At query time, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} which yields a computational complexity of $O(N \log{K})$. To construct a calibration function at offline phase the SVM scores just be sorted for each database image in turn. A complexity $O(N^2 \log{K})$ makes this method hard to scale up.
 
-  In this section we, first, simplify the calibration by approximating the cumulative density function by an affine line and show that nor additional memory nor computationla cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline comlexity to $O(N)$.
+  In this section we, first, simplify the calibration by approximating the cumulative density function by an affine line and show that nor additional memory nor computational cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline complexity to $O(N)$.
 
    \subsection{Affine approximation}
-     The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation online. This can be eliminated simplification of the calibration model. Each calibration function can be approximated by an affine line such that each calibration function can be written as follows
+     The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation online. This can be eliminated by simplification of the calibration model. Each calibration function can be approximated by an affine line such that calibration function can be written as follows
      \begin{equation}
-       f_j(\vec{q}) = c_j\cdot s_j(\vec{q}) + d_j
-       \label{eq:affiine}
+       f_j(\vec{q}) = c_j s_j(\vec{q}) + d_j
+       \label{eq:affine}
      \end{equation}
 
      \noindent
@@ -451,7 +453,7 @@ Second, as only few positive training examples are available for each location, 
          f_j(\vec{q})  & = c_j\cdot s_j(\vec{q}) + d=\\ \nonumber
                        & = c (\vec{w}_j^T \vec{q}+b_j)+d =\\ \nonumber
                        & = c_j\vec{w}_j^T \vec{q}+ (c_j b_j+d)=\\ \nonumber
-                       & = (c_j\vec{w}_j)^T \vec{q} + \beta_j \\
+                       & = (c_j\vec{w}_j)^T \vec{q} + \beta_j \\ \nonumber
          \label{eq:affiine}
      \end{align}
 
@@ -462,16 +464,16 @@ Second, as only few positive training examples are available for each location, 
      \end{equation}
      
      \noindent
-     where $\vec{\tilde{q}_j}=[\vec{q}_j^T 1]^T$ and $\vec{\widetilde{w}}_j = [\vec{w}_j^T \beta_j]^T$. It is worthnoting that the vector $\vec{\tilde{w}_j}$  consisting of scaled SVM weight pus one coordinate can be computed offline. Therefore no additonal memory storage or computational cost is required at query time. The paremeters $c_j$, $d_j$ represent an approximation the calibration function. A selection of these parameters requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log(N))$ at offiline phase.
+     where $\vec{\tilde{q}_j}=[\vec{q}_j^T 1]^T$ and $\vec{\widetilde{w}}_j = [\vec{w}_j^T \beta_j]^T$. Notice that the vector $\vec{\tilde{w}_j}$, consisting of scaled SVM weight and additional one coordinate, can be computed offline. Therefore no additional memory storage or computational cost is required at query time. The parameters $c_j$, $d_j$ in equation \eqref{eq:affine} represent an approximation the calibration function. However, selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
 
    \subsection{Calibration by re-scaling}
-      Each SVM score can be calibrated such that first the bias term is substracted and second the score is scaled by inverse of the SVM weight vector. The calibraiton function can be then written as follows
+      Each SVM score can be calibrated such that first the bias term is subtracted and second the score is scaled by inverse of the SVM weight vector. The calibration function can be then written as follows
       \begin{equation}
          f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{q}^T\vec{w}_j
          \label{eq:rescale}
       \end{equation}
 
-      This sort of calibration can be viewed as a spacial case of affine calibration where calibration parameters rely on SVM only. The equation \eqref{eq:rescale} can be further re-written such that
+      This calibration can be viewed as a spacial case of affine calibration where calibration parameters rely on SVM only. The equation \eqref{eq:rescale} can be further re-written such that
       
       \begin{equation}
          f_j(\vec{q}) = \vec{q}^T\vec{\tilde{w}}_j
@@ -479,9 +481,9 @@ Second, as only few positive training examples are available for each location, 
       \end{equation}
 
       \noindent
-      where $\vec{\tilde{w}}_j=\frac{\vec{\tilde{w}}_j}{||\vec{w}_j||}$ can be computed offline or online and requires only one additional computation.
+      where $\vec{\tilde{w}}_j=\frac{\vec{\tilde{w}}_j}{||\vec{w}_j||}$ can be computed offline and yields only $O(N)$ complexity.
    \subsection{Discussion}
-      The proposed calibration method works when the SVM is properelly regularized. The resulting direction of $\vec{\tilde{w}}$ havily depends on $C_2$ parameter of the objective \eqref{eq:obj}. It can be shown that when $C_2 \rightarrow 0$ the resulting $\vec{\tilde{w_j}} \rightarrow \vec{x}_j^+$ where $\vec{x}_j^+$ is a single positive exemplar used for training. Though this calibration is simple we observe that this type of calibration is more suited for dense descriptors such as Fisher vectors. Details will be given next in the experimental section. 
+      The proposed calibration method works when the SVM is properly regularized. The resulting direction of $\vec{\tilde{w}}$ heavily depends on $C_2$ parameter of the objective \eqref{eq:obj}. It can be shown that when $C_2 \rightarrow 0$ the resulting $\vec{\tilde{w_j}} \rightarrow \vec{x}_j^+$ where $\vec{x}_j^+$ is a single positive exemplar used for training. Though this calibration is simple we observe that this type of calibration is more suited for dense descriptors such as Fisher vectors. Details will be given next in the experimental section. 
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiments}
@@ -575,7 +577,7 @@ Second, as only few positive training examples are available for each location, 
 
 
 \begin{acknowledgements}
-   This work was supported by the MSR-INRIA laboratory, the EIT-ICT labs, PRoViDE EU FP7-SPACE-312377 project and SGS13/140/OHK3/2T/13.
+   This work was supported by the MSR-INRIA laboratory, the EIT-ICT labs.
    {
    \footnotesize
    \noindent

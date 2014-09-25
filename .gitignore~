@@ -1,11 +1,9 @@
 *.png
 *.pdf
 *.log
-*.auxc
+*.aux
 !graphBigO.pdf
 !qnt1x.pdf
 !qnt2x.pdf
-!qntEx1.pdf
-!qntEx2.pdf
 
 
