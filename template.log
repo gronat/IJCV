@@ -1,21 +1,11 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.8.7)  25 SEP 2014 16:48
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.6.2)  1 OCT 2014 14:56
 entering extended mode
- restricted \write18 enabled.
+ \write18 enabled.
  %&-line parsing enabled.
 **template.tex
 (./template.tex
 LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, et
-hiopic, farsi, arabic, pinyin, croatian, bulgarian, ukrainian, russian, slovak,
- czech, danish, dutch, usenglishmax, ukenglish, finnish, french, basque, ngerma
-n, german, swissgerman, ngerman-x-2012-05-30, german-x-2012-05-30, monogreek, g
-reek, ibycus, ancientgreek, hungarian, bengali, tamil, hindi, telugu, gujarati,
- sanskrit, malayalam, kannada, assamese, marathi, oriya, panjabi, italian, lati
-n, latvian, lithuanian, mongolian, mongolianlmc, nynorsk, bokmal, indonesian, e
-speranto, coptic, welsh, irish, interlingua, serbian, serbianc, slovenian, friu
-lan, romansh, estonian, romanian, armenian, uppersorbian, turkish, afrikaans, i
-celandic, kurmanji, polish, portuguese, galician, catalan, spanish, swedish, lo
-aded.
+Babel <3.9f> and hyphenation patterns for 78 languages loaded.
 
 LaTeX Warning: File `example.eps' already exists on the system.
                Not generating it from this source.
@@ -189,7 +179,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 )))
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2000/07/18 v2.13 AMS math features
+Package: amsmath 2013/01/14 v2.14 AMS math features
 \@mathmargin=\skip43
 
 For additional information on amsmath, use the `?' option.
@@ -209,20 +199,20 @@ Package: amsbsy 1999/11/29 v1.2d
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count106
-LaTeX Info: Redefining \frac on input line 211.
+LaTeX Info: Redefining \frac on input line 210.
 \uproot@=\count107
 \leftroot@=\count108
-LaTeX Info: Redefining \overline on input line 307.
+LaTeX Info: Redefining \overline on input line 306.
 \classnum@=\count109
 \DOTSCASE@=\count110
-LaTeX Info: Redefining \ldots on input line 379.
-LaTeX Info: Redefining \dots on input line 382.
-LaTeX Info: Redefining \cdots on input line 467.
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
 \Mathstrutbox@=\box29
 \strutbox@=\box30
 \big@size=\dimen121
-LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 
 
 Package amsmath Warning: Unable to redefine math accent \vec.
@@ -247,17 +237,17 @@ Package amsmath Warning: Unable to redefine math accent \vec.
 \multlinegap=\skip44
 \multlinetaggap=\skip45
 \mathdisplay@stack=\toks21
-LaTeX Info: Redefining \[ on input line 2666.
-LaTeX Info: Redefining \] on input line 2667.
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
 ) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
-Package: amssymb 2009/06/22 v3.00
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
-Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
-(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
 Package: subfigure 2002/03/15 v2.1.5 subfigure package
@@ -280,16 +270,18 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfig@bottom=\skip51
 )
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2012/02/19 v3.2f Customizing captions (AR)
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
 \captionmargin=\dimen130
 \captionmargin@=\dimen131
 \captionwidth=\dimen132
-\caption@indent=\dimen133
-\caption@parindent=\dimen134
-\caption@hangindent=\dimen135
+\caption@tempdima=\dimen133
+\caption@indent=\dimen134
+\caption@parindent=\dimen135
+\caption@hangindent=\dimen136
 Package caption Info: Unknown document class (or package),
 (caption)             standard defaults will be used.
 )
@@ -311,17 +303,17 @@ Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
 
 (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
-\col@sep=\dimen136
-\extrarowheight=\dimen137
+\col@sep=\dimen137
+\extrarowheight=\dimen138
 \NC@list=\toks22
 \extratabsurround=\skip52
 \backup@length=\skip53
 )
-\TX@col@width=\dimen138
-\TX@old@table=\dimen139
-\TX@old@col=\dimen140
-\TX@target=\dimen141
-\TX@delta=\dimen142
+\TX@col@width=\dimen139
+\TX@old@table=\dimen140
+\TX@old@col=\dimen141
+\TX@target=\dimen142
+\TX@delta=\dimen143
 \TX@cols=\count123
 \TX@ftn=\toks23
 )
@@ -354,12 +346,12 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 \UL@hyphenbox=\box32
 \UL@skip=\skip55
 \UL@hook=\toks25
-\UL@height=\dimen143
+\UL@height=\dimen144
 \UL@pe=\count125
-\UL@pixel=\dimen144
+\UL@pixel=\dimen145
 \ULC@box=\box33
 Package: ulem 2012/05/18
-\ULdepth=\dimen145
+\ULdepth=\dimen146
 )
 (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
@@ -400,9 +392,6 @@ Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
 Document Style - pseudocode environments for use with the `algorithmicx' style
 ) (./template.aux
 
-LaTeX Warning: Label `eq:affiine' multiply defined.
-
-
 LaTeX Warning: Label `eq:rescale' multiply defined.
 
 )
@@ -430,13 +419,13 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count135
-\scratchdimen=\dimen146
+\scratchdimen=\dimen147
 \scratchbox=\box36
 \nofMPsegments=\count136
 \nofMParguments=\count137
 \everyMPshowfont=\toks29
 \MPscratchCnt=\count138
-\MPscratchDim=\dimen147
+\MPscratchDim=\dimen148
 \MPnumerator=\count139
 \makeMPintoPDFobject=\count140
 \everyMPtoPDFconversion=\toks30
@@ -452,12 +441,12 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 149.
 LaTeX Font Info:    Try loading font information for U+msa on input line 149.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 149.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 149.
 
@@ -495,62 +484,58 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 [2]
-Overfull \hbox (6.3734pt too wide) in paragraph at lines 266--267
-\OT1/ptm/m/n/10 For each im-age $\OML/cmm/m/it/10 j$ \OT1/ptm/m/n/10 in the dat
-abase the lin-ear SVM [] is learned.
- []
+
+LaTeX Warning: Reference `' on page 3 undefined on input line 271.
 
 
-Overfull \hbox (3.2932pt too wide) in paragraph at lines 285--286
-\OT1/ptm/m/n/10 SVM score be-tween the query im-age and each of the database
- []
+LaTeX Warning: Reference `' on page 3 undefined on input line 273.
 
-[3] <imgs/qnt1x.pdf, id=28, 583.17876pt x 234.8775pt>
+[3] <imgs/qnt1x.pdf, id=32, 583.17876pt x 234.8775pt>
 File: imgs/qnt1x.pdf Graphic file (type pdf)
  <use imgs/qnt1x.pdf>
-Package pdftex.def Info: imgs/qnt1x.pdf used on input line 335.
+Package pdftex.def Info: imgs/qnt1x.pdf used on input line 311.
 (pdftex.def)             Requested size: 238.96417pt x 96.24304pt.
 
-<imgs/qnt2x.pdf, id=29, 583.17876pt x 234.8775pt>
+<imgs/qnt2x.pdf, id=33, 583.17876pt x 234.8775pt>
 File: imgs/qnt2x.pdf Graphic file (type pdf)
  <use imgs/qnt2x.pdf>
-Package pdftex.def Info: imgs/qnt2x.pdf used on input line 340.
+Package pdftex.def Info: imgs/qnt2x.pdf used on input line 316.
 (pdftex.def)             Requested size: 238.96417pt x 96.24304pt.
 
-Overfull \hbox (6.375pt too wide) in paragraph at lines 335--344
+Overfull \hbox (6.375pt too wide) in paragraph at lines 311--320
 [][]
  []
 
 
-Overfull \hbox (4.25pt too wide) in paragraph at lines 335--344
+Overfull \hbox (4.25pt too wide) in paragraph at lines 311--320
 []
  []
 
-<imgs/qntEx1.pdf, id=30, 569.12625pt x 244.915pt>
+<imgs/qntEx1.pdf, id=34, 569.12625pt x 244.915pt>
 File: imgs/qntEx1.pdf Graphic file (type pdf)
  <use imgs/qntEx1.pdf>
-Package pdftex.def Info: imgs/qntEx1.pdf used on input line 352.
+Package pdftex.def Info: imgs/qntEx1.pdf used on input line 328.
 (pdftex.def)             Requested size: 238.96417pt x 102.83742pt.
 
-<imgs/qntEx2.pdf, id=31, 572.1375pt x 234.8775pt>
+<imgs/qntEx2.pdf, id=35, 572.1375pt x 234.8775pt>
 File: imgs/qntEx2.pdf Graphic file (type pdf)
  <use imgs/qntEx2.pdf>
-Package pdftex.def Info: imgs/qntEx2.pdf used on input line 355.
+Package pdftex.def Info: imgs/qntEx2.pdf used on input line 331.
 (pdftex.def)             Requested size: 238.96417pt x 98.09953pt.
 
-Overfull \hbox (4.25pt too wide) in paragraph at lines 352--358
+Overfull \hbox (4.25pt too wide) in paragraph at lines 328--334
 [][]
  []
 
 
-Overfull \hbox (4.25pt too wide) in paragraph at lines 352--358
+Overfull \hbox (4.25pt too wide) in paragraph at lines 328--334
 []
  []
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8.5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 369.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 345.
 
-Overfull \hbox (28.43918pt too wide) in paragraph at lines 411--415
+Overfull \hbox (28.43918pt too wide) in paragraph at lines 387--391
 \OT1/ptm/m/n/10 For each place, keep $\OML/cmm/m/it/10 N[]$ \OT1/ptm/m/n/10 sco
 res from neg-a-tive ex-am-ples $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 s[]\OT1/cmr/m
 /n/10 )[]$
@@ -565,26 +550,28 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 
 pdfTeX warning: pdflatex (file ./imgs/qnt2x.pdf): PDF inclusion: multiple pdfs 
 with page group included in a single page
->]
+> <./imgs/qntEx1.pdf> <./imgs/qntEx2.pdf>]
 
-LaTeX Warning: Citation `Scheirer12' on page 5 undefined on input line 429.
-
-[5 <./imgs/qntEx1.pdf> <./imgs/qntEx2.pdf>]
-Overfull \hbox (8.1833pt too wide) in paragraph at lines 439--440
-\OT1/ptm/m/n/10 stage prob-lem by in-tro-duc-ing a cal-i-bra-tion by re-normali
-zation
- []
+LaTeX Warning: Citation `Scheirer12' on page 5 undefined on input line 407.
 
 
-Overfull \hbox (1.17331pt too wide) in paragraph at lines 442--443
+Underfull \vbox (badness 1072) has occurred while \output is active []
+
+
+Overfull \hbox (1.17331pt too wide) in paragraph at lines 424--425
 \OT1/ptm/m/n/10 The main dis-ad-van-tage of the \OT1/ptm/m/it/10 p-value \OT1/p
 tm/m/n/10 cal-i-bra-tion is the mem-
  []
 
+[5]
+Overfull \hbox (2.57751pt too wide) in paragraph at lines 472--473
+\OT1/ptm/m/n/10 de-pends on $\OML/cmm/m/it/10 C[]$ \OT1/ptm/m/n/10 pa-ram-e-ter
+ of the ob-jec-tive []. It can be shown
+ []
 
-Overfull \hbox (5.38283pt too wide) in paragraph at lines 442--443
-\OT1/ptm/m/n/10 This can be elim-i-nated sim-pli-fi-ca-tion of the cal-i-bra-ti
-on model.
+
+Overfull \hbox (3.2932pt too wide) in paragraph at lines 499--500
+\OT1/ptm/m/n/10 SVM score be-tween the query im-age and each of the database
  []
 
 
@@ -593,18 +580,18 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 [6]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 505.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 532.
 
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Overfull \hbox (15.57384pt too wide) in paragraph at lines 520--525
+Overfull \hbox (15.57384pt too wide) in paragraph at lines 547--552
 \OT1/ptm/m/n/10 sup-pres-sion ap-proach (Conf. supp.) of [13] that, in each dat
 abase
  []
 
 
-Overfull \hbox (5.1035pt too wide) in paragraph at lines 526--527
+Overfull \hbox (5.1035pt too wide) in paragraph at lines 553--554
 []\OT1/ptm/m/n/10 For all meth-ods, we im-ple-mented a two-stage place recog-
  []
 
@@ -615,10 +602,10 @@ Overfull \hbox (1.70029pt too wide) in alignment at lines 38--38
 
 )
 
-LaTeX Warning: Reference `tab:eval' on page 7 undefined on input line 555.
+LaTeX Warning: Reference `tab:eval' on page 7 undefined on input line 582.
 
 
-Overfull \hbox (15.67226pt too wide) in paragraph at lines 563--567
+Overfull \hbox (15.67226pt too wide) in paragraph at lines 590--594
  \OT1/ptm/m/it/10 Scal-a-bil-ity. [] \OT1/ptm/m/n/10 The lin-ear SVM clas-si-fi
 ers trained for each database
  []
@@ -780,27 +767,15 @@ File: imgs/aggrv/08aggrvB.jpg Graphic file (type jpg)
 Package pdftex.def Info: imgs/aggrv/08aggrvB.jpg used on input line 242.
 (pdftex.def)             Requested size: 103.94872pt x 74.63544pt.
 )
-Overfull \hbox (0.93362pt too wide) in paragraph at lines 572--573
+Overfull \hbox (0.93362pt too wide) in paragraph at lines 599--600
 \OT1/ptm/m/n/10 fi-ca-tion prob-lem and have used geo-tags as a readily-availab
 le
  []
 
 
-Overfull \hbox (8.96379pt too wide) in paragraph at lines 572--573
+Overfull \hbox (8.96379pt too wide) in paragraph at lines 599--600
 \OT1/ptm/m/n/10 avail-able for each lo-ca-tion, we have pro-posed a non-paramet
 ric
- []
-
-
-Overfull \hbox (3.10411pt too wide) in paragraph at lines 578--584
-\OT1/ptm/m/n/8.5 lab-o-ra-tory, the EIT-ICT labs, PRo-ViDE EU FP7-SPACE-312377 
-project
- []
-
-
-Overfull \hbox (1.83905pt too wide) in paragraph at lines 578--584
-\OT1/ptm/m/n/8.5 and SGS13/140/OHK3/2T/13.  Sup-ported by the In-tel-li-gence A
-d-vanced
  []
 
 (./myFigure01.tex
@@ -974,13 +949,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 5978 strings out of 493493
- 87445 string characters out of 3143798
- 169298 words of memory out of 3000000
- 9109 multiletter control sequences out of 15000+200000
- 32181 words of font info for 76 fonts, out of 3000000 for 9000
+ 6031 strings out of 493307
+ 88445 string characters out of 6139906
+ 173233 words of memory out of 5000000
+ 9312 multiletter control sequences out of 15000+600000
+ 32688 words of font info for 77 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 42i,13n,38p,1674b,388s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,13n,38p,1674b,409s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dis
@@ -1001,7 +976,7 @@ lic/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
 courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.
 pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on template.pdf (10 pages, 13085623 bytes).
+Output written on template.pdf (10 pages, 13086474 bytes).
 PDF statistics:
  274 PDF objects out of 1000 (max. 8388607)
  161 compressed objects within 2 object streams

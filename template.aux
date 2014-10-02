@@ -30,48 +30,48 @@
 \citation{gebel2007calibrating}
 \citation{Platt99}
 \citation{zadrozny2002transforming}
+\citation{casella2001statistical}
 \newlabel{eq:linear}{{2}{3}}
 \newlabel{eq:obj}{{3}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Dual representation.}{3}}
-\newlabel{eq:dual}{{4}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}The need for classifier score calibration}{3}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Non-parametric calibration of the SVM-scores from negative examples only}{3}}
 \newlabel{sec:calibration}{{3}{3}}
-\citation{casella2001statistical}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Calibration \emph  {via} significance levels.}{4}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:subfig1}{{2(a)}{4}}
 \newlabel{sub@fig:subfig1}{{(a)}{4}}
 \newlabel{fig:subfig2}{{2(b)}{4}}
 \newlabel{sub@fig:subfig2}{{(b)}{4}}
+\newlabel{fig:calib}{{2}{4}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{4}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{4}}
-\newlabel{fig:calib}{{2}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Summary of the calibration procedure.}{4}}
-\newlabel{eq:interp}{{8}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Summary of the calibration procedure.}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces A figure showing the relation between (a) the probability density of the random variable $S_0$ modeling the scores of the negative examples and (b) the corresponding cumulative density function $F_0(s)=\mathbb  {P}(S_0 \leq s)$. \relax }}{4}}
+\newlabel{fig:qntExample}{{3}{4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{4}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces OFFLINE\relax }}{4}}
+\newlabel{alg:offline}{{1}{4}}
+\newlabel{eq:interp}{{4}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Discussion.}{4}}
 \citation{Scheirer12}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces A figure showing the relation between (a) the probability density of the random variable $S_0$ modeling the scores of the negative examples and (b) the corresponding cumulative density function $F_0(s)=\mathbb  {P}(S_0 \leq s)$. \relax }}{5}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{5}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{5}}
-\newlabel{fig:qntExample}{{3}{5}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces OFFLINE\relax }}{5}}
-\newlabel{alg:offline}{{1}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Discussion.}{5}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces ONLINE\relax }}{5}}
 \newlabel{alg:online}{{2}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Calibration by re-normalization}{5}}
+\newlabel{sec:calibrationRenorm}{{4}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Affine approximation}{5}}
 \citation{Sivic2003}
 \citation{Bay06}
 \citation{Philbin07}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Calibration by re-normalization}{6}}
-\newlabel{sec:calibrationRenorm}{{4}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Affine approximation}{6}}
-\newlabel{eq:affiine}{{9}{6}}
-\newlabel{eq:affiine}{{11}{6}}
+\newlabel{eq:affine}{{5}{6}}
+\newlabel{eq:affiine3}{{6}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Calibration by re-scaling}{6}}
-\newlabel{eq:rescale}{{13}{6}}
-\newlabel{eq:rescale}{{14}{6}}
+\newlabel{eq:rescale}{{7}{6}}
+\newlabel{eq:rescale}{{8}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Discussion}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{6}}
-\newlabel{sec:experiments}{{5}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Memory efficient classifier representation}{6}}
+\newlabel{eq:dual}{{9}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Experiments}{6}}
+\newlabel{sec:experiments}{{6}{6}}
 \citation{libsvm}
 \citation{Chen11}
 \citation{Malisiewicz11}
@@ -116,7 +116,7 @@
 \bibcite{Philbin10c}{24}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces  \leavevmode {\color  {myRed}} The fraction of correctly recognized queries (recall@K) vs. the number of top $K\in \{1,2,5,10,20\}$ retrieved database images for different Fisher vector dimensions $d\in \{128,512,2048\}$. The learnt descriptors by the proposed method (FV e-SVM) consistently improve over the raw Fisher vector descriptors across the whole range of $K$ and all dimensions on both the 25k and 55k Pittsburgh image datasets. \relax }}{8}}
 \newlabel{tab:recall}{{1}{8}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{8}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusions}{8}}
 \bibcite{Platt99}{25}
 \bibcite{Schindler07}{26}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  {\bf  Examples of query images (gray) correctly (green) and incorrectly (red) localized by different methods.} \tmspace  +\thickmuskip {.2777em}(a) query image. \tmspace  +\thickmuskip {.2777em}(b) the top-ranked image retrieved by per-location classifiers (proposed method). \tmspace  +\thickmuskip {.2777em}(c) the top-ranked image retrieved by the baseline confuser suppression method\nobreakspace  {}\cite  {Knopp2010}. \tmspace  +\thickmuskip {.2777em}(d) the top-ranked image retrieved by the baseline bag-of-visual-words method. Bottom two rows: the proposed method is sometimes confused by high-scoring similar repeated texture patterns on facades. \relax }}{9}}

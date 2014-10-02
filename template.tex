@@ -290,7 +290,7 @@ In the second method (Section~\ref{}), ...
       In the following, we view  the problem of deciding whether a query image matches a given location based on the corresponding SVM score as a hypothesis testing problem. In particular, we appeal to ideas from the traditional frequentist hypothesis testing framework also known as Neyman-Pearson (NP) framework (see e.g.~\cite{casella2001statistical}, chap.~8).
 
       We define the null hypothesis as $H_0=\{$the image is a random image$\}$ and the alternative as $H_1=\{$the image matches the particular location$\}$. The NP framework focuses on the case where the distribution of the data under $H_0$ is well known, whereas the distribution under $H_1$ is not accessible or too complicated to model, which matches perfectly our setting.
-      \textcolor{myGrey}{How about the other NP assumptions? We should as Guillaume}
+      \textcolor{myGrey}{How about the other NP assumptions? We should ask Guillaume}
 
       In the NP framework, the \emph{significance level} of a score is measured by the p-value or equivalently by the value of the cumulative density function  (cdf) of the distribution of the negatives at a given score value. The cdf is the function $F_0$ defined by $F_0(s)=\PP(S_0\leq s)$, where $S_0$ is the random variable corresponding to the scores of negative data (see figure~\ref{fig:qntExample} for an illustration of the relation between the cdf and the density of the function). The cdf (or the corresponding p-value\footnote{
       The notion most commonly used in statistics is in fact the p-value. The p-value associated to a score is the quantity $\alpha(s)$ defined by $\alpha(s)=1-F_0(s)$; so the more significant the score is, the closer to $1$ the cdf value is, and the closer to $0$ the p-value is. To keep the presentation simple, we avoid the formulation in terms of p-values and we only talk of the probabilistic calibrated values obtained from the cdf $F_0$.
@@ -384,7 +384,7 @@ In the second method (Section~\ref{}), ...
          \end{algorithmic}
       \end{algorithm}
 
-      For each place, keep $\Ncal$ scores from negative examples $(s_n)_{1 \leq n \leq \Ncal}$ used for calibration together with the associated cumulative probability values $\hat{F}_0(s_n)$.
+      For each place, keep $\Ncal$ scores from negative examples~$(s_n)_{1 \leq n \leq \Ncal}$ used for calibration together with the associated cumulative probability values $\hat{F}_0(s_n)$.
       Given the score of the query $s_q$:\\
       1.  Find $n$ such that $s_{n} \leq s_q < s_{n+1} $\\
       2.  Compute the interpolated empirical cdf value
@@ -412,12 +412,16 @@ In the second method (Section~\ref{}), ...
 \section{Calibration by re-normalization}
 \label{sec:calibrationRenorm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
-  The calibration method described above requires to store a non-parametric models of calibration functions for each learned SVM. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost in both offline and online phase. If $K$ is a fraction of values of the empirical cumulative density function that is kept for each SVM, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a database of size $N$. At query time, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} which yields a computational complexity of $O(N \log{K})$. To construct a calibration function at offline phase the SVM scores just be sorted for each database image in turn. A complexity $O(N^2 \log{K})$ makes this method hard to scale up.
+  The calibration method described above requires to store a non-parametric models of calibration functions for each learned SVM. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost in both offline and online phase. 
 
-  In this section we, first, simplify the calibration by approximating the cumulative density function by an affine line and show that nor additional memory nor computational cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline complexity to $O(N)$.
+  If $K$ is a fraction of values of the empirical cumulative density function that is kept for each SVM, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a database of size $N$. Typically we keep $K=1000$ values for each c.d.f. for the database size of $N=50,000$. This requires additional $\sim 200$MB. For lager datasets this may be a key limitation. At query time, given the raw SVM score, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} for each database image in turn. This yields a computational complexity of $O(N \log{K})$.
+
+  To construct a calibration function at offline phase $N$ SVM scores must be sorted for each database image in turn. When the merge sort is used the total complexity for entire database of the c.d.f. construction is $O(N^2 \log{N})$. This makes the calibration method hard to scale up.
+
+  In this section we, first, simplify the calibration by approximating the cumulative density function by an affine function and show that nor additional memory nor computational cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline complexity to $O(N)$.
 
    \subsection{Affine approximation}
-     The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation online. This can be eliminated by simplification of the calibration model. Each calibration function can be approximated by an affine line such that calibration function can be written as follows
+     The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation at query time. This can be eliminated by simplification of the calibration model. Each calibration function can be approximated by an affine line such that calibration function can be written as follows
      \begin{equation}
        f_j(\vec{q}) = c_j s_j(\vec{q}) + d_j
        \label{eq:affine}
@@ -426,23 +430,36 @@ In the second method (Section~\ref{}), ...
      \noindent
      Substituting for $s_j(\vec{q})$ from equation \eqref{eq:linear} into the equation above we get
      \begin{align}
-         f_j(\vec{q})  & = c_j\cdot s_j(\vec{q}) + d=\\ \nonumber
-                       & = c (\vec{w}_j^T \vec{q}+b_j)+d =\\ \nonumber
-                       & = c_j\vec{w}_j^T \vec{q}+ (c_j b_j+d)=\\ \nonumber
-                       & = (c_j\vec{w}_j)^T \vec{q} + \beta_j \\ \nonumber
-         \label{eq:affiine}
+        \nonumber
+         f_j(\vec{q}) = c_j\vec{w}_j^T \vec{q}+ (c_j b_j+d_j)
+        %\label{eq:affine2}
+    \end{align}
+
+    Notice that this can be further rewritten as a new affine function as follows:
+    \begin{align}
+      \nonumber
+        f_j(\vec{q}) = (c_j\vec{w}_j)^T \vec{q} + \beta_j
+        %\label{eq:affiine3}
      \end{align}
 
-     \noindent
-     which can be further written as a  dot product
-     \begin{equation}
-       f_j(\vec{q}) = \vec{\widetilde{q}}^T \vec{\widetilde{w}}_j
-     \end{equation}
+    \noindent
+    where $\beta_j=c_j b_j+d_j$, which can be further written as a  dot product
+    \begin{equation}
+      f_j(\vec{q}) = \vec{\widetilde{q}}^T \vec{\widetilde{w}}_j
+      \label{eq:affiine3}
+    \end{equation}
      
      \noindent
-     where $\vec{\tilde{q}_j}=[\vec{q}_j^T 1]^T$ and $\vec{\widetilde{w}}_j = [\vec{w}_j^T \beta_j]^T$. Notice that the vector $\vec{\tilde{w}_j}$, consisting of scaled SVM weight and additional one coordinate, can be computed offline. Therefore no additional memory storage or computational cost is required at query time. The parameters $c_j$, $d_j$ in equation \eqref{eq:affine} represent an approximation the calibration function. However, selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
+     where $\vec{\tilde{q}_j}=[\vec{q}_j^T 1]^T$ and $\vec{\widetilde{w}}_j = [\vec{w}_j^T \beta_j]^T$. Notice that the vector $\vec{\tilde{w}_j}$, consisting of scaled SVM weight and unity, can be computed offline. Therefore no additional memory storage or computational cost is required at query time. The parameters $c_j$, $d_j$ in equation \eqref{eq:affine} represent an affine approximation the calibration function. However, selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
 
    \subsection{Calibration by re-scaling}
+
+      In the previous section we had to find parameters $c_j$ and $d_j$ from training data which can be still costly at training time and requires negative training data. Below we investigate whether it is possible to set $c_j$ and $b_j$ without any training. 
+
+
+      TODO: We found that this is possible by re-normalizing the parameter vector by setting ...
+and we found this works well in practice...
+
       Each SVM score can be calibrated such that first the bias term is subtracted and second the score is scaled by inverse of the SVM weight vector. The calibration function can be then written as follows
       \begin{equation}
          f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{q}^T\vec{w}_j
@@ -462,12 +479,10 @@ In the second method (Section~\ref{}), ...
       The proposed calibration method works when the SVM is properly regularized. The resulting direction of $\vec{\tilde{w}}$ heavily depends on $C_2$ parameter of the objective \eqref{eq:obj}. It can be shown that when $C_2 \rightarrow 0$ the resulting $\vec{\tilde{w_j}} \rightarrow \vec{x}_j^+$ where $\vec{x}_j^+$ is a single positive exemplar used for training. Though this calibration is simple we observe that this type of calibration is more suited for dense descriptors such as Fisher vectors. Details will be given next in the experimental section. 
 
 
-
-
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \section{Memory efficient classifier representation}
+  \section{Memory efficient classifier representation for BOW}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-      For each image $j$ in the database the linear SVM \eqref{eq:linear} is learnt. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main drawback of this representation is that when the original vector $\vec{x_j}$ is sparse and high dimensional, for instance tf-idf vector, the learned weight vector $\vec{w_j}$ of the same dimensionality is dense. Hence a memory requirement for storage of the new representation grows dramatically.
+      For each image $j$ in the database the linear SVM \eqref{eq:linear} is learnt. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main drawback of this representation is that when the original vector $\vec{x_j}$ is sparse and high dimensional, for instance tf-idf vector, the learned weight vector $\vec{w_j}$ of the same dimensionality is dense. Hence a memory requirement for storage of the new representation grows dramatically. For instance, if the visual word vocabulary size is $100,000$ and each image contains $2,000$ features on average
 
       This drawback can be efficiently solved by storing SVM vectors in its dual representation. The key observation is that number of training data $K$ is significantly lower then dimensionality $D$ of the original tfidf vector. In the following we omit index $j$ for clarity. Since $K\ll D$ all the training data points are typically support vectors, hence each vector $\vec{w}$ can be then expressed in dual form as linear combination
 
