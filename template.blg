@@ -1,4 +1,4 @@
-This is BibTeX, Version 0.99d (TeX Live 2012/Debian)
+This is BibTeX, Version 0.99d (TeX Live 2011)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: template.aux
 The style file: spmpsci.bst
@@ -7,45 +7,45 @@ Database file #2: vggroup.bib
 Database file #3: cvww_template.bib
 Database file #4: mybib.bib
 Warning--empty journal in casella2001statistical
-You've used 31 entries,
+You've used 32 entries,
             2946 wiz_defined-function locations,
-            1053 strings with 12588 characters,
-and the built_in function-call counts, 17134 in all, are:
-= -- 1562
-> -- 597
+            1057 strings with 12763 characters,
+and the built_in function-call counts, 17596 in all, are:
+= -- 1594
+> -- 619
 < -- 2
-+ -- 281
-- -- 214
-* -- 861
-:= -- 2097
-add.period$ -- 34
-call.type$ -- 31
-change.case$ -- 248
++ -- 290
+- -- 222
+* -- 887
+:= -- 2162
+add.period$ -- 35
+call.type$ -- 32
+change.case$ -- 257
 chr.to.int$ -- 0
-cite$ -- 32
-duplicate$ -- 1747
-empty$ -- 1361
-format.name$ -- 243
-if$ -- 3559
+cite$ -- 33
+duplicate$ -- 1790
+empty$ -- 1403
+format.name$ -- 252
+if$ -- 3655
 int.to.chr$ -- 0
-int.to.str$ -- 31
-missing$ -- 304
-newline$ -- 134
-num.names$ -- 62
-pop$ -- 803
+int.to.str$ -- 32
+missing$ -- 314
+newline$ -- 138
+num.names$ -- 64
+pop$ -- 827
 preamble$ -- 1
-purify$ -- 169
+purify$ -- 175
 quote$ -- 0
-skip$ -- 693
+skip$ -- 704
 stack$ -- 0
-substring$ -- 452
-swap$ -- 1078
+substring$ -- 457
+swap$ -- 1097
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 124
+type$ -- 128
 warning$ -- 1
-while$ -- 81
-width$ -- 33
-write$ -- 297
+while$ -- 83
+width$ -- 34
+write$ -- 306
 (There was 1 warning)

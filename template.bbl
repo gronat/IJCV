@@ -130,6 +130,11 @@ Platt, J.: Probabilistic outputs for support vector machines and comparisons to
   regularized likelihood methods.
 \newblock In: Advances in Large Margin Classifiers (1999)
 
+\bibitem{Scheirer12}
+Scheirer, W., Kumar, N., Belhumeur, P.N., Boult, T.E.: Multi-attribute spaces:
+  Calibration for attribute fusion and similarity search.
+\newblock In: CVPR (2012)
+
 \bibitem{Schindler07}
 Schindler, G., Brown, M., Szeliski, R.: City-scale location recognition.
 \newblock In: CVPR (2007)
