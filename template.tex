@@ -104,7 +104,7 @@ grestore
 about the article that should go on the front page should be
 placed here. General acknowledgments should be placed at the end of the article.}
 }
-\subtitle{...and learning compact descriptors}
+%\subtitle{...and learning compact descriptors}
 
 %\titlerunning{Short form of title}        % if too long for running head
 
@@ -143,7 +143,10 @@ placed here. General acknowledgments should be placed at the end of the article.
         \captionof{figure}
         {
           The goal of this work is to localize a query photograph (left) by finding other images of the same place in a large geotagged image database (right). 
-          We cast the problem as a classification task and learn a classifier for each location in the database. We develop a non-parametric \textcolor{myGrey}{(can we asy tis for FV e-svm norm?)} procedure to calibrate the outputs of the large number of per-location classifiers without the need for additional positive training data.  
+          We cast the problem as a classification task and learn a classifier for each location in the database. 
+          We develop two procedures
+          to calibrate the outputs of the large number of per-location classifiers without the need for additional labelled training data.                     
+%          We develop a non-parametric \textcolor{myGrey}{(can we asy tis for FV e-svm norm?)} procedure to calibrate the outputs of the large number of per-location classifiers without the need for additional positive training data.  
         }
     \end{center}%
 }]
@@ -154,9 +157,15 @@ placed here. General acknowledgments should be placed at the end of the article.
 \begin{abstract}
 The aim of this work is to localize a query photograph by finding other images depicting the same place in a large geotagged image database. 
 This is a challenging task due to changes in viewpoint, imaging conditions and the large size of the image database. The contribution of this work is two-fold. First, we cast the place recognition problem as a classification task and use the available geotags to train a classifier for each location in the database in a similar manner to per-exemplar SVMs in object recognition. 
-\textcolor{myGrey}{
-Second, as only few positive training examples are available for each location, we propose a new approach to calibrate all the per-location SVM classifiers using \emph{only} the negative examples. The calibration we propose relies on a significance measure essentially equivalent to the p-values classically used in statistical hypothesis testing. Experiments are performed on a database of 25,000 geotagged street view images of Pittsburgh and demonstrate improved place recognition accuracy of the proposed approach over the previous work.
-\emph{(FV calibration)}}
+Second, as only few positive training examples are available for each location, we propose 
+two methods to calibrate all the per-location SVM classifiers without the need for additional positive training data.
+The first method relies on p-values from statistical hypothesis testing and uses only the available negative training data. The second method performs a simple affine calibration by appropriately normalizing the learnt classifiers and does not need any additional labelled calibration examples.
+We test the proposed place recognition method with the bag-of-visual-words and Fisher vector image representations suitable for large scale recognition. 
+Experiments are performed on a database of 25,000 geotagged street view images of Pittsburgh and demonstrate improved place recognition accuracy of the proposed approach over the previous work.
+% Add SF: as well as the San Francisco dataset containing 1M geotagged images
+%\textcolor{myGrey}{
+%Second, as only few positive training examples are available for each location, we propose a new approach to calibrate all the per-location SVM classifiers using \emph{only} the negative examples. The calibration we propose relies on a significance measure essentially equivalent to the p-values classically used in statistical hypothesis testing. Experiments are performed on a database of 25,000 geotagged street view images of Pittsburgh and demonstrate improved place recognition accuracy of the proposed approach over the previous work.
+%\emph{(FV calibration)}}
 \keywords{Place recognition \and SVM calibration \and Geo-location}
 % \PACS{PACS code1 \and PACS code2 \and more}
 % \subclass{MSC code1 \and MSC code2 \and more}
@@ -167,54 +176,101 @@ Second, as only few positive training examples are available for each location, 
    \label{intro}
    Visual place recognition~\cite{Cummins09,Knopp2010,Schindler07} is a challenging task as the query and database images may depict the same 3D structure (e.g.\ a building) from a different camera viewpoint, under different illumination, or the building can be partially occluded. 
    In addition, the geotagged database may be very large. For example, we estimate that Google street-view of France alone contains more than 60 million panoramic images.
+It is, however, an important problem as automatic, accurate and fast visual place recognition would have large practical implications in robotics, augmented reality or navigation.
 
-   \textcolor{myGrey}{
-   Similar to other work in large scale place recognition~\cite{Cummins09,Knopp2010,Schindler07} and image retrieval~\cite{Nister06,Philbin07,Sivic2003}, we build on the bag-of-visual-words representation~\cite{Csurka04,Sivic2003} and describe each image by a set of quantized local invariant features, such as SURF~\cite{Bay06} or SIFT~\cite{Lowe04}.  Each image is then represented by a weighted histogram of visual words, called the ``tf-idf vector'' due to the commonly used tf-idf weighting scheme~\cite{Sivic2003}. The vectors are usually normalized to have unit $L_2$ norm and the similarity between the query and a database vector is then measured by their dot product. This representation has some desirable properties such as robustness to background clutter and partial occlusion. Efficient retrieval is then achieved using inverted file indexing. 
-   }
+  Similar to other work in large scale place recognition~\cite{Cummins09,Knopp2010,Schindler07,Torii2013} and image retrieval~\cite{Nister06,Philbin07,Sivic2003,Jegou12} we describe each image by a set of local invariant features, such as SURF~\cite{Bay06} or SIFT~\cite{Lowe04} that are encoded and aggregated into a fixed-length single vector descriptor for each image. In particular, in this work we consider the sparse tf-idf weighted bag-of-visual-words representation~\cite{Sivic2003,Philbin07} as well as the compact Fisher vector descriptors~\cite{Jegou12}.  
+%  Each image is then represented by a weighted histogram of visual words, called the ``tf-idf vector'' due to the commonly used tf-idf weighting scheme~\cite{Sivic2003}. 
+The vectors are usually normalized to have unit $L_2$ norm and the similarity between the query and a database vector is then measured by their dot product. This representation has some desirable properties such as robustness to background clutter and partial occlusion. Efficient retrieval is then achieved using inverted file indexing.
 
-   \textcolor{myGrey}{(This is just BOW SOTA. We should also speak about FV)}
-   Recent work has looked at different ways to improve the retrieval accuracy and speed of the bag-of-visual-words model for image and object retrieval. Examples include: 
-   (i) learning better visual vocabularies from training examples with matched/non-matched descriptors~\cite{Mikulik2010,Philbin10b}; 
-   (ii)  developing quantization methods less prone to quantization errors~\cite{Jegou2011,Philbin08} or 
-   (iii) combining results from multiple query images depicting the same scene~\cite{Chum11,Chum07b}.
+%   Similar to other work in large scale place recognition~\cite{Cummins09,Knopp2010,Schindler07} and image retrieval~\cite{Nister06,Philbin07,Sivic2003}, we build on the bag-of-visual-words representation~\cite{Csurka04,Sivic2003} and describe each image by a set of quantized local invariant features, such as SURF~\cite{Bay06} or SIFT~\cite{Lowe04}.  Each image is then represented by a weighted histogram of visual words, called the ``tf-idf vector'' due to the commonly used tf-idf weighting scheme~\cite{Sivic2003}. The vectors are usually normalized to have unit $L_2$ norm and the similarity between the query and a database vector is then measured by their dot product. This representation has some desirable properties such as robustness to background clutter and partial occlusion. Efficient retrieval is then achieved using inverted file indexing. 
 
-   \textcolor{myGrey}{ (Need to be modified for FV)
+%   Recent work has looked at different ways to improve the retrieval accuracy and speed of the bag-of-visual-words model for image and object retrieval. Examples include: 
+%   (i) learning better visual vocabularies from training examples with matched/non-matched descriptors~\cite{Mikulik2010,Philbin10b}; 
+%   (ii)  developing quantization methods less prone to quantization errors~\cite{Jegou2011,Philbin08} or 
+%   (iii) combining results from multiple query images depicting the same scene~\cite{Chum11,Chum07b}.
+
    While in image retrieval  databases are typically unstructured collections of images, place recognition databases are usually structured: images have geotags, are localized on a map and depict a consistent 3D world. %~\cite{Gronat2011}. 
    Knowing the structure of the database can lead to significant improvements in both speed and accuracy of place recognition. 
    Examples include: (i) building an explicit 3D reconstruction of the scene~\cite{Irschara2009,Li10,Li12}; (ii) constructing an image graph~\cite{Philbin10c,Turcot09}, where images are nodes and edges connect close-by images on the map~\cite{Torii11}, or (iii) using the geotagged data as a form of supervision to select local features that characterize a certain location~\cite{Knopp2010,Schindler07} or re-rank retrieved images~\cite{Zamir10}.
-   }
 
    In this work, we also take advantage of geotags as an available form of supervision and investigate whether the place recognition problem can be cast as a classification task.
-   While visual classifiers were investigated for landmark recognition~\cite{Li09}, where many photographs are available for each of the landmarks, in this work we wish to train a classifier {\em for each location on the map} in a similar manner to per-exemplar classification in object recognition~\cite{Malisiewicz11}. This is beneficial as  each classifier can learn which features are discriminative for a particular place. % and down-weight features occurring at other places.
+   While visual classifiers were investigated for landmark \cite{Li09} recognition in consumer photo collections, where many photographs are available for each landmark, in this work we wish to train a classifier {\em for each location on the map} in a similar manner to per-exemplar classification in object recognition~\cite{Malisiewicz11}. This is beneficial as  each classifier can learn which features are discriminative for a particular place. % and down-weight features occurring at other places.
    The classifiers are learnt offline. At query time, the query photograph is localized by transferring the GPS tag of the best scoring location classifier.
 
    While learning classifiers for each place may be appealing, calibrating outputs of the individual classifiers is a critical issue. In object recognition~\cite{Malisiewicz11}, it is addressed in a separate calibration stage on a held-out set of training data.
-   This is not possible in the place recognition set-up as only a small number, typically one to five, of positive training images are available for each location (e.g. street-view images viewing the same building facade). To address this issue, we propose two calibration methods. The first calibration procedure is inspired by the use of p-values in statistics and based on ranking the score of a query image amongst scores of other images in the database. The second method can be interpreted as a special case of affine calibration that relies only on learned SVM weight.
+   This is not possible in the place recognition set-up as only a small number, typically one to five, of positive training images are available for each location (e.g. street-view images viewing the same building facade). To address this issue, we propose two calibration methods. 
+The first method relies on p-values from statistical hypothesis testing and uses only the available negative training data. The second method performs a simple affine calibration by appropriately normalizing the learnt classifiers and does not need any additional labelled calibration examples.   
+%   The first calibration procedure is inspired by the use of p-values in statistics and is based on ranking the score of a query image amongst scores of other images in the database. The second method can be interpreted as a special case of affine calibration that relies only on learned SVM weight.
+%   The rest of the paper is organized as follows: Section~\ref{sec:classifiers} describes how per-location classifiers are learnt. Sections~\ref{sec:calibration}~and~\ref{sec:calibrationRenorm} detail the classifier calibration procedure.   Implementation details and experimental results are given in Section~\ref{sec:experiments}.
 
-   The rest of the paper is organized as follows: Section~\ref{sec:classifiers} describes how per-location classifiers are learnt. Sections~\ref{sec:calibration}~and~\ref{sec:calibrationRenorm} detail the classifier calibration procedure.   Implementation details and experimental results are given in Section~\ref{sec:experiments}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Related work} 
+\label{sec:related}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\paragraph{Large-scale visual place recognition.}
+    The visual localization problem is typically treated as large-scale instance-level retrieval~\cite{Cummins09,Chen11,Gronat13,Knopp2010,Schindler07,Torii2013,Zamir10}, where images are represented using local invariant
+    features~\cite{Lowe04} encoded and aggregated into the bag-of-visual-words~\cite{Csurka04,Sivic03} or Fisher vector~\cite{Jegou12} representations. 
+    The image database can be further augmented by 3D point clouds~\cite{Klinger13}, automatically
+    reconstructed by large-scale structure from motion
+    (SfM)~\cite{Agarwal-ICCV-2009,Klinger13}, which enables accurate prediction of query image camera position~\cite{Li12,Sattler12}.
+    In contrast, in this work we investigate learning a discriminative place-specific image representation. A similar idea has been recently explored in~\cite{Cao13} 
+    who learn a graph-based discriminative representation for landmark image collections where typically many images are available for each place.
+    For the Fisher vector image representation, other recent work~\cite{Simonyan2013} has demonstrated improved performance in a face recognition application by finding discriminative projection using a large amount of labelled training face data.     
+    In this work, we focus on street-level images such as Google street-view, which have greater coverage, but typically only one or a small number of images are  available for each place.  To address this issue we learn a discriminative re-weighting of the descriptor specific to each image in the database using per-exemplar support vector machine~\cite{Malisiewicz11}.
+    
+    
+%     using both the bag-of-visual-words representation as well as the compact Fisher vector descriptors~\cite{Jegou12}.  
+%    Fisher vector descriptors have shown excellent place recognition accuracy~\cite{Torii2013}. In this work we further
+%    improve their performance by discriminative learning.
+%    %or more recently~\cite{Torii-CVPR-2013} the Fisher vector
+    %descriptor~\cite{Jegou12}.  
+
+%\paragraph{Fisher vector image representations} \vspace{-3mm}
+%    Fisher vector image representations have recently demonstrated excellent performance for a number of visual recognition tasks~\cite{Chatfield11,Jegou12,Krapac2011,Simonyan2013}.
+%    They are specially suited for retrieval applications since they are robust to image appearance variations and capture richer image statistics than the simple bag-of-visual-words (BOW) aggregation. However, raw extracted Fisher vectors are typically high-dimensional, e.g.\ with 32,768 non-sparse dimensions, which is impractical for large-scale visual recognition and indexing applications. Hence, their dimensionality is often reduced by principal component analysis (PCA) and further quantized for efficient indexing using, e.g.\, a product quantizer~\cite{Jegou12}.  Other recent work has demonstrated improved performance in a face recognition application by finding discriminative projection using a large amount of training face data~\cite{Simonyan2013}. Our work is complementary to these methods as it operates on the projected low-dimensional descriptor and further learns discriminative re-weighting of the descriptor specific to each image in the database using per-exemplar support vector machine~\cite{Malisiewicz11}.
+
+\paragraph{Per-exemplar support vector machine.} 
+    The exemplar support vector machine (e-SVM) has been used in a number of visual recognition tasks including
+    category-level recognition~\cite{Malisiewicz11}, cross-domain retrieval~\cite{Shrivastava11}, scene parsing~\cite{Tighe13}, %image to 3D model alignment~\cite{Aubry13},
+    place recognition~\cite{Gronat13} or as an initialization  for more complex discriminative clustering models~\cite{Doersch12,Singh12}. The main idea is to train a linear support vector machine (SVM) classifier from a single positive example and a large number of negatives. The intuition is that the resulting weight vector will give a higher weight to the discriminative dimensions of the positive training data point and will down weight dimensions that are non-discriminative with respect to the negative training data. A key advantage is that each per-exemplar classifier can be trained independently and hence the learning can be heavily parallelized. 
+    The per-exemplar training brings however also an important drawback. As each classifier is trained independently a
+    careful calibration of the resulting classifier scores is required~\cite{Malisiewicz11}. 
+
+\paragraph{Contributions.} 
+The contribution of this work is two-fold. First, we cast the place recognition problem as a classification task and use the available geo-tags to train a classifier for each location in the database. Second, as only few positive training examples are available for each location, we propose two methods to calibrate all the per-location SVM classifiers without the need for additional positive training data. The first method relies on a significance measure essentially equivalent to the p-values classically used in statistical hypothesis testing and uses only the available negative training data. The second performs a simple affine calibration by appropriately normalizing the learnt classifiers and does not need any additional labelled calibration examples. 
+
+%    The contributions of this work are threefold.    
+%    First, we analyze the exemplar support vector machine objective and show that the learnt hyperplane can be interpreted
+%    as a new descriptor that replaces the original positive example and is re-weighted to increase its separation from the negative data.
+%    Second, we demonstrate that after an appropriate normalization of the new re-weighted descriptor no further calibration is necessary. 
+%    Third, we apply e-SVM training to compact Fisher vector descriptors for large-scale place recognition resulting in  
+%    a {\em discriminative} yet {\em compact} representation of each image in the database. 
+%    Place recognition results are shown on two image datasets from Pittsburgh and demonstrate the learnt representation
+%    consistently improves over the standard Fisher vector descriptors at different target dimensions. % with different dimensions. 
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \section{Per-location classifiers for place recognition}
 \label{sec:classifiers}
 %%%%%%%%%%%%%%%%%%%%%%%%
-  \textcolor{myGrey}{
-  This section (and almost the whole paper) implicitly speaks about tf-idf. However, there will be a section about FV later. We should re-design this section to be more general. We can keep \emph{Dual representaton} outside as separate section related to tf-idf.
-  } \newline
-   We are given an image representation $\vec{x_j}$, one for each database image $j$. This representation can be sparse tf-idf vector or a dnese vector such as Fisher vector (FV). The goal is to learn a score $f_j$ for each database image $j$, so that, at test time, given the representaiton $\vec{q}$ of the query image, we can either retrieve the correct target image as the image $j^*$ with the highest score 
+%  \textcolor{myGrey}{
+%  This section (and almost the whole paper) implicitly speaks about tf-idf. However, there will be a section about FV later. We should re-design this section to be more general. We can keep \emph{Dual representaton} outside as separate section related to tf-idf.
+%  } \newline
+   We are given an image descriptor $\vec{x_j}$, one for each database image $j$. This representation can be a sparse tf-idf weighted bag-of-visual-words vector~\cite{Sivic03} or a dense compact descriptor such as the Fisher vector (FV)~\cite{Jegou12}. The goal is to learn a score $f_j$ for each database image $j$, so that, at test time, given the descriptor $\vec{q}$ of the query image, we can either retrieve the correct target image as the image $j^*$ with the highest score 
    \begin{equation}
    \label{eq:class}
     j^*=\operatorname*{arg\;max}_{j} f_j(\vec{q}) 
    \end{equation}
 
    \noindent
-   or use these scores to rank candidate images and use geometric verification to try and identify the correct location in an $n$-best list.
+   or use these scores to rank candidate images and use geometric verification to identify the correct location in an $n$-best list.
    Instead of approaching the problem directly as a large multiclass classification problem, we tackle the problem by learning a per-exemplar linear SVM classifier~\cite{Malisiewicz11}  for each database image $j$.
    Similar to~\cite{Knopp2010}, we use the available geotags to construct the negative set $\mathcal N_j$ for each image $j$. The negative set is constructed so as to concentrate difficult negative examples, i.e.\ from images that are far away from the location of image $j$ and at the same time similar to the target image as measured by the dot product between their feature vectors. The details of the construction procedure will be given in section~\ref{sec:experiments}.  The positive set $\mathcal P_j$ is represented by the only positive example, which is $\vec{x_j}$ itself. 
-
-   \textcolor{myGrey}{
    Each SVM classifier produces a score $s_j$ which is a priori not comparable with the score of the other classifiers. A calibration of these scores will therefore be key to convert them to comparable scores $f_j$. This calibration problem is more difficult than usual given that we only have a single positive example and will be addressed in section~\ref{sec:calibration}.
-   \textit{(Later we speak about positive set expansion which sounds fishy... For IJCV paper we should really do exemplar SVM only.)}
-   }
+   
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    \subsection{Learning per-location SVM classifiers. }
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -226,12 +282,8 @@ Second, as only few positive training examples are available for each location, 
       \end{align}
 
       \noindent
-      where $\vec{w_j}$ is a weight vector re-weighting contributions of individual visual words and $b_j$ is the bias specific for image $j$. Given the training sets $\mathcal P_j$ and $\mathcal N_j$, the aim is to find a vector $\vec{w_j}$ and bias $b_j$ such that the score difference between $\vec{x_j}$ and the closest neighbor from its negative set $\mathcal N_j$ is {\em maximized}.
-      \textcolor{myGrey}{
-      \emph{(This is not true as we do a soft margin SVM. This statement is valid only for hard margin formulation.)}
-      }
+      where $\vec{w_j}$ is a weight vector re-weighting contributions of individual visual words and $b_j$ is the bias specific for image $j$. Given the training sets $\mathcal P_j$ and $\mathcal N_j$, the aim is to find a vector $\vec{w_j}$ and bias $b_j$ such that the score difference between $\vec{x_j}$ and the closest neighbor from its negative set $\mathcal N_j$ is {\em maximized}. % modulo margin (perhaps mention this).
       Learning the weight vector $\vec{w_j}$ and bias $b_j$ is formulated as a minimization of the convex objective 
-
       \begin{align}
         \nonumber
         \Omega(\vec{w_j},b_j)=||\vec{w_j}||^{2}& +C_1\sum_{\vec{x}\in \mathcal P_j}h(\vec{w_j}^T\vec{x}+b_j)   \\
@@ -243,12 +295,12 @@ Second, as only few positive training examples are available for each location, 
       where the first term is the regularizer, the second term is the loss on the positive training data weighted by scalar parameter $C_1$, and the third term is the loss on the negative training data weighted by scalar parameter $C_2$.   
       This is a standard SVM formulation \eqref{eq:obj}, also used in exemplar-SVM~\cite{Malisiewicz11}.
       In our case $h$ is the squared hinge loss, which we found to work better in our setting than the standard hinge-loss. $\vec{w_j}$ and $b_j$ are learned separately for each database image $j$ in turn. 
-      \sout{
-      In our case (details in section~\ref{sec:experiments}), we use about 1-5 positive examples, and 200 negative examples. As the dimensionality of $\vec{w}$ is $100,000$ all training data points are typically support vectors. 
-      }
-      \textcolor{myGrey}{
-        \emph{(Above we claim that only a single positive is available)}
-      }
+%      \sout{
+%      In our case (details in section~\ref{sec:experiments}), we use about 1-5 positive examples, and 200 negative examples. As the dimensionality of $\vec{w}$ is $100,000$ all training data points are typically support vectors. 
+%      }
+%      \textcolor{myGrey}{
+%        \emph{(Above we claim that only a single positive is available)}
+%      }
    % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    % \paragraph{Expanding the positive set.}
    % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -260,17 +312,19 @@ Second, as only few positive training examples are available for each location, 
    %    }
       
 
-   \subsection{The need for classifier score calibration}
-   Since the classification scores $s_j$ are learned independently for each location $j$, they cannot be directly used as the scores $f_j$ from eq.~\eqref{eq:class}. As illustrated in figure~\ref{fig:calib}, for a given query $q$, a classifier from an incorrect location (b) can have a higher score~\eqref{eq:linear} than the classifier from the target location (a). Indeed, the SVM score is a signed distance from the discriminating hyperplane and is a priori not comparable between different classifiers. This issue is addressed by calibrating scores of the learnt classifiers. The goal of the calibration is to convert the output of each classifier into a probability (or in general a ``universal" score), which can be meaningfully compared across classifiers. 
+   \subsection{The need for calibrating classifier scores}
+   Since the classification scores $s_j$ are learned independently for each location $j$, they cannot be directly used for place recognition as in eq.~\eqref{eq:class}. As illustrated in figure~\ref{fig:calib}, for a given query $q$, a classifier from an incorrect location (b) can have a higher score~\eqref{eq:linear} than the classifier from the target location (a). Indeed, the SVM score is a signed distance from the discriminating hyperplane and is a priori not comparable between different classifiers. This issue is addressed by calibrating scores of the learnt classifiers. The goal of the calibration is to convert the output of each classifier into a probability (or in general a ``universal" score), which can be meaningfully compared across classifiers. 
 
    Several calibration approaches have been proposed in the literature (see~\cite{gebel2007calibrating} and references therein for a review). The most known consists of fitting a logistic regression to the output of the SVM~\cite{Platt99}.  This approach, however, has a major drawback as it imposes a parametric form (the logistic a.k.a.\ sigmoid function) of the likelihood ratio of the two classes, which typically leads to biased estimates of the calibrated scores. Another important calibration method is the isotonic regression~\cite{zadrozny2002transforming}, which allows for a non-parametric estimate of the output probability.
-   Unfortunately, the fact that we have only a single positive example \sout{(or only very few of them, and which are all used for training)} essentially prevents us from using any of these methods. 
+   Unfortunately, the fact that we have only a single positive example
+   (or only very few of them, and which are all used for training)
+    essentially prevents us from using any of these methods. 
+To address these issues, in the following two sections we develop two classifier calibration methods that do not need additional labelled positive examples.
 
-To address these issues, in the following we develop two calibration methods.
+%In the first method (Section~\ref{}) we exploit the the availability of large amounts of negative data, i.e.\ images from other far away locations in the database.
+%In particular, we estimate the significance of the score of a test example compared to the typical score of  the (plentifully available) negative examples. Intuitively, we will use a large dataset of negative examples to calibrate the individual classifiers so that they {\em reject the same number of negative examples} at each level of the calibrated score.   We will expand this idea in detail and use concepts from hypothesis testing to propose a calibration method.
 
-In the first method (Section~\ref{}), given the availability of negative data, it is easy to estimate the significance of the score of a test example compared to the typical score of (plentifully available) negative examples. Intuitively, we will use a large dataset of negative examples to calibrate the individual classifiers so that they {\em reject the same number of negative examples} at each level of the calibrated score.   We will expand this idea in detail and use concepts from hypothesis testing to propose a calibration method.
-
-In the second method (Section~\ref{}), ... 
+%In the second method (Section~\ref{}), ... 
 
 %   However, given the availability of negative data, it is easy to estimate the significance of the score of a test example compared to the typical score of (plentifully available) negative examples. Intuitively, we will use a large dataset of negative examples to calibrate the individual classifiers so that they {\em reject the same number of negative examples} at each level of the calibrated score.
 %   We will expand this idea in detail and use concepts from hypothesis testing to propose a calibration method.
@@ -281,16 +335,15 @@ In the second method (Section~\ref{}), ...
 \label{sec:calibration}
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
 
-
-
-%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   \subsection{Calibration \emph{via} significance levels.}
-%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-
+In this section we describe a classifier calibration method that exploits the availability of large amounts of negative data, i.e.\ images from other far away locations in the database.
+In particular, the method estimates the significance of the score of a test example compared to the typical score of  the (plentifully available) negative examples. Intuitively, we will use a large dataset of negative examples to calibrate the individual classifiers so that they {\em reject the same number of negative examples} at each level of the calibrated score.   We will expand this idea in detail using the concepts from hypothesis testing. % to propose a calibration method.
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   \subsection{Calibration \emph{via} significance levels.}
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
       In the following, we view  the problem of deciding whether a query image matches a given location based on the corresponding SVM score as a hypothesis testing problem. In particular, we appeal to ideas from the traditional frequentist hypothesis testing framework also known as Neyman-Pearson (NP) framework (see e.g.~\cite{casella2001statistical}, chap.~8).
 
       We define the null hypothesis as $H_0=\{$the image is a random image$\}$ and the alternative as $H_1=\{$the image matches the particular location$\}$. The NP framework focuses on the case where the distribution of the data under $H_0$ is well known, whereas the distribution under $H_1$ is not accessible or too complicated to model, which matches perfectly our setting.
-      \textcolor{myGrey}{How about the other NP assumptions? We should ask Guillaume}
+%      \textcolor{myGrey}{How about the other NP assumptions? We should ask Guillaume}
 
       In the NP framework, the \emph{significance level} of a score is measured by the p-value or equivalently by the value of the cumulative density function  (cdf) of the distribution of the negatives at a given score value. The cdf is the function $F_0$ defined by $F_0(s)=\PP(S_0\leq s)$, where $S_0$ is the random variable corresponding to the scores of negative data (see figure~\ref{fig:qntExample} for an illustration of the relation between the cdf and the density of the function). The cdf (or the corresponding p-value\footnote{
       The notion most commonly used in statistics is in fact the p-value. The p-value associated to a score is the quantity $\alpha(s)$ defined by $\alpha(s)=1-F_0(s)$; so the more significant the score is, the closer to $1$ the cdf value is, and the closer to $0$ the p-value is. To keep the presentation simple, we avoid the formulation in terms of p-values and we only talk of the probabilistic calibrated values obtained from the cdf $F_0$.
