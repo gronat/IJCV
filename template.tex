@@ -420,8 +420,7 @@ In particular, the method estimates the significance of the score of a test exam
     
     For each trained place-specific classifier $s_j$ we construct the empirical cumulative density function~\eqref{eq:empiricalCDF} of scores of the negative examples and keep only its top $K$ values. This can be done offline and the procedure is summarized in Algorithm \ref{alg:offline}. 
     %
-    At query time, given a query image descriptor $\vec{q}$, we compute the uncalibrated classification score $s_j(\vec{q})$ and then use
-    the stored cdf values to compute the calibrate score $f_j(\vec{q})$. This procedure is performed for each database image $j$ and is summarized in Algorithm \ref{alg:online}.
+    At query time, given a query image descriptor $\vec{q}$, we compute the uncalibrated classification score $s_j(\vec{q})$ and then use the stored cdf values to compute the calibrate score $f_j(\vec{q})$. This procedure is performed for each database image $j$ and is summarized in Algorithm \ref{alg:online}.
     Finally, the best candidate database image is selected by equation~\eqref{eq:class}. Alternatively, candidate database images can be also ranked according to the calibrated score.
  
 % {\tt TODO: Petre, the algorithms are a bit confusing as you suddently introduce a completely new notation different that is the main text.
@@ -648,7 +647,7 @@ In particular, the method estimates the significance of the score of a test exam
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
-\section{Experiments}
+\section{Experimental setup and implementation details}
 \label{sec:experiments}
 %%%%%%%%%%%%%%%%%%%%%%%
    In this section we provide information about image datasets, image descriptors and experiments that we performed.
