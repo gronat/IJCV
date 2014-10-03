@@ -423,10 +423,10 @@ In particular, the method estimates the significance of the score of a test exam
     At query time, given a query image descriptor $\vec{q}$, we compute the uncalibrated classification score $s_j(\vec{q})$ and then use the stored cdf values to compute the calibrate score $f_j(\vec{q})$. This procedure is performed for each database image $j$ and is summarized in Algorithm \ref{alg:online}.
     Finally, the best candidate database image is selected by equation~\eqref{eq:class}. Alternatively, candidate database images can be also ranked according to the calibrated score.
  
-% {\tt TODO: Petre, the algorithms are a bit confusing as you suddently introduce a completely new notation different that is the main text.
-% Could you please make the notation consistent? I.e. the algorithms should use the s, F, f as in the main text.  Please also include explicitly the equation for interpolation
-% as suggested in the Algorithm 2. As suggested in the algorithm, 
-% } 
+    % {\tt TODO: Petre, the algorithms are a bit confusing as you suddently introduce a completely new notation different that is the main text.
+    % Could you please make the notation consistent? I.e. the algorithms should use the s, F, f as in the main text.  Please also include explicitly the equation for interpolation
+    % as suggested in the Algorithm 2. As suggested in the algorithm, 
+    % } 
  
  
       \begin{algorithm}
@@ -470,58 +470,12 @@ In particular, the method estimates the significance of the score of a test exam
               \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
               $
             \State $f_j(\vec{q})=\hat{F}_0(s_q)$
-         
          \EndFor
          \EndProcedure
          \end{algorithmic}
          \label{alg:online}
       \end{algorithm}
       
-%             \begin{algorithm}
-%         \caption{P-value calibration: online stage}\label{alg:online}
-%         \begin{algorithmic}[1]
-%         \Procedure{calibrating scores}{}
-%         \State $\vec{q} \gets$ query image descriptor
-%         \State $T \gets$ length of the output shortlist
-%         \State $N \gets$ database size
-%         \State $K \gets$ size of the kept cdf tail
-%%         \State $y \gets [0,1,\dots (K-1)]$
-%         \For{$\forall j \in 1 \dots N$} // for each database image
-%            \State $\vec{w} \gets$ learned SVM weight for image $j$
-%            \State $b \gets$ learned SVM bias for image $j$
-%            \State $s \gets \vec{q}^T\vec{w}+b$  // compute uncalibrated classifier score
-%%            \State $x \gets calib_j$
-%            \If{$s>calib_j[1]$}
-%               \State $idx \gets 0$ \hspace{10mm} // score below stored c.d.f. values
-%            \ElsIf{$calib_j[K]>s$}
-%               \State $idx \gets 1$ \hspace{9mm} // score above stored c.d.f. values 
-%            \Else
-%  		\State Find $n$ such that $s_{n} \leq s_q < s_{n+1} $
-%		\State 
-%         $
-%         \hat{F}_0(s_q)\approx 
-%         \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
-%        $\\
-%%            \State $f[j] \gets (N-idx)/N$ \hspace{10mm} // p-value $\in (0..1)$
-%              % \State $idx \gets interpolate(x,y,s)$
-%            \EndIf
-%            
-%         \EndFor
-%         \EndProcedure
-%         \end{algorithmic}
-%         \label{alg:online}
-%      \end{algorithm}
-
-      % For each place, keep $\Ncal$ scores from negative examples~$(s_n)_{1 \leq n \leq \Ncal}$ used for calibration together with the associated cumulative probability values $\hat{F}_0(s_n)$.
-      % Given the score of the query $s_q$:\\
-      % 1.  Find $n$ such that $s_{n} \leq s_q < s_{n+1} $\\
-      % 2.  Compute the interpolated empirical cdf value
-      % \begin{equation}
-      %   \hat{F}_0(s_q)\approx 
-      %   \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
-      %   \label{eq:interp}
-      % \end{equation}
-
    %%%%%%%%%%%%%%%%%%%%%%%
    \subsection{Discussion.}
    %%%%%%%%%%%%%%%%%%%%%%% 
