@@ -745,30 +745,25 @@ As a result  computing and storing the calibration functions becomes feasible fo
 
       For all methods, we implemented a two-stage place recognition approach. Given a query image, the aim of the first stage is to efficiently find a small subset (20) of candidates that are likely to depict the same place as the query image. In the second stage, we search for restricted homographies between candidates and the query image using RANSAC~\cite{Philbin07}. The candidates are finally re-ranked by decreasing number of inliers.
 
-      % \begin{table}[t]
-      %    \begin{center}
-      %       \begin{tabularx}{\linewidth}{l c c}
-      %          \hline
-      %          \rowcolor{lightgray}
-      %          Method \hspace{47pt}      & $\%$ correct          &   $\%$ correct \\
-      %          \rowcolor{lightgray}
-      %                     & {\it init. retrieval} &  {\it with geom. verif.} \\
-      %          \hline \hline
-      %          SVM                          & $00.0$     & $12.7 $      \\
-      %          SVM logistic                 & $03.6$     & $10.3$       \\
-      %          BOW                          & $32.0$     & $53.1$       \\
-      %          Conf. supp.~\cite{Knopp2010} & $36.5$     & $58.1$       \\
-      %          {\bf SVM p-val}              & $\bf 41.9$ & $\bf 60.8$   \\
-      %          \hline
-      %       \end{tabularx}
-      %       \vspace*{-2mm}
-      %       \caption{
-      %       The percentage of correctly localized test queries for which the top-ranked database image is within $20$ meters from the ground truth query position. The proposed method (SVM p-val) outperforms the baseline methods. Results are shown for the initial retrieval (left column) and after re-ranking the top 20 retrieved images using geometric verification. Notice that SVM output without calibration gives $0\%$ of correctly localized queries.
-      %       }
-      %       \label{tab:eval}
-      %    \end{center}
-      %    \vspace*{-6mm}
-      % \end{table}
+      \begin{figure}[t!]
+          \centering
+          \includegraphics[width=1.1\linewidth]{imgs/FVmemory}    
+          \caption{
+              \textbf{Memory complexity analysis.} 
+              The fraction of correctly localized queries at the top 10 retrieved images (y-axis) for different Fisher vector dimensions (x-axis). The learnt descriptors by our method (FV e-SVM) clearly outperform the raw Fisher vector descriptors (FV) for all dimensions. Note that for a certain level of performance (y-axis) the proposed method learns a more memory efficient (lower dimensional, x-axis) descriptor.
+          }
+          \label{fig:memory}
+      \end{figure}
+
+      \begin{figure}[t!]
+          \centering
+          \includegraphics[width=1.1\linewidth]{imgs/plotPitt25k}    
+          \caption{
+              \textbf{Evaluation on Pittsburgh 25k \cite{Gronat13} dataset.} The fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for different Fisher vector dimensions. The learnt descriptors by the proposed method (FV e-SVM) consistently improve over the raw Fisher vector descriptors across the whole range of $K$  and all dimensions.
+          }
+          \label{fig:recall}
+      \end{figure}
+
 
       \input{tableResults01.tex}
 
