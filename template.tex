@@ -541,18 +541,30 @@ In particular, the method estimates the significance of the score of a test exam
       Finally, we should remark that we are not doing here calibration in the same sense of the word as the calibration based on logistic regression (or isotonic regression), since logistic regression estimates a probability of making a correct prediction by assigning a new data to class $1$, while we are estimating how unlikely it would be for a negative example to have such a high score. The calibration with either methods yields ``universal" scores in the sense that they are comparable from one SVM to another, but the calibrated values obtained from logistic regression are not comparable to the values obtained from our approach.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
-\section{Calibration by re-normalization}
+\section{Affine calibration by re-normalizing the classification hyperplane}
+%\section{Calibration by re-normalization }
 \label{sec:calibrationRenorm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
-  The calibration method described above requires to store a non-parametric models of calibration functions for each learned SVM. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost in both offline and online phase. 
+  
+  The non-parametric calibration method described in the previous section has two computational disadvantages, which make it hard to scale-up to very large datasets of 1M+ images.  First, the method requires storing the non-parametric model of the calibration function for each learned classifier. This has memory complexity 
+  of $O(NK)$, where $N$ is the number of images in the database and $K$ the number of stored elements of the non-parametric model. For typical values of $K=1000$
+  and $N=1M$ this would require additional 40GB of memory, comparable or bigger than the size of the inverted index itself. Second, computing the cumulative density function requires applying all $N$ learnt classifiers to the entire set of negative examples, which has also size $N$. As a result computing the cdf has complexity $O(N^2)$, which becomes quickly infeasible already for datasets with $N$ larger than $100,000$. 
+  
+To address these issues we first describe an affine calibration model that approximates the tail of the cdf with a simple linear function defined by only two parameters: its slope and and offset, greatly reducing the required storage.
+%This greatly reduces the storage requirements and makes storing the calibration functions feasible for very large datasets.
+Second, we show that the parameters of the affine calibration function can be obtained by re-normalizing the learnt classification hyper-plane without applying the classifiers on the negative data and thus bringing down the computational complexity to $O(N)$.
+As a result  computing and storing the calibration functions becomes feasible for very large (1M+) datasets.
+%This greatly reduces the storage and computational requirements and makes computing and storing the calibration functions feasible for very large (1M+) datasets.
 
-  If $K$ is a fraction of values of the empirical cumulative density function that is kept for each SVM, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a database of size $N$. Typically we keep $K=1,000$ values for each c.d.f. for the database size of $N=50,000$. This requires additional $\sim 200$MB. For lager datasets this may be a key limitation. At query time, given the raw SVM score, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} for each database image in turn. This operation requires additional computational time.
-  %This yields a computational complexity of $O(N \log{K})$.
-  To construct a calibration function at offline phase $N$ SVM scores must be sorted for each database image in turn. When the merge sort is used the total complexity for entire database of the c.d.f. construction is $O(N^2 \log{N})$. This makes the calibration method hard to scale up.
+%The calibration method described above requires storing a non-parametric model of the calibration function for each learned classifier. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost in both offline and online phase. 
+%
+%  If $K$ is a fraction of values of the empirical cumulative density function that is kept for each SVM, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a database of size $N$. Typically we keep $K=1,000$ values for each c.d.f. for the database size of $N=50,000$. This requires additional $\sim 200$MB. For lager datasets this may be a key limitation. At query time, given the raw SVM score, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} for each database image in turn. This operation requires additional computational time.
+%  %This yields a computational complexity of $O(N \log{K})$.
+%  To construct a calibration function at offline phase $N$ SVM scores must be sorted for each database image in turn. When the merge sort is used the total complexity for entire database of the c.d.f. construction is $O(N^2 \log{N})$. This makes the calibration method hard to scale up.
+%
+%  In this section we, first, simplify the calibration by approximating the cumulative density function by an affine function and show that nor additional memory nor computational cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline complexity to $O(N)$.
 
-  In this section we, first, simplify the calibration by approximating the cumulative density function by an affine function and show that nor additional memory nor computational cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline complexity to $O(N)$.
-
-   \subsection{Affine approximation}
+   \subsection{Affine calibration model}
      The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation at query time. This can be eliminated by simplification of the calibration model. Each calibration function can be approximated by an affine line such that calibration function can be written as follows
      \begin{equation}
        f_j(\vec{q}) = c_j s_j(\vec{q}) + d_j
