@@ -441,6 +441,7 @@ In particular, the method estimates the significance of the score of a test exam
             \State $\vec{w} \gets$ learned SVM weight for image $j$
             \State $b \gets$ learned SVM bias for image $j$
             \State $\vec{\sigma} \gets \vec{w}^T \mathcal{X}+b$
+            \State {\em Compute the cdf:}  % $\vec{s_j}, \hat{F}_{0j}$ }
             \State $\vec{s_j} \gets$ sorted $\vec{\sigma}$ in descending order
             \State $\hat{F}_{0j} \gets [N_c \dots 0]/N_c$
          \EndFor
@@ -459,17 +460,19 @@ In particular, the method estimates the significance of the score of a test exam
          \For{$\forall j \in 1 \dots N$} // for each database image
             \State $\vec{w} \gets$ learned SVM weight for image $j$
             \State $b \gets$ learned SVM bias for image $j$
-            \State $\hat{F}_{0} \gets \hat{F}_{0j}$
-            \State $\vec{s} \gets \vec{s_j}$
-            \State $s_q \gets \vec{q}^T\vec{w}+b$  // compute uncalibrated classifier score
-		        \State $\hat{F}_0 \gets \hat{F}_{0j}$
-            \State $n \gets n: \quad \forall k>n,\;s_n>s_k$
+            \State $\hat{F}_{0} \gets \hat{F}_{0j}$ // Empirical cdf
+            \State $\vec{s} \gets \vec{s_j}$ // Corresponding sorted scores
+            \State $s_q \gets \vec{q}^T\vec{w}+b$  // compute uncalibrated classifier score 
+%		        \State $\hat{F}_0 \gets \hat{F}_{0j}$
+             \State Find $n$ such that $s_{n} \leq s_q < s_{n+1} $
+             \State Compute the interpolated empirical cdf value:
+%            \State $n \gets n: \quad \forall k>n,\;s_n>s_k$
             \State 
               $
               \hat{F}_0(s_q)\approx 
               \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
               $
-            \State $f_j(\vec{q})=\hat{F}_0(s_q)$
+            \State $f_j(\vec{q})=\hat{F}_0(s_q)$ // output the calibrated score
          
          \EndFor
          \EndProcedure
