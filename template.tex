@@ -604,28 +604,52 @@ In particular, the method estimates the significance of the score of a test exam
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    \subsection{Implementation details.}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      All images are described using the bag-of-visual-words representation~\cite{Sivic2003}. First, SURF~\cite{Bay06} 
-      %or rootSIFT~\cite{Arandjelovic12} 
-      descriptors are extracted. Second, a vocabulary of 100k visual words is learnt by approximate k-means clustering~\cite{Philbin07} from a subset of features from 2,000 randomly selected images. Third, a tf-idf vector is computed for each image by assigning each descriptor to the nearest cluster center.  Finally, all tf-idf vectors are normalized to have unit $L_2$ norm.
+        %%%%%%%%%%%%%%%%%%%%%%%%%%
+       \paragraph{Image datasets.}
+       %%%%%%%%%%%%%%%%%%%%%%%%%%
+        We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles, namely $4^\circ$ and $28^\circ$, to capture both the street-level scene and the building fa\c{c}ades, resulting in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate one dataset containing $25k$ images and the second one containing $55k$ images.
 
-      To learn the classifier for database image $j$, the positive and negative training data
-      is constructed as follows. 
-      The \emph{negative training set} $N_j$ is obtained by: (i) finding the set of images with geographical distance greater than $200{\rm m}$; (ii)  sorting the images by decreasing value of similarity to image $j$ measured by the dot product between their respective tf-idf vectors; (iii) taking the top $N=200$ ranked images as the negative set. 
-      In other words, the negative training data consists of the hard negative images, i.e.\ those that are very similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content.
+        As a query set with known ground truth GPS positions, we use the 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions. We generate a test query set such that we , first, select a panorama at random and, second, we generate a perspective image with random orientation and random elevation pitch. 
 
-      The \emph{positive training set} $P_j$ initially consist of the image $j$ itself and can be expanded by:  (i) finding the adjacent images (e.g. images located within~$<20m$ of image $j$), (ii) identifying adjacent images with the same visual content using geometric verification, and (iii) adding these verified images to the positive set $P_j$.
 
-      For SVM training we use {\tt libsvm} \cite{libsvm}. We set the value of the regularization parameters to $C_1=1 \cdot n_P$ for positive data and $C_2=10^{-3} \cdot n_N$ for negative data where $n_P$ and $n_N$ denote the number of examples in the positive and the negative set, respectively. These parameters were found by cross-validation and work well on various datasets. 
+      %%%%%%%%%%%%%%%%%%%%%%%%%%
+       \paragraph{Image descriptors}
+       %%%%%%%%%%%%%%%%%%%%%%%%%%
+        We first extract rootSIFT descriptors~\cite{Arandjelovic12} for each image. On top od rootSIFT descriptors we build two different image representations, a bag-of-words and Fisher vectors representation.
 
-      The calibration with significance levels is done for each classifier in turn as follows: (i) given image $j$ and learnt SVM we construct a set of images consisting of the whole database without the positive set $P_j$; (ii) for this image set, SVM scores are computed; (iii) empirical cdf $\hat{F}_0$ is estimated from sorted SVM scores.
+        For Fisher vectors we follow~\cite{Jegou12} and we project the 128-dimensional SIFT descriptors to 64 dimensions using PCA. The projection matrix is learnt on a set of descriptors from 5,000 randomly selected database images. This has also the effect of decorrelating the SIFT descriptor. The 64-dimensional SIFT descriptors are then aggregated into Fisher vectors using a Gaussian mixture model with $N=256$ components, which results in a $2\times256\times64 = 32,768$-dimensional descriptor for each image.  
+      
+        The Gaussian mixture model is learnt from descriptors extracted from 5,000 randomly sampled database images. The  high-dimensional Fisher vector descriptors are then projected down to dimension $d\in\{128,512, 2048\}$ using PCA learnt from all available images in the database. The resulting low dimensional Fisher vectors are then re-normalized to have unit L2-norm, which we found to be important in practice.
 
-      To use a reasonable amount of memory, for each classifier, we store only the first 1000 largest negative scores (the number of negative scores stored could be reduced further using interpolation).
-   %%%%%%%%%%%%%%%%%%%%%%%%%%
-   \paragraph{Image dataset.}
-   %%%%%%%%%%%%%%%%%%%%%%%%%%
-      We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles to capture both the street-level scene and the building fa\c{c}ades, resulting in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. This dataset contains 25,000 perspective images.
+        For bag-of-word representation we learn a vocabulary of $100$k visual words by approximate k-means clustering~\cite{Philbin07} from a subset of features from $5,000$ randomly selected images. Then, a tf-idf vector is computed for each image by assigning each descriptor to the nearest cluster center.  Finally, all tf-idf vectors are normalized to have unit $L_2$ norm.
 
-      As a query set with known ground truth GPS positions, we use the 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions. For each test panorama, we generate perspective images as described above. Finally, we randomly select out of all generated perspective views a subset of 4k images, which is used as a test set to evaluate the performance of the proposed approach.
+      \paragraph{Learning parameters and training data.}
+        To learn the exemplar support vector machine for each database image $j$, the positive and negative training data are constructed as follows. 
+        The \emph{negative training set} $\mathcal N_j$ is obtained by: (i) finding the set of images with geographical distance greater than $200{\rm m}$; (ii)  sorting the images by decreasing value of similarity to image $j$ measured by the dot product between their respective Fisher vectors; (iii) taking the top $N=500$ ranked images as the negative set. 
+        In other words, the negative training data consists of the hard negative images, i.e. those that are similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content. The \emph{positive training set} $\mathcal P_j$
+         consist of the original Fisher vector $\Phi_j$ of the image $j$.
+        For the SVM training we use {\tt libsvm} \cite{libsvm}. % with $L2$ regularizer. % and squared hinge loss penalty function $h(x)$ from equation \eqref{
+         We use the same $C_1$ and $C_2$ parameters for all per-exemplar classifiers, but find the optimal value of the parameters for each dimensionality of the Fisher vector by a grid search evaluating performance on a held out set.
+         We observe that for different Fisher vector target dimensions the optimal value of parameter $C_1$ is quite stable (typically $C_1=1$) while the optimal parameter for $C_2$ varies between $10^{-6}$ to $10^{-1}$.
+        To learn the new image representation for each database image $j$ we: (i) learn SVM from $\mathcal P_j$ and $N_j$ (see above); (ii) $L2$ normalize the learned $w_j$ using equation~\eqref{eq:normalization}; and (iii) use this re-normalized vector as the new image descriptor $\Psi_j$ for image $j$. At query time we compute the Fisher vector $\Phi_q$ of the query image and measure its similarity score to the learnt descriptors $\Psi_j$ for each database image by equation~\eqref{eq:class}.
+
+      % All images are described using the bag-of-visual-words representation~\cite{Sivic2003}. First, SURF~\cite{Bay06} 
+      % %or rootSIFT~\cite{Arandjelovic12} 
+      % descriptors are extracted. Second, a vocabulary of 100k visual words is learnt by approximate k-means clustering~\cite{Philbin07} from a subset of features from 2,000 randomly selected images. Third, a tf-idf vector is computed for each image by assigning each descriptor to the nearest cluster center.  Finally, all tf-idf vectors are normalized to have unit $L_2$ norm.
+
+      % To learn the classifier for database image $j$, the positive and negative training data
+      % is constructed as follows. 
+      % The \emph{negative training set} $N_j$ is obtained by: (i) finding the set of images with geographical distance greater than $200{\rm m}$; (ii)  sorting the images by decreasing value of similarity to image $j$ measured by the dot product between their respective tf-idf vectors; (iii) taking the top $N=200$ ranked images as the negative set. 
+      % In other words, the negative training data consists of the hard negative images, i.e.\ those that are very similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content.
+
+      % The \emph{positive training set} $P_j$ initially consist of the image $j$ itself and can be expanded by:  (i) finding the adjacent images (e.g. images located within~$<20m$ of image $j$), (ii) identifying adjacent images with the same visual content using geometric verification, and (iii) adding these verified images to the positive set $P_j$.
+
+      % For SVM training we use {\tt libsvm} \cite{libsvm}. We set the value of the regularization parameters to $C_1=1 \cdot n_P$ for positive data and $C_2=10^{-3} \cdot n_N$ for negative data where $n_P$ and $n_N$ denote the number of examples in the positive and the negative set, respectively. These parameters were found by cross-validation and work well on various datasets. 
+
+      % The calibration with significance levels is done for each classifier in turn as follows: (i) given image $j$ and learnt SVM we construct a set of images consisting of the whole database without the positive set $P_j$; (ii) for this image set, SVM scores are computed; (iii) empirical cdf $\hat{F}_0$ is estimated from sorted SVM scores.
+
+      % To use a reasonable amount of memory, for each classifier, we store only the first 1000 largest negative scores (the number of negative scores stored could be reduced further using interpolation).
+
 
    %%%%%%%%%%%%%%%%%%%%
    \subsection{Results}
