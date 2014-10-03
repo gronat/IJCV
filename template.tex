@@ -563,12 +563,15 @@ As a result  computing and storing the calibration functions becomes feasible fo
 %  In this section we, first, simplify the calibration by approximating the cumulative density function by an affine function and show that nor additional memory nor computational cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline complexity to $O(N)$.
 
    \subsection{Affine calibration model}
-     The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation at query time. This can be eliminated by simplification of the calibration model. Each calibration function can be approximated by an affine line such that calibration function can be written as follows
+   In the affine calibration mode we transform the uncalibrated score with a linear function 
+%     The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation at query time. This can be eliminated by simplification of the calibration model. Each calibration function can be approximated by an affine line such that calibration function can be written as follows
      \begin{equation}
-       f_j(\vec{q}) = c_j s_j(\vec{q}) + d_j
+       f_j(\vec{q}) = c_j s_j(\vec{q}) + d_j,
        \label{eq:affine}
      \end{equation}
-
+	where $s_j(\vec{q})$ is the uncalibrated score for query $\vec{q}$ , $ f_j(\vec{q})$ is the output calibrated score, and
+	$c_j$ and $d_j$ are scalar parameters of the calibration function, specific to each classifier $j$.
+	
      \noindent
      Substituting for $s_j(\vec{q})$ from equation \eqref{eq:linear} into the equation above we get
      \begin{align}
