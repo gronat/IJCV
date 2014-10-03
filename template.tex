@@ -464,14 +464,12 @@ In particular, the method estimates the significance of the score of a test exam
             \State $\vec{s} \gets \vec{s_j}$ // Corresponding sorted scores
             \State $s_q \gets \vec{q}^T\vec{w}+b$  // compute uncalibrated classifier score 
 %		        \State $\hat{F}_0 \gets \hat{F}_{0j}$
-             \State Find $n$ such that $s_{n} \leq s_q < s_{n+1} $
-             \State Compute the interpolated empirical cdf value:
-%            \State $n \gets n: \quad \forall k>n,\;s_n>s_k$
-            \State 
-              $
+            \State Find $n$ such that $s_{n} \leq s_q < s_{n+1} $
+            \State Compute the interpolated empirical cdf value:
+            \Statex $\hspace{9mm}
               \hat{F}_0(s_q)\approx 
               \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
-              $
+            $
             \State $f_j(\vec{q})=\hat{F}_0(s_q)$ // output the calibrated score
          
          \EndFor
