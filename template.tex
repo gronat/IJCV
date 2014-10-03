@@ -600,30 +600,32 @@ In particular, the method estimates the significance of the score of a test exam
 \section{Experiments}
 \label{sec:experiments}
 %%%%%%%%%%%%%%%%%%%%%%%
-   In this section we first give implementation details, then describe the experimental datasets and finally compare performance of the proposed approach with several baseline methods.
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   \subsection{Implementation details.}
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   In this section we provide information about image datasets, image descriptors and experiments that we performed.
+   %In this section we first give implementation details, then describe the experimental datasets and finally compare performance of the proposed approach with several baseline methods.
         %%%%%%%%%%%%%%%%%%%%%%%%%%
-       \paragraph{Image datasets.}
-       %%%%%%%%%%%%%%%%%%%%%%%%%%
+        \subsection{Image datasets}
+        %%%%%%%%%%%%%%%%%%%%%%%%%%
+        \paragraph{Database.}
         We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles, namely $4^\circ$ and $28^\circ$, to capture both the street-level scene and the building fa\c{c}ades, resulting in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate one dataset containing $25k$ images and the second one containing $55k$ images.
 
+        \paragraph{Query set.}
         As a query set with known ground truth GPS positions, we use the 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions. We generate a test query set such that we , first, select a panorama at random and, second, we generate a perspective image with random orientation and random elevation pitch. 
 
 
       %%%%%%%%%%%%%%%%%%%%%%%%%%
-       \paragraph{Image descriptors}
+       \subsection{Image descriptors}
        %%%%%%%%%%%%%%%%%%%%%%%%%%
         We first extract rootSIFT descriptors~\cite{Arandjelovic12} for each image. On top od rootSIFT descriptors we build two different image representations, a bag-of-words and Fisher vectors representation.
 
-        For Fisher vectors we follow~\cite{Jegou12} and we project the 128-dimensional SIFT descriptors to 64 dimensions using PCA. The projection matrix is learnt on a set of descriptors from 5,000 randomly selected database images. This has also the effect of decorrelating the SIFT descriptor. The 64-dimensional SIFT descriptors are then aggregated into Fisher vectors using a Gaussian mixture model with $N=256$ components, which results in a $2\times256\times64 = 32,768$-dimensional descriptor for each image.  
+        \paragraph{Fisher vectors}
+        Following~\cite{Jegou12} we project the 128-dimensional SIFT descriptors to 64 dimensions using PCA. The projection matrix is learnt on a set of descriptors from 5,000 randomly selected database images. This has also the effect of decorrelating the SIFT descriptor. The 64-dimensional SIFT descriptors are then aggregated into Fisher vectors using a Gaussian mixture model with $N=256$ components, which results in a $2\times256\times64 = 32,768$-dimensional descriptor for each image.  
       
         The Gaussian mixture model is learnt from descriptors extracted from 5,000 randomly sampled database images. The  high-dimensional Fisher vector descriptors are then projected down to dimension $d\in\{128,512, 2048\}$ using PCA learnt from all available images in the database. The resulting low dimensional Fisher vectors are then re-normalized to have unit L2-norm, which we found to be important in practice.
 
+        \paragraph{Bag-of-words}
         For bag-of-word representation we learn a vocabulary of $100$k visual words by approximate k-means clustering~\cite{Philbin07} from a subset of features from $5,000$ randomly selected images. Then, a tf-idf vector is computed for each image by assigning each descriptor to the nearest cluster center.  Finally, all tf-idf vectors are normalized to have unit $L_2$ norm.
 
-      \paragraph{Learning parameters and training data.}
+      \subsection{Learning parameters and training data.}
         To learn the exemplar support vector machine for each database image $j$, the positive and negative training data are constructed as follows. 
         The \emph{negative training set} $\mathcal N_j$ is obtained by: (i) finding the set of images with geographical distance greater than $200{\rm m}$; (ii)  sorting the images by decreasing value of similarity to image $j$ measured by the dot product between their respective Fisher vectors; (iii) taking the top $N=500$ ranked images as the negative set. 
         In other words, the negative training data consists of the hard negative images, i.e. those that are similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content. The \emph{positive training set} $\mathcal P_j$
@@ -652,7 +654,7 @@ In particular, the method estimates the significance of the score of a test exam
 
 
    %%%%%%%%%%%%%%%%%%%%
-   \subsection{Results}
+   \section{Results}
    %%%%%%%%%%%%%%%%%%%%
       We compare the performance of the proposed approach (SVM p-val) with the following baseline methods: (a) Training per-location classifiers without any calibration step (SVM). (b) Calibrating per-location classifiers using the standard logistic regression\footnote
          {
