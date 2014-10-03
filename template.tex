@@ -561,38 +561,56 @@ As a result  computing and storing the calibration functions becomes feasible fo
 %  In this section we, first, simplify the calibration by approximating the cumulative density function by an affine function and show that nor additional memory nor computational cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline complexity to $O(N)$.
 
    \subsection{Affine calibration model}
-     The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation at query time. This can be eliminated by simplification of the calibration model. Each calibration function can be approximated by an affine line such that calibration function can be written as follows
+   In the affine calibration mode we transform the uncalibrated score with a linear function 
+%     The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation at query time. This can be eliminated by simplification of the calibration model. Each calibration function can be approximated by an affine line such that calibration function can be written as follows
      \begin{equation}
-       f_j(\vec{q}) = c_j s_j(\vec{q}) + d_j
+       f_j(\vec{q}) = c_j s_j(\vec{q}) + d_j,
        \label{eq:affine}
      \end{equation}
-
-     \noindent
-     Substituting for $s_j(\vec{q})$ from equation \eqref{eq:linear} into the equation above we get
+	where $s_j(\vec{q})$ is the uncalibrated score for query $\vec{q}$ , $ f_j(\vec{q})$ is the output calibrated score, and
+	$c_j$ and $d_j$ are scalar parameters of the calibration function, specific to each classifier $j$.
+	In this work we use linear classifiers, hence substituting for $s_j(\vec{q})$ the linear classifier \eqref{eq:linear} results also in a linear function
      \begin{align}
-        \nonumber
+%        \nonumber
          f_j(\vec{q}) = c_j\vec{w}_j^T \vec{q}+ (c_j b_j+d_j)
         %\label{eq:affine2}
     \end{align}
-
-    Notice that this can be further rewritten as a new affine function as follows
+    that can be further simplified to
     \begin{align}
-      \nonumber
+%      \nonumber
         f_j(\vec{q}) = (c_j\vec{w}_j)^T \vec{q} + \beta_j
         %\label{eq:affiine3}
      \end{align}
+    where $\beta_j=c_j b_j+d_j$.
+%    While we have greatly reduced the storage complexity of the calibration to only two parameters.
+%          The parameters $c_j$, $\beta_j$ in equation \eqref{eq:affine} represent an affine approximation the calibration function. 
+%          Selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
 
-    \noindent
-    where $\beta_j=c_j b_j+d_j$, which can be further written as a  dot product
-    \begin{equation}
-      f_j(\vec{q}) = \vec{\widetilde{q}}^T \vec{\widetilde{w}}_j
-      \label{eq:affiine3}
-    \end{equation}
-     
-     \noindent
-     where $\vec{\tilde{q}_j}=[\vec{q}_j^T 1]^T$ and $\vec{\widetilde{w}}_j = [\vec{w}_j^T \beta_j]^T$. The original score calibration requires expensive searching of nearest calibration values which yields complexity of $O(N \log{K} )$ at query time. Notice that the vector $\vec{\tilde{w}_j}$, consisting of scaled SVM weight and unity, can be computed offline. Therefore no additional memory storage or computational cost is required at query time and calibration. Since computing the raw SVM scores is $O(N)$ and $K$ is typically $1,000$ the online phase can be sped up by factor of $\log{K}\sim 10$.
-
-      The parameters $c_j$, $d_j$ in equation \eqref{eq:affine} represent an affine approximation the calibration function. Selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
+    	
+%     \noindent
+%     Substituting for $s_j(\vec{q})$ from equation \eqref{eq:linear} into the equation above we get
+%     \begin{align}
+%        \nonumber
+%         f_j(\vec{q}) = c_j\vec{w}_j^T \vec{q}+ (c_j b_j+d_j)
+%        %\label{eq:affine2}
+%    \end{align}
+%
+%    Notice that this can be further rewritten as a new affine function as follows
+%    \begin{align}
+%      \nonumber
+%        f_j(\vec{q}) = (c_j\vec{w}_j)^T \vec{q} + \beta_j
+%        %\label{eq:affiine3}
+%     \end{align}
+%
+%    \noindent
+%    where $\beta_j=c_j b_j+d_j$, which can be further written as a  dot product
+%    \begin{equation}
+%      f_j(\vec{q}) = \vec{\widetilde{q}}^T \vec{\widetilde{w}}_j
+%      \label{eq:affiine3}
+%    \end{equation}    
+%     \noindent
+%     where $\vec{\tilde{q}_j}=[\vec{q}_j^T 1]^T$ and $\vec{\widetilde{w}}_j = [\vec{w}_j^T \beta_j]^T$. The original score calibration requires expensive searching of nearest calibration values which yields complexity of $O(N \log{K} )$ at query time. Notice that the vector $\vec{\tilde{w}_j}$, consisting of scaled SVM weight and unity, can be computed offline. Therefore no additional memory storage or computational cost is required at query time and calibration. Since computing the raw SVM scores is $O(N)$ and $K$ is typically $1,000$ the online phase can be sped up by factor of $\log{K}\sim 10$.
+%      The parameters $c_j$, $d_j$ in equation \eqref{eq:affine} represent an affine approximation the calibration function. Selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
 
    \subsection{Calibration by re-scaling}
 
