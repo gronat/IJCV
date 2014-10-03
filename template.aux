@@ -57,6 +57,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {4}Non-parametric calibration of the SVM-scores from negative examples only}{4}}
 \newlabel{sec:calibration}{{4}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Calibration \emph  {via} significance levels.}{4}}
+\newlabel{eq:empiricalCDF}{{4}{4}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:subfig1}{{2(a)}{4}}
 \newlabel{sub@fig:subfig1}{{(a)}{4}}
@@ -66,7 +67,6 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{4}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Summary of the calibration procedure.}{4}}
-\newlabel{eq:interp}{{4}{4}}
 \citation{Scheirer12}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces A figure showing the relation between (a) the probability density of the random variable $S_0$ modeling the scores of the negative examples and (b) the corresponding cumulative density function $F_0(s)=\mathbb  {P}(S_0 \leq s)$. \relax }}{5}}
 \newlabel{fig:qntExample}{{3}{5}}
@@ -74,8 +74,10 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{5}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces OFFLINE\relax }}{5}}
 \newlabel{alg:offline}{{1}{5}}
+\newlabel{alg:onffline}{{1}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Discussion.}{5}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces ONLINE\relax }}{5}}
+\newlabel{alg:online}{{2}{5}}
 \newlabel{alg:online}{{2}{5}}
 \citation{}
 \citation{}
@@ -117,41 +119,47 @@
 \@writefile{toc}{\contentsline {section}{\numberline {8}Conclusions}{8}}
 \bibstyle{spmpsci}
 \bibdata{shortstrings,vggroup,cvww_template,mybib}
-\bibcite{Bay06}{1}
-\bibcite{casella2001statistical}{2}
-\bibcite{Chen11}{3}
-\bibcite{Chum11}{4}
-\bibcite{Chum07b}{5}
+\bibcite{Agarwal-ICCV-2009}{1}
+\bibcite{Bay06}{2}
+\bibcite{Cao13}{3}
+\bibcite{casella2001statistical}{4}
+\bibcite{Chen11}{5}
 \bibcite{Csurka04}{6}
 \bibcite{Cummins09}{7}
-\bibcite{libsvm}{8}
-\bibcite{gebel2007calibrating}{9}
-\bibcite{Irschara2009}{10}
-\bibcite{Jegou2011}{11}
-\bibcite{Jegou12}{12}
-\bibcite{Knopp2010}{13}
-\bibcite{Li09}{14}
-\bibcite{Li10}{15}
-\bibcite{Li12}{16}
-\bibcite{Lowe04}{17}
-\bibcite{Malisiewicz11}{18}
-\bibcite{Mikulik2010}{19}
-\bibcite{Nister06}{20}
-\bibcite{Philbin07}{21}
-\bibcite{Philbin08}{22}
-\bibcite{Philbin10b}{23}
-\bibcite{Philbin10c}{24}
-\bibcite{Platt99}{25}
+\bibcite{Doersch12}{8}
+\bibcite{libsvm}{9}
+\bibcite{gebel2007calibrating}{10}
+\bibcite{Gronat13}{11}
+\bibcite{Irschara2009}{12}
+\bibcite{Jegou12}{13}
+\bibcite{Klinger13}{14}
+\bibcite{Knopp2010}{15}
+\bibcite{Li09}{16}
+\bibcite{Li10}{17}
+\bibcite{Li12}{18}
+\bibcite{Lowe04}{19}
+\bibcite{Malisiewicz11}{20}
+\bibcite{Nister06}{21}
+\bibcite{Philbin07}{22}
+\bibcite{Philbin10c}{23}
+\bibcite{Platt99}{24}
+\bibcite{Sattler12}{25}
 \bibcite{Scheirer12}{26}
 \bibcite{Schindler07}{27}
-\bibcite{Sivic2003}{28}
-\bibcite{Torii11}{29}
-\bibcite{Turcot09}{30}
-\bibcite{zadrozny2002transforming}{31}
-\bibcite{Zamir10}{32}
+\bibcite{Shrivastava11}{28}
+\bibcite{Simonyan2013}{29}
+\bibcite{Singh12}{30}
+\bibcite{Sivic2003}{31}
+\bibcite{Sivic03}{32}
+\bibcite{Tighe13}{33}
+\bibcite{Torii11}{34}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces  \leavevmode {\color  {myRed}} The fraction of correctly recognized queries (recall@K) vs. the number of top $K\in \{1,2,5,10,20\}$ retrieved database images for different Fisher vector dimensions $d\in \{128,512,2048\}$. The learnt descriptors by the proposed method (FV e-SVM) consistently improve over the raw Fisher vector descriptors across the whole range of $K$ and all dimensions on both the 25k and 55k Pittsburgh image datasets. \relax }}{9}}
 \newlabel{tab:recall}{{1}{9}}
+\bibcite{Torii2013}{35}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  {\bf  Examples of query images (gray) correctly (green) and incorrectly (red) localized by different methods.} \tmspace  +\thickmuskip {.2777em}(a) query image. \tmspace  +\thickmuskip {.2777em}(b) the top-ranked image retrieved by per-location classifiers (proposed method). \tmspace  +\thickmuskip {.2777em}(c) the top-ranked image retrieved by the baseline confuser suppression method\nobreakspace  {}\cite  {Knopp2010}. \tmspace  +\thickmuskip {.2777em}(d) the top-ranked image retrieved by the baseline bag-of-visual-words method. Bottom two rows: the proposed method is sometimes confused by high-scoring similar repeated texture patterns on facades. \relax }}{10}}
 \newlabel{fig:demo1}{{4}{10}}
+\bibcite{Turcot09}{36}
+\bibcite{zadrozny2002transforming}{37}
+\bibcite{Zamir10}{38}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  {\bf  A visualization of learnt feature wights for two database images. In each panel:} \emph  {first\nobreakspace  {}row:} (Right) Target database image $j$. (Left) Cumulative density function (or calibrated score) learnt for the SVM scores of the corresponding classifier $f_j$; three query images displayed on the \emph  {second row} are represented by their SVM scores and cdf values $F_0(s)$, denoted (a)-(c) on the graph. \emph  {Third\nobreakspace  {}row:} A visualization of the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score. \par Notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a). {\it  Left panel:} Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place. {\it  Right panel:} Query (b) is in fact also an image of the same location with a portion of the left skyscraper in the target image detected in the upper left corner and the side of the rightmost building in the target image detected in the top right corner. Both are clearly detected by the method as indicated by a large quantity of green circles in the corresponding regions. \relax }}{11}}
 \newlabel{fig:3qVSw}{{5}{11}}

@@ -360,11 +360,19 @@ In particular, the method estimates the significance of the score of a test exam
       We define the null hypothesis as $H_0=\{$the image is a random image$\}$ and the alternative as $H_1=\{$the image matches the particular location$\}$. The NP framework focuses on the case where the distribution of the data under $H_0$ is well known, whereas the distribution under $H_1$ is not accessible or too complicated to model, which matches perfectly our setting.
 %      \textcolor{myGrey}{How about the other NP assumptions? We should ask Guillaume}
 
-      In the NP framework, the \emph{significance level} of a score is measured by the p-value or equivalently by the value of the cumulative density function  (cdf) of the distribution of the negatives at a given score value. The cdf is the function $F_0$ defined by $F_0(s)=\PP(S_0\leq s)$, where $S_0$ is the random variable corresponding to the scores of negative data (see figure~\ref{fig:qntExample} for an illustration of the relation between the cdf and the density of the function). The cdf (or the corresponding p-value\footnote{
-      The notion most commonly used in statistics is in fact the p-value. The p-value associated to a score is the quantity $\alpha(s)$ defined by $\alpha(s)=1-F_0(s)$; so the more significant the score is, the closer to $1$ the cdf value is, and the closer to $0$ the p-value is. To keep the presentation simple, we avoid the formulation in terms of p-values and we only talk of the probabilistic calibrated values obtained from the cdf $F_0$.
-       })
-        is naturally estimated by the empirical cumulative density function $\hat{F}_0$, which is computed as: 
-      $$\hat{F}_0(s)=\frac{1}{\Ncal} \sum_{n=1}^{\Ncal} 1_{\{s_n \leq s\}},$$
+      In the NP framework, the \emph{significance level} of a score is measured by the p-value or equivalently by the value of the cumulative density function  (cdf) of the distribution of the negatives at a given score value. The cdf is the function $F_0$ defined by $F_0(s)=\PP(S_0\leq s)$, where $S_0$ is the random variable corresponding to the scores of negative data (see figure~\ref{fig:qntExample} for an illustration of the relation between the cdf and the density of the function). The cdf (
+      or the corresponding p-value\footnote{
+        The notion most commonly used in statistics is in fact the p-value. The p-value associated to a score is the quantity $\alpha(s)$ defined by $\alpha(s)=1-F_0(s)$; so the more significant the score is, the closer to $1$ the cdf value is, and the closer to $0$ the p-value is. To keep the presentation simple, we avoid the formulation in terms of p-values and we only talk of the probabilistic calibrated values obtained from the cdf $F_0$.
+       }
+       )
+      is naturally estimated by the empirical cumulative density function $\hat{F}_0$, which is computed as: 
+      
+      \begin{equation}
+        \hat{F}_0(s)=\frac{1}{\Ncal} \sum_{n=1}^{\Ncal} 1_{\{s_n \leq s\}},
+        \label{eq:empiricalCDF}
+      \end{equation}
+
+      \noindent
       where $(s_n)_{1\leq n \leq \Ncal }$ are the SVM scores associated with $\Ncal$ negative examples used for calibration.
       $\hat{F}_0(s)$ is the fraction of the negative examples used for calibration (ideally held out negative examples) that have a score below a given value $s$.
       Computing $\hat{F}_0$ exactly would require to store all the SVM scores for all the calibration data for all classifiers, so in practice, we only keep a fraction of the larger scores.
@@ -406,6 +414,7 @@ In particular, the method estimates the significance of the score of a test exam
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    \subsection{Summary of the calibration procedure.}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    For each place we construct empirical cumulative density function \eqref{eq:empiricalCDF} and keep $K$ scores from negative examples. This is summarized in Algorithm \ref{alg:offline}. At query time, we first compute the SVM score with database image and then use the stored c.f.d. values to compute calibrated score $f_j(\vec{q})$. This procedure is done for each database image $j$ in turn and is summarized in Algorithm \ref{alg:online}. Finally, the database images are ranked w.r.t. calibrated values or the best candidate is selected by equation \eqref{eq:class}. 
 
       \begin{algorithm}
          \caption{OFFLINE}\label{alg:offline}
@@ -423,6 +432,7 @@ In particular, the method estimates the significance of the score of a test exam
          \EndFor
          \EndProcedure
          \end{algorithmic}
+         \label{alg:onffline}
       \end{algorithm}
 
        \begin{algorithm}
@@ -440,29 +450,29 @@ In particular, the method estimates the significance of the score of a test exam
             \State $s \gets q^Tw+b$
             \State $x \gets calib_j$
             \If{$s>calib_j[1]$}
-               \State $idx \gets 0$ \hspace{10mm} //\text{ score below stored c.d.f. values}
+               \State $idx \gets 0$ \hspace{10mm} // score below stored c.d.f. values
             \ElsIf{$calib_j[K]>s$}
-               \State $idx \gets N$ \hspace{9mm} //\text{ score above stored c.d.f. values}
+               \State $idx \gets N$ \hspace{9mm} // score above stored c.d.f. values 
             \Else
                \State $idx \gets interpolate(x,y,s)$
             \EndIf
-            \State $p\_val[j] \gets (N-idx)/N$
+            \State $f[j] \gets (N-idx)/N$ \hspace{10mm} // p-value $\in (0..1)$
          \EndFor
          \EndProcedure
          \end{algorithmic}
+         \label{alg:online}
       \end{algorithm}
 
-      For each place, keep $\Ncal$ scores from negative examples~$(s_n)_{1 \leq n \leq \Ncal}$ used for calibration together with the associated cumulative probability values $\hat{F}_0(s_n)$.
-      Given the score of the query $s_q$:\\
-      1.  Find $n$ such that $s_{n} \leq s_q < s_{n+1} $\\
-      2.  Compute the interpolated empirical cdf value
-      \begin{equation}
-        \hat{F}_0(s_q)\approx 
-        \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
-        \label{eq:interp}
-      \end{equation}
+      % For each place, keep $\Ncal$ scores from negative examples~$(s_n)_{1 \leq n \leq \Ncal}$ used for calibration together with the associated cumulative probability values $\hat{F}_0(s_n)$.
+      % Given the score of the query $s_q$:\\
+      % 1.  Find $n$ such that $s_{n} \leq s_q < s_{n+1} $\\
+      % 2.  Compute the interpolated empirical cdf value
+      % \begin{equation}
+      %   \hat{F}_0(s_q)\approx 
+      %   \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
+      %   \label{eq:interp}
+      % \end{equation}
 
-      ... here we have to put references to algorithms....
    %%%%%%%%%%%%%%%%%%%%%%%
    \subsection{Discussion.}
    %%%%%%%%%%%%%%%%%%%%%%% 
