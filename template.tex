@@ -403,8 +403,8 @@ In particular, the method estimates the significance of the score of a test exam
             \State $w \gets$ learned SVM weight for image $j$
             \State $b \gets$ learned SVM bias for image $j$
             \State $score \gets w^TX+b$
-            \State $aux \gets$ sorted $score$ in descending order
-            \State $calib_j \gets aux[1\dots K]$
+            \State $sortedScore \gets$ sorted $score$ in descending order
+            \State $calib_j \gets sortedScore[1\dots K]$
          \EndFor
          \EndProcedure
          \end{algorithmic}
@@ -425,13 +425,13 @@ In particular, the method estimates the significance of the score of a test exam
             \State $s \gets q^Tw+b$
             \State $x \gets calib_j$
             \If{$s>calib_j[1]$}
-               \State $aux \gets 0$
+               \State $idx \gets 0$ \hspace{10mm} //\text{ score below stored c.d.f. values}
             \ElsIf{$calib_j[K]>s$}
-               \State $aux \gets N$
+               \State $idx \gets N$ \hspace{9mm} //\text{ score above stored c.d.f. values}
             \Else
-               \State $aux \gets interpolate(x,y,s)$
+               \State $idx \gets interpolate(x,y,s)$
             \EndIf
-            \State $p\_val[j] \gets (N-aux)/N$
+            \State $p\_val[j] \gets (N-idx)/N$
          \EndFor
          \EndProcedure
          \end{algorithmic}
@@ -467,8 +467,8 @@ In particular, the method estimates the significance of the score of a test exam
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
   The calibration method described above requires to store a non-parametric models of calibration functions for each learned SVM. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost in both offline and online phase. 
 
-  If $K$ is a fraction of values of the empirical cumulative density function that is kept for each SVM, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a database of size $N$. Typically we keep $K=1000$ values for each c.d.f. for the database size of $N=50,000$. This requires additional $\sim 200$MB. For lager datasets this may be a key limitation. At query time, given the raw SVM score, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} for each database image in turn. This yields a computational complexity of $O(N \log{K})$.
-
+  If $K$ is a fraction of values of the empirical cumulative density function that is kept for each SVM, the additional memory footprint of $O(NK)$ is required to store all calibration functions for a database of size $N$. Typically we keep $K=1,000$ values for each c.d.f. for the database size of $N=50,000$. This requires additional $\sim 200$MB. For lager datasets this may be a key limitation. At query time, given the raw SVM score, one has to find nearest values of the calibration function and interpolate between them \eqref{eq:interp} for each database image in turn. This operation requires additional computational time.
+  %This yields a computational complexity of $O(N \log{K})$.
   To construct a calibration function at offline phase $N$ SVM scores must be sorted for each database image in turn. When the merge sort is used the total complexity for entire database of the c.d.f. construction is $O(N^2 \log{N})$. This makes the calibration method hard to scale up.
 
   In this section we, first, simplify the calibration by approximating the cumulative density function by an affine function and show that nor additional memory nor computational cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline complexity to $O(N)$.
@@ -488,7 +488,7 @@ In particular, the method estimates the significance of the score of a test exam
         %\label{eq:affine2}
     \end{align}
 
-    Notice that this can be further rewritten as a new affine function as follows:
+    Notice that this can be further rewritten as a new affine function as follows
     \begin{align}
       \nonumber
         f_j(\vec{q}) = (c_j\vec{w}_j)^T \vec{q} + \beta_j
@@ -503,39 +503,42 @@ In particular, the method estimates the significance of the score of a test exam
     \end{equation}
      
      \noindent
-     where $\vec{\tilde{q}_j}=[\vec{q}_j^T 1]^T$ and $\vec{\widetilde{w}}_j = [\vec{w}_j^T \beta_j]^T$. Notice that the vector $\vec{\tilde{w}_j}$, consisting of scaled SVM weight and unity, can be computed offline. Therefore no additional memory storage or computational cost is required at query time. The parameters $c_j$, $d_j$ in equation \eqref{eq:affine} represent an affine approximation the calibration function. However, selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
+     where $\vec{\tilde{q}_j}=[\vec{q}_j^T 1]^T$ and $\vec{\widetilde{w}}_j = [\vec{w}_j^T \beta_j]^T$. The original score calibration requires expensive searching of nearest calibration values which yields complexity of $O(N \log{K} )$ at query time. Notice that the vector $\vec{\tilde{w}_j}$, consisting of scaled SVM weight and unity, can be computed offline. Therefore no additional memory storage or computational cost is required at query time and calibration. Since computing the raw SVM scores is $O(N)$ and $K$ is typically $1,000$ the online phase can be sped up by factor of $\log{K}\sim 10$.
+
+      The parameters $c_j$, $d_j$ in equation \eqref{eq:affine} represent an affine approximation the calibration function. Selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
 
    \subsection{Calibration by re-scaling}
 
-      In the previous section we had to find parameters $c_j$ and $d_j$ from training data which can be still costly at training time and requires negative training data. Below we investigate whether it is possible to set $c_j$ and $b_j$ without any training. 
-
-
-      TODO: We found that this is possible by re-normalizing the parameter vector by setting ...
-and we found this works well in practice...
-
-      Each SVM score can be calibrated such that first the bias term is subtracted and second the score is scaled by inverse of the SVM weight vector. The calibration function can be then written as follows
+      In the previous section we had to find parameters $c_j$ and $d_j$ from training data which can be still costly at training time and requires negative training data. Below we investigate whether it is possible to set $c_j$ and $b_j$ without any training. We found that this is possible by special choice of affine function based on learnt SVM. 
+      The raw SVM score can be calibrated such that, first, the bias term is subtracted and, second, the score is scaled by inverse of the SVM weight vector. The calibration function can be then written as follows
       \begin{equation}
          f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{q}^T\vec{w}_j
          \label{eq:rescale}
       \end{equation}
 
-      This calibration can be viewed as a spacial case of affine calibration where calibration parameters rely on SVM only. The equation \eqref{eq:rescale} can be further re-written such that
+      \noindent
+      This calibration can be viewed as a spacial case of affine calibration where calibration parameters rely on SVM only. The equation \eqref{eq:rescale} can be further re-written as a dot-product
       
       \begin{equation}
          f_j(\vec{q}) = \vec{q}^T\vec{\tilde{w}}_j
-         \label{eq:rescale}
+         \label{eq:rescaled}
       \end{equation}
 
       \noindent
-      where $\vec{\tilde{w}}_j=\frac{\vec{\tilde{w}}_j}{||\vec{w}_j||}$ can be computed offline and yields only $O(N)$ complexity.
+      where $\vec{\tilde{w}}_j=\frac{\vec{\tilde{w}}_j}{||\vec{w}_j||}$ can be computed offline and yields only $O(N)$ complexity which allows the method to scale up.
+   
    \subsection{Discussion}
-      The proposed calibration method works when the SVM is properly regularized. The resulting direction of $\vec{\tilde{w}}$ heavily depends on $C_2$ parameter of the objective \eqref{eq:obj}. It can be shown that when $C_2 \rightarrow 0$ the resulting $\vec{\tilde{w_j}} \rightarrow \vec{x}_j^+$ where $\vec{x}_j^+$ is a single positive exemplar used for training. Though this calibration is simple we observe that this type of calibration is more suited for dense descriptors such as Fisher vectors. Details will be given next in the experimental section. 
+      We have found that this calibration works very well in practice when SVM is properly regularized.
+      The intuition is that for $L2$ normalized descriptors $x$ computing the calibrated score $f(x)$ corresponds to computing the normalized cross-correlation between vectors $w$ and $x$. This was found to work well in retrieval (see e.g. Sivic and Zisserman, \cite{}) or matching whitened HOG descriptors [11,13] \cite{}, \cite{} (see e.g. [Doersch et al., Mid-Level Visual Element Discovery as discriminative Mode Seeking, NIPS 2013] \cite{}), but has not yet been used in conjunction with SVMs as done in this work. Note also that the affine calibration can be computed offline and does not need any additional computation or storage at query time compared to the p-value calibration of \cite{Gronat13}.
+      Though the calibration by re-normalization is simple we observe that this type of calibration is more suited for dense descriptors such as Fisher vectors. Details will be given next in the experimental section. 
+      %The proposed calibration method works when the SVM is properly regularized. The resulting direction of $\vec{\tilde{w}}$ heavily depends on $C_2$ parameter of the objective \eqref{eq:obj}. It can be shown that when $C_2 \rightarrow 0$ the resulting $\vec{\tilde{w_j}} \rightarrow \vec{x}_j^+$ where $\vec{x}_j^+$ is a single positive exemplar used for training. 
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \section{Memory efficient classifier representation for BOW}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-      For each image $j$ in the database the linear SVM \eqref{eq:linear} is learnt. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main drawback of this representation is that when the original vector $\vec{x_j}$ is sparse and high dimensional, for instance tf-idf vector, the learned weight vector $\vec{w_j}$ of the same dimensionality is dense. Hence a memory requirement for storage of the new representation grows dramatically. For instance, if the visual word vocabulary size is $100,000$ and each image contains $2,000$ features on average
+      For each image $j$ in the database the linear SVM is learnt \eqref{eq:linear}. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main drawback of this representation is that when the original vector $\vec{x_j}$ is sparse and high dimensional, for instance BOW vector, the learned weight vector $\vec{w_j}$ of the same dimensionality is dense. Hence a memory requirement for storage of the new representation grows dramatically. For instance, if the visual word vocabulary size is $100,000$ and each image contains $2,000$ features on average, the memory required for storage of one BOW image representation is $\sim 8$kB. However the memory required for storing the SVM weight is $\sim390$kB per image.
+
 
       This drawback can be efficiently solved by storing SVM vectors in its dual representation. The key observation is that number of training data $K$ is significantly lower then dimensionality $D$ of the original tfidf vector. In the following we omit index $j$ for clarity. Since $K\ll D$ all the training data points are typically support vectors, hence each vector $\vec{w}$ can be then expressed in dual form as linear combination
 
@@ -552,7 +555,7 @@ and we found this works well in practice...
       \end{equation}
 
       \noindent
-      where $\mathcal{A}$ is a sparse coefficient matrix where each column corresponds to vector $\vec{\alpha}$ from equation \eqref{eq:dual}. To be able to reconstruct the matrix $\mathcal{W}$ one has to keep only two sparse matrices, the descriptor matrix $\mathcal{X}$ and the coefficient matrix~$\mathcal{A}$.
+      where $\mathcal{A}$ is a sparse coefficient matrix where each column corresponds to vector $\vec{\alpha}$ from equation \eqref{eq:dual}. To be able to reconstruct the matrix $\mathcal{W}$ one has to keep only two sparse matrices, the descriptor matrix $\mathcal{X}$ and the coefficient matrix~$\mathcal{A}$. Notice, that if $500$ hard negative data is being used for SVM training this representation requires only $2$kB of additional memory per image. 
 
       At query time, given the query image $\vec{q}$, the uncalibrated SVM score between the query image and each of the database images can be computed by equation \eqref{eq:linear} which can be expressed in a matrix form as follows
       \begin{equation}
@@ -574,7 +577,7 @@ and we found this works well in practice...
 %%%%%%%%%%%%%%%%%%%%%%%
    In this section we first give implementation details, then describe the experimental datasets and finally compare performance of the proposed approach with several baseline methods.
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   \paragraph{Implementation details.}
+   \subsection{Implementation details.}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       All images are described using the bag-of-visual-words representation~\cite{Sivic2003}. First, SURF~\cite{Bay06} 
       %or rootSIFT~\cite{Arandjelovic12} 
@@ -600,7 +603,7 @@ and we found this works well in practice...
       As a query set with known ground truth GPS positions, we use the 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions. For each test panorama, we generate perspective images as described above. Finally, we randomly select out of all generated perspective views a subset of 4k images, which is used as a test set to evaluate the performance of the proposed approach.
 
    %%%%%%%%%%%%%%%%%%%%
-   \paragraph{Results.}
+   \subsection{Results}
    %%%%%%%%%%%%%%%%%%%%
       We compare the performance of the proposed approach (SVM p-val) with the following baseline methods: (a) Training per-location classifiers without any calibration step (SVM). (b) Calibrating per-location classifiers using the standard logistic regression\footnote
          {
@@ -643,7 +646,7 @@ and we found this works well in practice...
       to three different query images.
 
    %%%%%%%%%%%%%%%%%%%%%%%%
-   \paragraph{Scalability.}
+   \subsection{Scalability.}
    %%%%%%%%%%%%%%%%%%%%%%%% 
       The linear SVM classifiers trained for each database image are currently non-sparse,
       which increases the computational and memory requirements
