@@ -414,7 +414,7 @@ In particular, the method estimates the significance of the score of a test exam
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    \subsection{Summary of the calibration procedure.}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    For each place we construct empirical cumulative density function \eqref{eq:empiricalCDF} and keep $K$ scores from negative examples. This is summarized in Algorithm \ref{alg:offline}. At query time, we first compute the SVM score with database image and then use the stored c.f.d. values to compute calibrated score $f_j(\vec{q})$. This procedure is done for each database image $j$ in turn and is summarized in Algorithm \ref{alg:online}. Finally, the database images are ranked w.r.t. calibrated values or the best candidate is selected by equation \eqref{eq:class}.
+    For each place we construct empirical cumulative density function \eqref{eq:empiricalCDF} and keep $K$ scores from negative examples. This is summarized in Algorithm \ref{alg:offline}. At query time, we first compute the SVM score with database image and then use the stored c.f.d. values to compute calibrated score $f_j(\vec{q})$. This procedure is done for each database image $j$ in turn and is summarized in Algorithm \ref{alg:online}. Finally, the database images are ranked w.r.t. calibrated values or the best candidate is selected by equation \eqref{eq:class}. 
 
       \begin{algorithm}
          \caption{OFFLINE}\label{alg:offline}
