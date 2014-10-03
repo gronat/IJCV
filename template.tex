@@ -374,7 +374,8 @@ In particular, the method estimates the significance of the score of a test exam
 
       \noindent
       where $(s_n)_{1\leq n \leq \Ncal }$ are the SVM scores associated with $\Ncal$ negative examples used for calibration.
-      $\hat{F}_0(s)$ is the fraction of the negative examples used for calibration (ideally held out negative examples) that have a score below a given value $s$.
+      $\hat{F}_0(s)$ 
+      is the fraction of the negative examples used for calibration (ideally held out negative examples) that have a score below a given value $s$.
       Computing $\hat{F}_0$ exactly would require to store all the SVM scores for all the calibration data for all classifiers, so in practice, we only keep a fraction of the larger scores.
       We also interpolate the empirical cdf between consecutive datapoints so that instead of being a staircase function it is a continuous piecewise linear function such as illustrated on figure~\ref{fig:calib}. Given a query, we first compute its SVM score $s_q$ and then compute the calibrated probability $f(q)=\hat{F}_0(s_q)$.
       We obtain a similar calibrated probability $f_j(q)$ for each of the SVMs associated with each of the target locations, which can now be ranked.
@@ -419,8 +420,7 @@ In particular, the method estimates the significance of the score of a test exam
     
     For each trained place-specific classifier $s_j$ we construct the empirical cumulative density function~\eqref{eq:empiricalCDF} of scores of the negative examples and keep only its top $K$ values. This can be done offline and the procedure is summarized in Algorithm \ref{alg:offline}. 
     %
-    At query time, given a query image descriptor $\vec{q}$, we compute the uncalibrated classification score $s_j(\vec{q})$ and then use
-    the stored cdf values to compute the calibrate score $f_j(\vec{q})$. This procedure is performed for each database image $j$ and is summarized in Algorithm \ref{alg:online}.
+    At query time, given a query image descriptor $\vec{q}$, we compute the uncalibrated classification score $s_j(\vec{q})$ and then use the stored cdf values to compute the calibrate score $f_j(\vec{q})$. This procedure is performed for each database image $j$ and is summarized in Algorithm \ref{alg:online}.
     Finally, the best candidate database image is selected by equation~\eqref{eq:class}. Alternatively, candidate database images can be also ranked according to the calibrated score.
  
 % {\tt TODO: Petre, the algorithms are a bit confusing as you suddently introduce a completely new notation different that is the main text.
@@ -434,14 +434,15 @@ In particular, the method estimates the significance of the score of a test exam
          \begin{algorithmic}[1]
          \Procedure{p-value calibration}{}
          \State $N \gets$ database size
-         \State $K \gets$ size of the cdf tail to be kept
-         \State $X \gets$ descriptor matrix of negative examples %all database images
+         %\State $K \gets$ size of the cdf tail to be kept
+         \State $\mathcal{X} \gets$ descriptor matrix of negative examples %all database images
          \For{$\forall j \in 1 \dots N$}
-            \State $w \gets$ learned SVM weight for image $j$
+            \State $N_c \gets$ number of negative examples
+            \State $\vec{w} \gets$ learned SVM weight for image $j$
             \State $b \gets$ learned SVM bias for image $j$
-            \State $score \gets \vec{w}^TX+b$
-            \State $sortedScore \gets$ sorted $score$ in descending order
-            \State $calib_j \gets sortedScore[1\dots K]$
+            \State $\vec{\sigma} \gets \vec{w}^T \mathcal{X}+b$
+            \State $\vec{s_j} \gets$ sorted $\vec{\sigma}$ in descending order
+            \State $\hat{F}_{0j} \gets [N_c \dots 0]/N_c$
          \EndFor
          \EndProcedure
          \end{algorithmic}
@@ -453,29 +454,23 @@ In particular, the method estimates the significance of the score of a test exam
          \begin{algorithmic}[1]
          \Procedure{calibrating scores}{}
          \State $\vec{q} \gets$ query image descriptor
-         \State $T \gets$ length of the output shortlist
          \State $N \gets$ database size
-         \State $K \gets$ size of the kept cdf tail
 %         \State $y \gets [0,1,\dots (K-1)]$
          \For{$\forall j \in 1 \dots N$} // for each database image
             \State $\vec{w} \gets$ learned SVM weight for image $j$
             \State $b \gets$ learned SVM bias for image $j$
-            \State $s \gets \vec{q}^T\vec{w}+b$  // compute uncalibrated classifier score
-%            \State $x \gets calib_j$
-            \If{$s>calib_j[1]$}
-               \State $idx \gets 0$ \hspace{10mm} // score below stored c.d.f. values
-            \ElsIf{$calib_j[K]>s$}
-               \State $idx \gets 1$ \hspace{9mm} // score above stored c.d.f. values 
-            \Else
-  		\State Find $n$ such that $s_{n} \leq s_q < s_{n+1} $
-		\State 
-         $
-         \hat{F}_0(s_q)\approx 
-         \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
-        $\\
-%            \State $f[j] \gets (N-idx)/N$ \hspace{10mm} // p-value $\in (0..1)$
-              % \State $idx \gets interpolate(x,y,s)$
-            \EndIf         
+            \State $\hat{F}_{0} \gets \hat{F}_{0j}$
+            \State $\vec{s} \gets \vec{s_j}$
+            \State $s_q \gets \vec{q}^T\vec{w}+b$  // compute uncalibrated classifier score
+		        \State $\hat{F}_0 \gets \hat{F}_{0j}$
+            \State $n \gets n: \quad \forall k>n,\;s_n>s_k$
+            \State 
+              $
+              \hat{F}_0(s_q)\approx 
+              \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
+              $
+            \State $f_j(\vec{q})=\hat{F}_0(s_q)$
+         
          \EndFor
          \EndProcedure
          \end{algorithmic}
@@ -664,7 +659,7 @@ As a result  computing and storing the calibration functions becomes feasible fo
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
-\section{Experiments}
+\section{Experimental setup and implementation details}
 \label{sec:experiments}
 %%%%%%%%%%%%%%%%%%%%%%%
    In this section we provide information about image datasets, image descriptors and experiments that we performed.
