@@ -246,12 +246,12 @@ The first method relies on p-values from statistical hypothesis testing and uses
     essentially prevents us from using any of these methods. 
 To address these issues, we develop two classifier calibration methods that do not need additional labelled positive examples.
 Related to ours is also the recent work of Scheirer et al.~\cite{Scheirer12} who develop a classifier calibration method for face attribute similarity search.
-Their method (discussed in more detail in section~\ref{}) also does not require labelled positive examples but, in contrast to us, uses a parametric model (the Weibull distribution) for the scores of negative examples.    
+Their method (discussed in more detail in section~\ref{sec:calibration}) also does not require labelled positive examples but, in contrast to us, uses a parametric model (the Weibull distribution) for the scores of negative examples.    
 
 
 \paragraph{Contributions.} 
 This paper has two main contributions. First, we cast the place recognition problem as a classification task and use the available geo-tags to train a classifier for each location in the database (section~\ref{sec:classifiers}). Second, as only few positive training examples are available for each location, we propose two methods to calibrate all the per-location SVM classifiers without the need for additional positive training data. The first method (section~\ref{sec:calibration}) relies on p-values from statistical hypothesis testing. The second method (section~\ref{sec:calibrationRenorm}) performs an affine calibration by appropriately normalizing the learnt decision hyperplane. 
-We also describe a memory efficient classifier representation for the sparse bag-of-visual-word vectors (section~\ref{}) and experimentally demonstrate benefits
+We also describe a memory efficient classifier representation for the sparse bag-of-visual-word vectors (section~\ref{sec:memory}) and experimentally demonstrate benefits
 of the proposed approach (section~\ref{sec:experiments}). 
 
 %    The contributions of this work are threefold.    
@@ -286,7 +286,7 @@ of the proposed approach (section~\ref{sec:experiments}).
    Each SVM classifier produces a score $s_j$ which is a priori not comparable with the score of the other classifiers. A calibration of these scores will therefore be key to convert them to comparable scores $f_j$. This calibration problem is more difficult than usual given that we only have a single positive example and will be addressed in section~\ref{sec:calibration}.
    
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   \subsection{Learning per-location SVM classifiers. }
+   \subsection{Learning per-location SVM classifiers }
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       Each linear SVM classifier learns a score $s_j$ of the form 
 
@@ -353,17 +353,17 @@ of the proposed approach (section~\ref{sec:experiments}).
 In this section we describe a classifier calibration method that exploits the availability of large amounts of negative data, i.e.\ images from other far away locations in the database.
 In particular, the method estimates the significance of the score of a test example compared to the typical score of  the (plentifully available) negative examples. Intuitively, we will use a large dataset of negative examples to calibrate the individual classifiers so that they {\em reject the same number of negative examples} at each level of the calibrated score.   We will expand this idea in detail using the concepts from hypothesis testing. % to propose a calibration method.
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   \subsection{Calibration \emph{via} significance levels.}
+   \subsection{Calibration \emph{via} significance levels}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
       In the following, we view  the problem of deciding whether a query image matches a given location based on the corresponding SVM score as a hypothesis testing problem. In particular, we appeal to ideas from the traditional frequentist hypothesis testing framework also known as Neyman-Pearson (NP) framework (see e.g.~\cite{casella2001statistical}, chap.~8).
 
       We define the null hypothesis as $H_0=\{$the image is a random image$\}$ and the alternative as $H_1=\{$the image matches the particular location$\}$. The NP framework focuses on the case where the distribution of the data under $H_0$ is well known, whereas the distribution under $H_1$ is not accessible or too complicated to model, which matches perfectly our setting.
 %      \textcolor{myGrey}{How about the other NP assumptions? We should ask Guillaume}
 
-      In the NP framework, the \emph{significance level} of a score is measured by the p-value or equivalently by the value of the cumulative density function  (cdf) of the distribution of the negatives at a given score value. The cdf is the function $F_0$ defined by $F_0(s)=\PP(S_0\leq s)$, where $S_0$ is the random variable corresponding to the scores of negative data (see figure~\ref{fig:qntExample} for an illustration of the relation between the cdf and the density of the function). The cdf (
-      or the corresponding p-value\footnote{
+      In the NP framework, the \emph{significance level} of a score is measured by the p-value or equivalently by the value of the cumulative density function  (cdf) of the distribution of the negatives at a given score value. The cdf is the function $F_0$ defined by $F_0(s)=\PP(S_0\leq s)$, where $S_0$ is the random variable corresponding to the scores of negative data (see figure~\ref{fig:qntExample} for an illustration of the relation between the cdf and the density of the function). The cdf 
+      (or the corresponding p-value\footnote{
         The notion most commonly used in statistics is in fact the p-value. The p-value associated to a score is the quantity $\alpha(s)$ defined by $\alpha(s)=1-F_0(s)$; so the more significant the score is, the closer to $1$ the cdf value is, and the closer to $0$ the p-value is. To keep the presentation simple, we avoid the formulation in terms of p-values and we only talk of the probabilistic calibrated values obtained from the cdf $F_0$.
-       }
+       }%
        )
       is naturally estimated by the empirical cumulative density function $\hat{F}_0$, which is computed as: 
       
@@ -406,27 +406,40 @@ In particular, the method estimates the significance of the score of a test exam
             \includegraphics[width=\linewidth]{imgs/qntEx2.pdf}
          }
          \vspace*{-3mm}
-         \caption{A figure showing the relation between (a) the probability density of the random variable $S_0$ modeling the scores of the negative examples and (b) the corresponding cumulative density function $F_0(s)=\PP(S_0 \leq s)$.
+         \caption{Illustration of the relation between (a) the probability density of the random variable $S_0$ modeling the scores of the negative examples and (b) the corresponding cumulative density function $F_0(s)=\PP(S_0 \leq s)$.
          }
                \vspace*{-3mm}
          \label{fig:qntExample}
       \end{figure}
+      
+      
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   \subsection{Summary of the calibration procedure.}
+   \subsection{Summary of the calibration procedure}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    For each place we construct empirical cumulative density function \eqref{eq:empiricalCDF} and keep $K$ scores from negative examples. This is summarized in Algorithm \ref{alg:offline}. At query time, we first compute the SVM score with database image and then use the stored c.f.d. values to compute calibrated score $f_j(\vec{q})$. This procedure is done for each database image $j$ in turn and is summarized in Algorithm \ref{alg:online}. Finally, the database images are ranked w.r.t. calibrated values or the best candidate is selected by equation \eqref{eq:class}. 
-
+    
+    For each trained place-specific classifier $s_j$ we construct the empirical cumulative density function~\eqref{eq:empiricalCDF} of scores of the negative examples and keep only its top $K$ values. This can be done offline and the procedure is summarized in Algorithm \ref{alg:offline}. 
+    %
+    At query time, given a query image descriptor $\vec{q}$, we compute the uncalibrated classification score $s_j(\vec{q})$ and then use
+    the stored cdf values to compute the calibrate score $f_j(\vec{q})$. This procedure is performed for each database image $j$ and is summarized in Algorithm \ref{alg:online}.
+    Finally, the best candidate database image is selected by equation~\eqref{eq:class}. Alternatively, candidate database images can be also ranked according to the calibrated score.
+ 
+% {\tt TODO: Petre, the algorithms are a bit confusing as you suddently introduce a completely new notation different that is the main text.
+% Could you please make the notation consistent? I.e. the algorithms should use the s, F, f as in the main text.  Please also include explicitly the equation for interpolation
+% as suggested in the Algorithm 2. As suggested in the algorithm, 
+% } 
+ 
+ 
       \begin{algorithm}
-         \caption{OFFLINE}\label{alg:offline}
+         \caption{P-value calibration: offline stage}\label{alg:offline}
          \begin{algorithmic}[1]
          \Procedure{p-value calibration}{}
          \State $N \gets$ database size
          \State $K \gets$ size of the cdf tail to be kept
-         \State $X \gets$ descriptor matrix of all database images
+         \State $X \gets$ descriptor matrix of negative examples %all database images
          \For{$\forall j \in 1 \dots N$}
             \State $w \gets$ learned SVM weight for image $j$
             \State $b \gets$ learned SVM bias for image $j$
-            \State $score \gets w^TX+b$
+            \State $score \gets \vec{w}^TX+b$
             \State $sortedScore \gets$ sorted $score$ in descending order
             \State $calib_j \gets sortedScore[1\dots K]$
          \EndFor
@@ -436,32 +449,73 @@ In particular, the method estimates the significance of the score of a test exam
       \end{algorithm}
 
        \begin{algorithm}
-         \caption{ONLINE}\label{alg:online}
+         \caption{P-value calibration: online stage}\label{alg:online}
          \begin{algorithmic}[1]
          \Procedure{calibrating scores}{}
-         \State $q \gets$ query image descriptor
-         \State $T \gets$ length of a shortlist
+         \State $\vec{q} \gets$ query image descriptor
+         \State $T \gets$ length of the output shortlist
          \State $N \gets$ database size
-         \State $K \gets$ size of the cdf tail that was kept
-         \State $y \gets [0,1,\dots (K-1)]$
-         \For{$\forall j \in 1 \dots N$}
-            \State $w \gets$ learned SVM weight for image $j$
+         \State $K \gets$ size of the kept cdf tail
+%         \State $y \gets [0,1,\dots (K-1)]$
+         \For{$\forall j \in 1 \dots N$} // for each database image
+            \State $\vec{w} \gets$ learned SVM weight for image $j$
             \State $b \gets$ learned SVM bias for image $j$
-            \State $s \gets q^Tw+b$
-            \State $x \gets calib_j$
+            \State $s \gets \vec{q}^T\vec{w}+b$  // compute uncalibrated classifier score
+%            \State $x \gets calib_j$
             \If{$s>calib_j[1]$}
                \State $idx \gets 0$ \hspace{10mm} // score below stored c.d.f. values
             \ElsIf{$calib_j[K]>s$}
-               \State $idx \gets N$ \hspace{9mm} // score above stored c.d.f. values 
+               \State $idx \gets 1$ \hspace{9mm} // score above stored c.d.f. values 
             \Else
-               \State $idx \gets interpolate(x,y,s)$
-            \EndIf
-            \State $f[j] \gets (N-idx)/N$ \hspace{10mm} // p-value $\in (0..1)$
+  		\State Find $n$ such that $s_{n} \leq s_q < s_{n+1} $
+		\State 
+         $
+         \hat{F}_0(s_q)\approx 
+         \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
+        $\\
+%            \State $f[j] \gets (N-idx)/N$ \hspace{10mm} // p-value $\in (0..1)$
+              % \State $idx \gets interpolate(x,y,s)$
+            \EndIf         
          \EndFor
          \EndProcedure
          \end{algorithmic}
          \label{alg:online}
       \end{algorithm}
+      
+%             \begin{algorithm}
+%         \caption{P-value calibration: online stage}\label{alg:online}
+%         \begin{algorithmic}[1]
+%         \Procedure{calibrating scores}{}
+%         \State $\vec{q} \gets$ query image descriptor
+%         \State $T \gets$ length of the output shortlist
+%         \State $N \gets$ database size
+%         \State $K \gets$ size of the kept cdf tail
+%%         \State $y \gets [0,1,\dots (K-1)]$
+%         \For{$\forall j \in 1 \dots N$} // for each database image
+%            \State $\vec{w} \gets$ learned SVM weight for image $j$
+%            \State $b \gets$ learned SVM bias for image $j$
+%            \State $s \gets \vec{q}^T\vec{w}+b$  // compute uncalibrated classifier score
+%%            \State $x \gets calib_j$
+%            \If{$s>calib_j[1]$}
+%               \State $idx \gets 0$ \hspace{10mm} // score below stored c.d.f. values
+%            \ElsIf{$calib_j[K]>s$}
+%               \State $idx \gets 1$ \hspace{9mm} // score above stored c.d.f. values 
+%            \Else
+%  		\State Find $n$ such that $s_{n} \leq s_q < s_{n+1} $
+%		\State 
+%         $
+%         \hat{F}_0(s_q)\approx 
+%         \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
+%        $\\
+%%            \State $f[j] \gets (N-idx)/N$ \hspace{10mm} // p-value $\in (0..1)$
+%              % \State $idx \gets interpolate(x,y,s)$
+%            \EndIf
+%            
+%         \EndFor
+%         \EndProcedure
+%         \end{algorithmic}
+%         \label{alg:online}
+%      \end{algorithm}
 
       % For each place, keep $\Ncal$ scores from negative examples~$(s_n)_{1 \leq n \leq \Ncal}$ used for calibration together with the associated cumulative probability values $\hat{F}_0(s_n)$.
       % Given the score of the query $s_q$:\\
@@ -561,6 +615,7 @@ In particular, the method estimates the significance of the score of a test exam
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \section{Memory efficient classifier representation for BOW}
+  \label{sec:memory}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
       For each image $j$ in the database the linear SVM is learnt \eqref{eq:linear}. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main drawback of this representation is that when the original vector $\vec{x_j}$ is sparse and high dimensional, for instance BOW vector, the learned weight vector $\vec{w_j}$ of the same dimensionality is dense. Hence a memory requirement for storage of the new representation grows dramatically. For instance, if the visual word vocabulary size is $100,000$ and each image contains $2,000$ features on average, the memory required for storage of one BOW image representation is $\sim 8$kB. However the memory required for storing the SVM weight is $\sim390$kB per image.
 
