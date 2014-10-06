@@ -613,7 +613,6 @@ As a result  computing and storing the calibration functions becomes feasible fo
 %      The parameters $c_j$, $d_j$ in equation \eqref{eq:affine} represent an affine approximation the calibration function. Selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
 
    \subsection{Calibration by re-scaling}
-
       In the previous section we had to find parameters $c_j$ and $d_j$ from training data which can be still costly at training time and requires negative training data. Below we investigate whether it is possible to set $c_j$ and $b_j$ without any training. We found that this is possible by special choice of affine function based on learnt SVM. 
       The raw SVM score can be calibrated such that, first, the bias term is subtracted and, second, the score is scaled by inverse of the SVM weight vector. The calibration function can be then written as follows
       \begin{equation}
@@ -708,12 +707,12 @@ As a result  computing and storing the calibration functions becomes feasible fo
 
       \subsection{Learning parameters and training data.}
         To learn the exemplar support vector machine for each database image $j$, the positive and negative training data are constructed as follows. 
-        The \emph{negative training set} $\mathcal N_j$ is obtained by: (i) finding the set of images with geographical distance greater than $200{\rm m}$; (ii)  sorting the images by decreasing value of similarity to image $j$ measured by the dot product between their respective Fisher vectors; (iii) taking the top $N=500$ ranked images as the negative set. 
-        In other words, the negative training data consists of the hard negative images, i.e. those that are similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content. The \emph{positive training set} $\mathcal P_j$
-         consist of the original Fisher vector $\Phi_j$ of the image $j$.
-        For the SVM training we use {\tt libsvm} \cite{libsvm}. % with $L2$ regularizer. % and squared hinge loss penalty function $h(x)$ from equation \eqref{
-         We use the same $C_1$ and $C_2$ parameters for all per-exemplar classifiers, but find the optimal value of the parameters for each dimensionality of the Fisher vector by a grid search evaluating performance on a held out set.
-         We observe that for different Fisher vector target dimensions the optimal value of parameter $C_1$ is quite stable (typically $C_1=1$) while the optimal parameter for $C_2$ varies between $10^{-6}$ to $10^{-1}$.
+        The \emph{negative training set} $\mathcal N_j$ is obtained by: (i) finding the set of images with geographical distance greater than $200{\rm m}$; (ii)  sorting the images by decreasing value of similarity to image $j$ measured by the dot product between their respective descriptors; (iii) taking the top $N=500$ ranked images as the negative set. 
+        In other words, the negative training data consists of the hard negative images, i.e. those that are similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content. 
+        The \emph{positive training set} $\mathcal P_j$ consist of the descriptor $\Phi_j$ of the target image $j$. The set can be further expanded by including close by images having the same visual content. These images can be identified by geometric verification \cite{}.
+
+        For the SVM training we use {\tt libsvm} \cite{libsvm}. We use the same $C_1$ and $C_2$ parameters for all per-exemplar classifiers, but find the optimal value of the parameters for each image representation by a grid search evaluating performance on a held out set.
+        %We observe that for different Fisher vector target dimensions the optimal value of parameter $C_1$ is quite stable (typically $C_1=1$) while the optimal parameter for $C_2$varies between $10^{-6}$ to $10^{-1}$.
         To learn the new image representation for each database image $j$ we: (i) learn SVM from $\mathcal P_j$ and $N_j$ (see above); (ii) $L2$ normalize the learned $w_j$ using equation~\eqref{eq:normalization}; and (iii) use this re-normalized vector as the new image descriptor $\Psi_j$ for image $j$. At query time we compute the Fisher vector $\Phi_q$ of the query image and measure its similarity score to the learnt descriptors $\Psi_j$ for each database image by equation~\eqref{eq:class}.
 
       % All images are described using the bag-of-visual-words representation~\cite{Sivic2003}. First, SURF~\cite{Bay06} 
