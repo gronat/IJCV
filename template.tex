@@ -531,7 +531,6 @@ In particular, the method estimates the significance of the score of a test exam
 
       An additional reason for not relying on positive examples for the calibration in our case is that (even if we had sufficiently many of them) the positive examples that we collect using location and geometric verification from the geotagged database typically have illumination conditions that are extremely similar to each other and not representative of the distribution of test positives which can have very different illuminations. This is because of the controlled nature of the capturing process of geotagged street-level imagery (e.g.\ Google street-view) used for experiments in this work. Close-by images are typically captured at a similar time (e.g. on the same day)and under similar imaging conditions.
 
-
       Scheirer et al.~\cite{Scheirer12} propose a method, which is related to ours, and calibrate SVM scores by computing the corresponding cdf value of a Weibull distribution fitted to the top negative scores. The main difficulty is that the Weibull model should be fitted only to the tail of the distribution of the negatives, which is in general difficult to identify. As a heuristic, Scheirer et al. propose to fit the Weibul model to false positives (i.e. the negative samples classified incorrectly as positives). But in our case, most of the exemplar SVMs that we are training have $0$ false positives in a held out set, which precludes the application of their method. To avoid that issue our approach forgoes any parametric form of the distribution and instead relies directly on a standard non-parametric estimate of the cumulative density function.
 
       Finally, we should remark that we are not doing here calibration in the same sense of the word as the calibration based on logistic regression (or isotonic regression), since logistic regression estimates a probability of making a correct prediction by assigning a new data to class $1$, while we are estimating how unlikely it would be for a negative example to have such a high score. The calibration with either methods yields ``universal" scores in the sense that they are comparable from one SVM to another, but the calibrated values obtained from logistic regression are not comparable to the values obtained from our approach.
@@ -542,14 +541,15 @@ In particular, the method estimates the significance of the score of a test exam
 \label{sec:calibrationRenorm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
   
-  The non-parametric calibration method described in the previous section has two computational disadvantages, which make it hard to scale-up to very large datasets of 1M+ images.  First, the method requires storing the non-parametric model of the calibration function for each learned classifier. This has memory complexity 
-  of $O(NK)$, where $N$ is the number of images in the database and $K$ the number of stored elements of the non-parametric model. For typical values of $K=1000$
-  and $N=1M$ this would require additional 40GB of memory, comparable or bigger than the size of the inverted index itself. Second, computing the cumulative density function requires applying all $N$ learnt classifiers to the entire set of negative examples, which has also size $N$. As a result computing the cdf has complexity $O(N^2)$, which becomes quickly infeasible already for datasets with $N$ larger than $100,000$. 
+  The non-parametric calibration method described in the previous section has two computational disadvantages, which make it hard to scale-up to very large datasets. 
+  % of more than 1M images.  
+  First, the method requires storing the non-parametric model of the calibration function for each learned classifier. This has memory complexity 
+  of $O(NK)$, where $N$ is the number of images (classifiers) in the database and $K$ the number of stored elements of the non-parametric model. For typical values of $K=1000$ and $N=1M$ this would require additional 4GB of memory, comparable to the size of the inverted index itself. Second, computing the cumulative density function requires applying all $N$ learnt classifiers to the entire set of negative examples, which has also size $N$. As a result computing the cdf has complexity $O(N^2)$, which becomes quickly infeasible already for datasets with $N$ larger than $100,000$. 
   
-To address these issues we first describe an affine calibration model that approximates the tail of the cdf with a simple linear function defined by only two parameters: its slope and and offset, greatly reducing the required storage.
+To address these issues we first describe an affine calibration model that approximates the tail of the cdf with a simple linear function defined by only two parameters: its slope and offset, greatly reducing the required storage.
 %This greatly reduces the storage requirements and makes storing the calibration functions feasible for very large datasets.
 Second, we show that the parameters of the affine calibration function can be obtained by re-normalizing the learnt classification hyper-plane without applying the classifiers on the negative data and thus bringing down the computational complexity to $O(N)$.
-As a result  computing and storing the calibration functions becomes feasible for very large (1M+) datasets.
+As a result  computing and storing the calibration functions becomes feasible for very large datasets with 1M images.
 %This greatly reduces the storage and computational requirements and makes computing and storing the calibration functions feasible for very large (1M+) datasets.
 
 %The calibration method described above requires storing a non-parametric model of the calibration function for each learned classifier. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost in both offline and online phase. 
@@ -561,27 +561,42 @@ As a result  computing and storing the calibration functions becomes feasible fo
 %  In this section we, first, simplify the calibration by approximating the cumulative density function by an affine function and show that nor additional memory nor computational cost is required at query time. Second, we address the offline stage problem by introducing a calibration by re-normalization and shift which reduces the offline complexity to $O(N)$.
 
    \subsection{Affine calibration model}
-   In the affine calibration mode we transform the uncalibrated score with a linear function 
+   Using the affine calibration model we transform the uncalibrated score $s_j(\vec{q})$ of query $\vec{q}$ with a linear function 
 %     The main disadvantage of the \emph{p-value} calibration is the memory footprint and need for additional computation at query time. This can be eliminated by simplification of the calibration model. Each calibration function can be approximated by an affine line such that calibration function can be written as follows
      \begin{equation}
-       f_j(\vec{q}) = c_j s_j(\vec{q}) + d_j,
+       f_j(\vec{q}) = \alpha_j s_j(\vec{q}) + \beta_j,
        \label{eq:affine}
      \end{equation}
-	where $s_j(\vec{q})$ is the uncalibrated score for query $\vec{q}$ , $ f_j(\vec{q})$ is the output calibrated score, and
-	$c_j$ and $d_j$ are scalar parameters of the calibration function, specific to each classifier $j$.
-	In this work we use linear classifiers, hence substituting for $s_j(\vec{q})$ the linear classifier \eqref{eq:linear} results also in a linear function
-     \begin{align}
-%        \nonumber
-         f_j(\vec{q}) = c_j\vec{w}_j^T \vec{q}+ (c_j b_j+d_j)
-        %\label{eq:affine2}
-    \end{align}
-    that can be further simplified to
+	where 
+%	$s_j(\vec{q})$ is the uncalibrated score for query $\vec{q}$ , 
+	$ f_j(\vec{q})$ is the output calibrated score, and
+	$\alpha_j$ and $\beta_j$ are scalar parameters of the calibration function, specific to each classifier $j$.
+	In this work we use linear classifiers, hence substituting for $s_j(\vec{q})$ %in~\eqref{eq:affine} 
+	the linear classifier from \eqref{eq:linear} results also in a linear classifier
+%     \begin{align}
+%%        \nonumber
+%         f_j(\vec{q}) = c_j\vec{w}_j^T \vec{q}+ (c_j b_j+d_j)
+%        %\label{eq:affine2}
+%    \end{align}
+%    that can be further simplified to
     \begin{align}
+    \label{eq:linear2}
 %      \nonumber
-        f_j(\vec{q}) = (c_j\vec{w}_j)^T \vec{q} + \beta_j
+%        f_j(\vec{q}) = (c_j\vec{w}_j)^T \vec{q} + \beta_j
+        f_j(\vec{q}) = \vec{\widetilde{w}}_j^T \vec{q} + c_j
         %\label{eq:affiine3}
      \end{align}
-    where $\beta_j=c_j b_j+d_j$.
+    where $\vec{\widetilde{w}}_j = \alpha_j\vec{w}_j$ and $c_j=\alpha_j b_j+\beta_j$. 
+    Note that this is the same form as the original classifier in~\eqref{eq:linear} and hence this representation does not require any additional storage compared to storing the original classifier. %Compared to the~\cite{
+    The question remains how to set the parameters $\alpha_j$ and $\beta_j$ of the calibration function~\eqref{eq:affine}, which is discussed next.
+    
+  
+%    Setting the calibration parameters  
+%    The parameters $c_j$ and $d_j$ of the calibration function 
+    
+    % As compared to (2) does not result in additional storage. 
+    % How to set c and b? Can be done from data, but we do it directly.
+
 %    While we have greatly reduced the storage complexity of the calibration to only two parameters.
 %          The parameters $c_j$, $\beta_j$ in equation \eqref{eq:affine} represent an affine approximation the calibration function. 
 %          Selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
@@ -612,29 +627,57 @@ As a result  computing and storing the calibration functions becomes feasible fo
 %     where $\vec{\tilde{q}_j}=[\vec{q}_j^T 1]^T$ and $\vec{\widetilde{w}}_j = [\vec{w}_j^T \beta_j]^T$. The original score calibration requires expensive searching of nearest calibration values which yields complexity of $O(N \log{K} )$ at query time. Notice that the vector $\vec{\tilde{w}_j}$, consisting of scaled SVM weight and unity, can be computed offline. Therefore no additional memory storage or computational cost is required at query time and calibration. Since computing the raw SVM scores is $O(N)$ and $K$ is typically $1,000$ the online phase can be sped up by factor of $\log{K}\sim 10$.
 %      The parameters $c_j$, $d_j$ in equation \eqref{eq:affine} represent an affine approximation the calibration function. Selection of these parameters still requires an expensive sorting of SVM scores for each database image in turn which yields a complexity of $O(N^2 \log{N})$ at offline phase.
 
-   \subsection{Calibration by re-scaling}
-      In the previous section we had to find parameters $c_j$ and $d_j$ from training data which can be still costly at training time and requires negative training data. Below we investigate whether it is possible to set $c_j$ and $b_j$ without any training. We found that this is possible by special choice of affine function based on learnt SVM. 
-      The raw SVM score can be calibrated such that, first, the bias term is subtracted and, second, the score is scaled by inverse of the SVM weight vector. The calibration function can be then written as follows
-      \begin{equation}
-         f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{q}^T\vec{w}_j
-         \label{eq:rescale}
-      \end{equation}
-
-      \noindent
-      This calibration can be viewed as a spacial case of affine calibration where calibration parameters rely on SVM only. The equation \eqref{eq:rescale} can be further re-written as a dot-product
-      
-      \begin{equation}
-         f_j(\vec{q}) = \vec{q}^T\vec{\tilde{w}}_j
-         \label{eq:rescaled}
-      \end{equation}
-
-      \noindent
-      where $\vec{\tilde{w}}_j=\frac{\vec{\tilde{w}}_j}{||\vec{w}_j||}$ can be computed offline and yields only $O(N)$ complexity which allows the method to scale up.
+   \subsection{Calibration by re-normalization}
+   Parameters of the affine calibration function~\eqref{eq:affine} could be learnt from negative training data in a similar manner to for example~\cite{Aubry14}. 
+   However, as discussed above, in our case this would require running all $N$ classifiers on all $N$ data points, which is prohibitive for large datasets.
+   Instead, we have found that a good calibration can be obtained by re-normalizing the learnt hyperplane $\vec{w}$. In particular, we set 
+   %we found in practice good results can be obtained by setting 
+   \begin{align}
+   \label{eq:rescale1}
+   \alpha_j &= \dfrac{1}{||\vec{w}_j||},\\ 
+   \label{eq:rescale2}
+    \beta_j &=  -b_j \alpha_j, 
+   \end{align}
+   where $\vec{w}_j$ and $b_j$ are the parameters of the learnt SVM hyper-plane for location $j$ and $||\vec{w}||$ is the $L_2$ norm of $\vec{w}$ . Given this choice of $\alpha_j$ and $\beta_j$
+   the calibrated classification score~\eqref{eq:linear2} reduces to
+      \begin{align}
+%      \nonumber
+%        f_j(\vec{q}) = (c_j\vec{w}_j)^T \vec{q} + \beta_j
+        f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{w}_j^T\vec{q}.
+            \label{eq:linear3}
+     \end{align}
+     The intuition is that when $\vec{q}$ is $L_2$ normalized, equation~\eqref{eq:linear3} is equivalent to computing the normalized dot-product between vectors $\vec{q}$ and $\vec{w}$.       This was found to work well in image retrieval~\cite{Sivic03} or matching whitened HOG descriptors~\cite{Doersch13}, but has not yet been used in conjunction with SVMs as done in this work. Note also that the type of ``calibration by re-normalization" is scalable to very large datasets as it (i) requires only $O(N)$ computations offline to pre-compute the calibration parameters for each of the $N$ learnt classifiers (equations~\eqref{eq:rescale1} and~\eqref{eq:rescale2}), and (ii) does not need any additional storage or computation at query time as the calibration parameters can be included in the form of the classifier as in~\eqref{eq:linear2}.   
+%          We have found that this calibration works very well in practice when the SVM is appropriately regularized. In particular, we set parameters $C_1$ and $C_2$ in the SVM cost~\eqref{} by cross-validation to prevent overfitting to the single positive example and details are given in section~\ref{}.
+      % - pluggin in 7+8 into 5 we see the form.
+      % For L2 normalized descriptor this is equivalent to normalized scalar-product between the two vectors which was found to work well..
+%  The intuition is that for an $L_2$ normalized query descriptor $\vec{q}$ computing the calibrated score $f_j(\vec{q})$ given by \eqref{eq:rescale1} and  \eqref{eq:rescale2}
    
-   \subsection{Discussion}
-      We have found that this calibration works very well in practice when SVM is properly regularized.
-      The intuition is that for $L2$ normalized descriptors $x$ computing the calibrated score $f(x)$ corresponds to computing the normalized cross-correlation between vectors $w$ and $x$. This was found to work well in retrieval (see e.g. Sivic and Zisserman, \cite{}) or matching whitened HOG descriptors [11,13] \cite{}, \cite{} (see e.g. [Doersch et al., Mid-Level Visual Element Discovery as discriminative Mode Seeking, NIPS 2013] \cite{}), but has not yet been used in conjunction with SVMs as done in this work. Note also that the affine calibration can be computed offline and does not need any additional computation or storage at query time compared to the p-value calibration of \cite{Gronat13}.
-      Though the calibration by re-normalization is simple we observe that this type of calibration is more suited for dense descriptors such as Fisher vectors. Details will be given next in the experimental section. 
+  
+%  corresponds to computing the normalized cross-correlation between vectors $w$ and $x$. This was found to work well in retrieval (see e.g. Sivic and Zisserman, \cite{}) or matching whitened HOG descriptors [11,13] \cite{}, \cite{} (see e.g. [Doersch et al., Mid-Level Visual Element Discovery as discriminative Mode Seeking, NIPS 2013] \cite{}), but has not yet been used in conjunction with SVMs as done in this work. Note also that the affine calibration can be computed offline and does not need any additional computation or storage at query time compared to the p-value calibration of \cite{Gronat13}.
+%      Though the calibration by re-normalization is simple we observe that this type of calibration is more suited for dense descriptors such as Fisher vectors. Details will be given next in the experimental section. 
+%      
+%      In the previous section we had to find parameters $c_j$ and $d_j$ from training data which can be still costly at training time and requires negative training data. Below we investigate whether it is possible to set $c_j$ and $b_j$ without any training. We found that this is possible by special choice of affine function based on learnt SVM. 
+%      The raw SVM score can be calibrated such that, first, the bias term is subtracted and, second, the score is scaled by inverse of the SVM weight vector. The calibration function can be then written as follows
+%      \begin{equation}
+%         f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{q}^T\vec{w}_j
+%         \label{eq:rescale}
+%      \end{equation}
+%
+%      \noindent
+%      This calibration can be viewed as a spacial case of affine calibration where calibration parameters rely on SVM only. The equation \eqref{eq:rescale} can be further re-written as a dot-product
+%      
+%      \begin{equation}
+%         f_j(\vec{q}) = \vec{q}^T\vec{\tilde{w}}_j
+%         \label{eq:rescaled}
+%      \end{equation}
+%
+%      \noindent
+%      where $\vec{\tilde{w}}_j=\frac{\vec{\tilde{w}}_j}{||\vec{w}_j||}$ can be computed offline and yields only $O(N)$ complexity which allows the method to scale up.
+%   
+%   \subsection{Discussion}
+%      We have found that this calibration works very well in practice when SVM is properly regularized.
+%      The intuition is that for $L2$ normalized descriptors $x$ computing the calibrated score $f(x)$ corresponds to computing the normalized cross-correlation between vectors $w$ and $x$. This was found to work well in retrieval (see e.g. Sivic and Zisserman, \cite{}) or matching whitened HOG descriptors [11,13] \cite{}, \cite{} (see e.g. [Doersch et al., Mid-Level Visual Element Discovery as discriminative Mode Seeking, NIPS 2013] \cite{}), but has not yet been used in conjunction with SVMs as done in this work. Note also that the affine calibration can be computed offline and does not need any additional computation or storage at query time compared to the p-value calibration of \cite{Gronat13}.
+%      Though the calibration by re-normalization is simple we observe that this type of calibration is more suited for dense descriptors such as Fisher vectors. Details will be given next in the experimental section. 
       %The proposed calibration method works when the SVM is properly regularized. The resulting direction of $\vec{\tilde{w}}$ heavily depends on $C_2$ parameter of the objective \eqref{eq:obj}. It can be shown that when $C_2 \rightarrow 0$ the resulting $\vec{\tilde{w_j}} \rightarrow \vec{x}_j^+$ where $\vec{x}_j^+$ is a single positive exemplar used for training. 
 
 
