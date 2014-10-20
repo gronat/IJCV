@@ -549,7 +549,7 @@ In particular, the method estimates the significance of the score of a test exam
 To address these issues we first describe an affine calibration model that approximates the tail of the cdf with a simple linear function defined by only two parameters: its slope and offset, greatly reducing the required storage.
 %This greatly reduces the storage requirements and makes storing the calibration functions feasible for very large datasets.
 Second, we show that the parameters of the affine calibration function can be obtained by re-normalizing the learnt classification hyper-plane without applying the classifiers on the negative data and thus bringing down the computational complexity to $O(N)$.
-As a result  computing and storing the calibration functions becomes feasible for very large datasets with 1M images.
+As a result,  computing and storing the calibration functions becomes feasible for very large datasets with 1M images.
 %This greatly reduces the storage and computational requirements and makes computing and storing the calibration functions feasible for very large (1M+) datasets.
 
 %The calibration method described above requires storing a non-parametric model of the calibration function for each learned classifier. Later, the SVM score calibration must be performed online at query time. These two aspects increase a memory footprint and computational cost in both offline and online phase. 
@@ -570,9 +570,9 @@ As a result  computing and storing the calibration functions becomes feasible fo
 	where 
 %	$s_j(\vec{q})$ is the uncalibrated score for query $\vec{q}$ , 
 	$ f_j(\vec{q})$ is the output calibrated score, and
-	$\alpha_j$ and $\beta_j$ are scalar parameters of the calibration function, specific to each classifier $j$.
+	$\alpha_j$ and $\beta_j$ are scalar calibration parameters specific to each classifier $j$.
 	In this work we use linear classifiers, hence substituting for $s_j(\vec{q})$ %in~\eqref{eq:affine} 
-	the linear classifier from \eqref{eq:linear} results also in a linear classifier
+	the linear classifier from \eqref{eq:linear} results also in a linear calibrated classifier
 %     \begin{align}
 %%        \nonumber
 %         f_j(\vec{q}) = c_j\vec{w}_j^T \vec{q}+ (c_j b_j+d_j)
@@ -583,11 +583,11 @@ As a result  computing and storing the calibration functions becomes feasible fo
     \label{eq:linear2}
 %      \nonumber
 %        f_j(\vec{q}) = (c_j\vec{w}_j)^T \vec{q} + \beta_j
-        f_j(\vec{q}) = \vec{\widetilde{w}}_j^T \vec{q} + c_j
+        f_j(\vec{q}) = \vec{\widetilde{w}}_j^T \vec{q} + c_j,
         %\label{eq:affiine3}
      \end{align}
     where $\vec{\widetilde{w}}_j = \alpha_j\vec{w}_j$ and $c_j=\alpha_j b_j+\beta_j$. 
-    Note that this is the same form as the original classifier in~\eqref{eq:linear} and hence this representation does not require any additional storage compared to storing the original classifier. %Compared to the~\cite{
+    Note that the calibrated classifier~\eqref{eq:linear2} has the same form as the original classifier~\eqref{eq:linear} and hence this representation does not require any additional storage compared to storing the original classifier. %Compared to the~\cite{
     The question remains how to set the parameters $\alpha_j$ and $\beta_j$ of the calibration function~\eqref{eq:affine}, which is discussed next.
     
   
@@ -629,7 +629,7 @@ As a result  computing and storing the calibration functions becomes feasible fo
 
    \subsection{Calibration by re-normalization}
    Parameters of the affine calibration function~\eqref{eq:affine} could be learnt from negative training data in a similar manner to for example~\cite{Aubry14}. 
-   However, as discussed above, in our case this would require running all $N$ classifiers on all $N$ data points, which is prohibitive for large datasets.
+   However, as discussed above, in our case this would require running all $N$ classifiers on all $N$ images, which is prohibitive for large datasets.
    Instead, we have found that a good calibration can be obtained by re-normalizing the learnt hyperplane $\vec{w}$. In particular, we set 
    %we found in practice good results can be obtained by setting 
    \begin{align}
@@ -646,7 +646,10 @@ As a result  computing and storing the calibration functions becomes feasible fo
         f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{w}_j^T\vec{q}.
             \label{eq:linear3}
      \end{align}
-     The intuition is that when $\vec{q}$ is $L_2$ normalized, equation~\eqref{eq:linear3} is equivalent to computing the normalized dot-product between vectors $\vec{q}$ and $\vec{w}$.       This was found to work well in image retrieval~\cite{Sivic03} or matching whitened HOG descriptors~\cite{Doersch13}, but has not yet been used in conjunction with SVMs as done in this work. Note also that the type of ``calibration by re-normalization" is scalable to very large datasets as it (i) requires only $O(N)$ computations offline to pre-compute the calibration parameters for each of the $N$ learnt classifiers (equations~\eqref{eq:rescale1} and~\eqref{eq:rescale2}), and (ii) does not need any additional storage or computation at query time as the calibration parameters can be included in the form of the classifier as in~\eqref{eq:linear2}.   
+     The intuition is that when $\vec{q}$ is $L_2$ normalized, equation~\eqref{eq:linear3} is equivalent to computing the normalized dot-product between vectors $\vec{q}$ and $\vec{w}$.       This was found to work well in image retrieval~\cite{Sivic03} or matching whitened HOG descriptors~\cite{Doersch13}.
+%      but has not yet been used in conjunction with SVMs as done in this work.
+In this work we investigate whether this intuition about descriptor matching can be used as a form of calibration for the learnt place-specific classifier.  
+      Note  that this form of calibration by re-normalization is scalable to very large datasets as it (i) requires only $O(N)$ computations offline to pre-compute the calibration parameters for each of the $N$ learnt classifiers (equations~\eqref{eq:rescale1} and~\eqref{eq:rescale2}), and (ii) does not need any additional storage or computation at query time as the calibration parameters can be included in the classifier~\eqref{eq:linear2}.   
 %          We have found that this calibration works very well in practice when the SVM is appropriately regularized. In particular, we set parameters $C_1$ and $C_2$ in the SVM cost~\eqref{} by cross-validation to prevent overfitting to the single positive example and details are given in section~\ref{}.
       % - pluggin in 7+8 into 5 we see the form.
       % For L2 normalized descriptor this is equivalent to normalized scalar-product between the two vectors which was found to work well..
@@ -682,78 +685,168 @@ As a result  computing and storing the calibration functions becomes feasible fo
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \section{Memory efficient classifier representation for BOW}
+%  \section{Memory efficient classifier representation for BOW}
+  \section{Memory efficient classifier representation}  
   \label{sec:memory}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-      For each image $j$ in the database the linear SVM is learnt \eqref{eq:linear}. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main drawback of this representation is that when the original vector $\vec{x_j}$ is sparse and high dimensional, for instance BOW vector, the learned weight vector $\vec{w_j}$ of the same dimensionality is dense. Hence a memory requirement for storage of the new representation grows dramatically. For instance, if the visual word vocabulary size is $100,000$ and each image contains $2,000$ features on average, the memory required for storage of one BOW image representation is $\sim 8$kB. However the memory required for storing the SVM weight is $\sim390$kB per image.
-
-
-      This drawback can be efficiently solved by storing SVM vectors in its dual representation. The key observation is that number of training data $K$ is significantly lower then dimensionality $D$ of the original tfidf vector. In the following we omit index $j$ for clarity. Since $K\ll D$ all the training data points are typically support vectors, hence each vector $\vec{w}$ can be then expressed in dual form as linear combination
-
+  % The method requires storing all the learnt classifiers w.
+  % The optimal storage depends on the dimension and sparsity structure of w.
+  % As will be discussed in detail section(exp), in this work we investigate two types of descriptors 
+  % The high-dimensional sparse BOF and compact non-sparse FV.  
+  % Some descriptors are dense. Some descriptors are sparse.
+  
+%  For each image $j$, we learn a linear discriminative classifier with weight vector $\vec{w}_j$ and bias $b_j$.
+We learn a linear discriminative classifier with weight vector $\vec{w}_j$ and bias $b_j$ for each image $j$ in the database.   
+  These classifier parameters become the new representation for each image. 
+%  This becomes the new representation for each image in the database. 
+  In this section we discuss how the classifier parameters can be stored in a memory efficient manner that is amenable for indexing. 
+ The goal is to apply all the learnt classifiers to the query descriptor $\vec{q}$
       \begin{equation}
-        \vec{w}=\sum_{i\in \mathcal{P},\mathcal{N}} \alpha_i \vec{x_i} = \mathcal{X} \cdot \vec{\alpha}
+      \label{eq:allscores}
+        \vec{s}=\vec{q}^T \mathcal{W}+\vec{b}, %=\vec{q}^T \mathcal{X}\cdot \mathcal{A}+\vec{b}
+      \end{equation}
+where $\mathcal{W}$ is $d\times N$ matrix storing all the learnt $\vec{w}_j$ classifiers as columns, $\vec{b}$ is a $N\times1$ vector storing all the learnt bias values $b_j$, 
+$\vec{q}$ is the input query descriptor, $\vec{s}$ is a $1\times N$ vector of output scores for all classifiers in the database, $N$ is the number of images in the database  and $d$ is the dimensionality of the image representation. 
+ As discussed in detail in section~\ref{sec:experiments} we investigate two different image representations:  (i) the bag-of-visual-word vectors~\cite{Sivic03} and (ii) the compact Fisher vectors~\cite{Jegou12}. The learnt classifiers for these two image descriptors have different statistics and require different methods for storing and indexing. Next, we discuss the classifier representations for the two types of image representations.
+ 
+ \paragraph{Bag-of-visual-words:}
+In the bag-of-visual-words representation, each image is represented by a high dimensional vector $\vec{x}$, where the dimensionality $d$ is typically $100,000$, but the vector is very sparse with only about 2,000 non-zero entries. 
+The learnt $\vec{w_j}$ are of the same (high) dimension $d$ but are {\em not sparse}. As a result, directly storing the learnt classifiers becomes quickly infeasible.
+%  However, for the bag-of-visual-words representation, storing directly the classifier weights $\vec{w}$ becomes quickly non-feasible as the learnt $\vec{w}$ are very high-dimensional ($d=100,00$) but not sparse. 
+  To illustrate this, consider a database of $N=1,000,000$ images. Storing the original descriptors with about 2,000 non-zero entries for each image would take around 8GB. However, directly storing the learnt non-sparse $100,000\times 1,000,000 $ matrix $\mathcal{W}$ would require 400GB of memory. % for the same database.
+  To address this issue we have developed an alternative indexing structure taking advantage of the dual form of the linear classifier as a sparse linear combination of a small number of support vectors~\cite{scholkopf2002learning}.   
+ The key observation is that the number of support vectors $k$ is significantly lower then dimensionality $d$ of the original image descriptor. In the following we omit index $j$ for clarity.  In detail, we represent each $\vec{w}$ by its corresponding coefficients $\alpha_i$ of the linear combination of the support vectors (individual image descriptors) $\vec{x}_i$ such that
+  \begin{equation}
+        \vec{w}=\sum_{i} \alpha_i \vec{x_i} = \mathcal{X} \cdot \vec{\alpha},
         \label{eq:dual}
       \end{equation}
-
       \noindent
-      where $\alpha_i$, the elemnts of vector $\vec{\alpha}$, are coefficients of linear combination of training data $\vec{x_i}$ and the matrix $\mathcal{X}$ contains descriptors of all database. Notice that the vector $\vec{\alpha}$ is sparse and number of non-zero elements depends on the number of training data $K$. Finally, a column wise matrix $\mathcal{W}$ containing all learned SVM weights can be expressed in a dual form as
-
+      where $\alpha_i$, the elements of vector $\vec{\alpha}$, are coefficients of the linear combination of the training data points $\vec{x}_i$ and the matrix $\mathcal{X}$ contains (as columns) descriptors of the entire database. Note that the vector $\vec{\alpha}$ is sparse and the number of non-zero elements depends on the number of support vectors $k$. 
+%    \begin{equation}
+%    \label{eq:lincomb}
+%    	\vec{w}=\sum_{i} \vec{x}_i\alpha_i.
+%    \end{equation}
+%    The coefficients $\alpha$ for the entire database can be concatenated into a $N\times N$ matrix $\mathcal A$, where $N$ is the number of images in the database.  The $j$-th column of $\mathcal A$ contains the coefficients $\alpha$ that reconstruct the particular weight vector $\vec{w}_j$ using eq.~(\ref{eq:lincomb}).
+%    As the number of non-zero coefficients for each place $j$ is small  matrix $\mathcal A$ is sparse and can be efficiently stored in an inverted file structure. 
+%    At query time, given the query descriptor $\vec{q}$ the (uncalibrated) classifier scores can be computed as 
+%    \begin{equation}
+%    	s=q^T \mathcal{X} \mathcal{A} + b^T,
+%    	\label{eq:simAlpha}
+%    \end{equation}
+%   
+As a result, matrix $\mathcal{W}$ containing all learned classifier weights can be expressed in the dual form as
       \begin{equation}
-        \mathcal{W} = \mathcal{X}\cdot \mathcal{A}  
+      \label{eq:dual}
+        \mathcal{W} = \mathcal{X} \mathcal{A},  
       \end{equation}
-
       \noindent
-      where $\mathcal{A}$ is a sparse coefficient matrix where each column corresponds to vector $\vec{\alpha}$ from equation \eqref{eq:dual}. To be able to reconstruct the matrix $\mathcal{W}$ one has to keep only two sparse matrices, the descriptor matrix $\mathcal{X}$ and the coefficient matrix~$\mathcal{A}$. Notice, that if $500$ hard negative data is being used for SVM training this representation requires only $2$kB of additional memory per image. 
+      where $\mathcal{X}$ is the (sparse) matrix of the bag-of-visual-words image descriptors and $\mathcal{A}$ is the (sparse) matrix of $\alpha$ coefficients, 
+   where each column corresponds to vector $\vec{\alpha}$ from \eqref{eq:dual}. 
+%   Hence, to reconstruct (dense) matrix $\mathcal{W}$ we only keep two sparse matrices, the descriptor matrix $\mathcal{X}$ and the coefficient matrix~$\mathcal{A}$. 
+%   Notice, that if $500$ hard negative data is being used for SVM training this representation requires only $2$kB of additional memory per image. 
+Using this representation, the memory footprint is significantly reduced. Instead of storing all (non-sparse) weight vectors $\mathcal{W}$, which has memory complexity $O(dN)$ where $d$ (= 100,000) is the dimensionality of the image representation and $N$ is the size of the database, we store two sparse matrices $\mathcal{X}$ and $\mathcal{A}$, which has memory complexity $O(mN+kN)$ where $m$(=2,000) is the number on non-zero elements in the original bag-of-visual-word descriptors, and $k$ is the typical number of support vectors. In our case $k$ is about the size of the training data which is around 500. As a result, the storage requirements are significantly reduced. For example, for a database of 1M images the dual representation requires only about 10 GB of storage compared to 400GB for directly storing classifiers $\mathcal{W}$.  
+Note that sparsity can be imposed directly on the learnt classifiers $\vec{w}$ by appropriate regularization~\cite{scholkopf2002learning}. However, we found this approach did not yield competitive results.
+%       \begin{equation}
+%    	\vec{s}= \vec{q}^T \mathcal{X} \mathcal{A} + \vec{b},
+%    	\label{eq:simAlpha}
+%    \end{equation}
+%where $\mathcal{X}$ is the $d\times N$ matrix of all image descriptors, $\mathcal{A}$ is the $N \times N$ matrix of the corresponding $\alpha$ coefficients, $\vec{b}$ is the vector of offsets $b_j$ for each $j$, $d$ is the dimensionality of the image representation and $N$ is the number of images in the database. 
+%  Notice that $\vec{q}^T\mathcal{X}$ is vector of similarity scores between the query and all database images. Hence, the score $s$ can be interpreted as a similarity score that is weighted by coefficients $\alpha$ stored in matrix $\mathcal{A}$. Using this representation, the memory footprint is significantly reduced. Instead of storing all (non-sparse) weight vectors $\vec{w}_j$, which has memory complexity $O(dN)$ where $d=100,000$ is the dimensionality of the image representation and $N$ is the size of the database, we store its dual representation, which has memory complexity $O(kN)$ where $k = 500$ is the number of support vectors. Hence, the storage requirements are reduced by a factor of $200$.  Note that sparsity can be imposed directly on the learnt classifiers $\vec{w}$ by appropriate regularization~\cite{}. However, we found this approach did not yield competitive results. 
+ %   imposing sparsity directly on $w$ did not yield competitive results.  
+%   In addition, depending on the calibration method, we also store the calibration function (for the p-value calibration) or the calibration parameters are include in the classifier (calibration by re-normalization). 
+%      For each image $j$ in the database the linear SVM is learnt \eqref{eq:linear}. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main drawback of this representation is that when the original vector $\vec{x_j}$ is sparse and high dimensional, for instance BOW vector, the learned weight vector $\vec{w_j}$ of the same dimensionality is dense. Hence a memory requirement for storage of the new representation grows dramatically. For instance, if the visual word vocabulary size is $100,000$ and each image contains $2,000$ features on average, the memory required for storage of one BOW image representation is $\sim 8$kB. However the memory required for storing the SVM weight is $\sim390$kB per image.
 
-      At query time, given the query image $\vec{q}$, the uncalibrated SVM score between the query image and each of the database images can be computed by equation \eqref{eq:linear} which can be expressed in a matrix form as follows
-      \begin{equation}
-        \vec{s}=\vec{q}^T \mathcal{W}+\vec{b}=\vec{q}^T \mathcal{X}\cdot \mathcal{A}+\vec{b}
-      \end{equation}
+%      This drawback can be efficiently solved by storing SVM vectors in its dual representation. The key observation is that number of training data $K$ is significantly lower then dimensionality $D$ of the original tfidf vector. In the following we omit index $j$ for clarity. Since $K\ll D$ all the training data points are typically support vectors, hence each vector $\vec{w}$ can be then expressed in dual form as linear combination
+%
+%      \begin{equation}
+%        \vec{w}=\sum_{i\in \mathcal{P},\mathcal{N}} \alpha_i \vec{x_i} = \mathcal{X} \cdot \vec{\alpha}
+%        \label{eq:dual}
+%      \end{equation}
+%
+%      \noindent
+%      where $\alpha_i$, the elemnts of vector $\vec{\alpha}$, are coefficients of linear combination of training data $\vec{x_i}$ and the matrix $\mathcal{X}$ contains descriptors of all database. Notice that the vector $\vec{\alpha}$ is sparse and number of non-zero elements depends on the number of training data $K$. Finally, a column wise matrix $\mathcal{W}$ containing all learned SVM weights can be expressed in a dual form as
+%
+%      \begin{equation}
+%        \mathcal{W} = \mathcal{X}\cdot \mathcal{A}  
+%      \end{equation}
+%
+%      \noindent
+%      where $\mathcal{A}$ is a sparse coefficient matrix where each column corresponds to vector $\vec{\alpha}$ from equation \eqref{eq:dual}. To be able to reconstruct the matrix $\mathcal{W}$ one has to keep only two sparse matrices, the descriptor matrix $\mathcal{X}$ and the coefficient matrix~$\mathcal{A}$. Notice, that if $500$ hard negative data is being used for SVM training this representation requires only $2$kB of additional memory per image. 
 
-      Let $\vec{\sigma}^T=\vec{q}^T \mathcal{X}$ be a dot product cosine similarity between original descriptors. Then the equation above can be re-written as
-      \begin{equation}
-        \vec{s}=\vec{\sigma}^T \mathcal{A}+\vec{b}
-      \end{equation}
+%      At query time, given the query image $\vec{q}$, the uncalibrated SVM score between the query image and each of the database images is computed by \eqref{eq:linear} which can be expressed in a matrix form as 
+%      \begin{equation}
+%        \vec{s}=\vec{q}^T \mathcal{W}+\vec{b}=\vec{q}^T \mathcal{X}\cdot \mathcal{A}+\vec{b}
+%      \end{equation}
+%
+%      Let $\vec{\sigma}^T=\vec{q}^T \mathcal{X}$ be a dot product cosine similarity between original descriptors. Then the equation above can be re-written as
+%      \begin{equation}
+%        \vec{s}=\vec{\sigma}^T \mathcal{A}+\vec{b}
+%      \end{equation}
+%
+%      \noindent
+%      It is worth noting that the new score $s$ consists of linear combination of the cosine similarity measure and the bias term.
 
-      \noindent
-      It is worth noting that the new score $s$ consists of linear combination of the cosine similarity measure and the bias term.
+\paragraph{Fisher vectors:}
+%In contrast, the Fisher vectors are not-sparse, but relatively low-dimensional with
+%  The way the learnt classifiers are stored is determined by the dimensionality and sparsity of the learnt weight vector $\vec{w}$.
+% 
+% FV are low d but X is not sparse hence no additional benefit is obtained using the dual representaiton as outline above  
+% However, the represent is low d hence it is possible to store directly the learnt W. 
+% Space saving is obtained by applying PCA to the original descriptors X as used in ~\cite{Jegou12}.
+%   
+The Fisher vector descriptors are not sparse and therefore the dual representation given by~\eqref{eq:dual} does not bring any memory savings.
+However, they have a relatively low-dimension $d\in\{128, 512, 2048\}$ hence
+it is possible to store directly the (non-sparse) matrix $\mathcal{W}$ containing the learnt
+classifier parameters $\vec{w}$.
+%  In the bag-of-visual-words representation, each image is represented by a high dimensional vector $\vec{x}$, where the dimensionality $d$ is typically $100,000$, but the vector is very sparse with only about 2,000 non-zero entries. In contrast, the Fisher vectors are not-sparse, but relatively low-dimensional with $d\in\{128, 512, 2048\}$.
+%    For Fisher vectors we store directly the learnt parameters $\vec{w}$. 
+In this work we exhaustively compute the classifier scores for all images in the database (given by equation~\eqref{eq:allscores}) using efficient (but exact) matrix-vector multiplication routines.
+%As both the query $\vec{q}$ and classifier vectors $\vec{w}$ are normalized to have unit L2 norm, 
+However, this computation can be further sped-up using product quantization indexing as described in~\cite{Jegou12}.     
+ %    The efficient computation of all classifier scores in the database can be achieved using the product quantization indexing~\cite{Jegou12}.      
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Experimental setup and implementation details}
 \label{sec:experiments}
 %%%%%%%%%%%%%%%%%%%%%%%
-   In this section we provide information about image datasets, image descriptors and experiments that we performed.
+   In this section we describe the experimental datasets, outline the two types of used image descriptors, and finally give implementation details of the classifier learning procedure.
    %In this section we first give implementation details, then describe the experimental datasets and finally compare performance of the proposed approach with several baseline methods.
         %%%%%%%%%%%%%%%%%%%%%%%%%%
         \subsection{Image datasets}
         %%%%%%%%%%%%%%%%%%%%%%%%%%
-        \paragraph{Database.}
-        We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles, namely $4^\circ$ and $28^\circ$, to capture both the street-level scene and the building fa\c{c}ades, resulting in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate one dataset containing $25k$ images and the second one containing $55k$ images.
+        \paragraph{Image database.}
+        We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles $4^\circ$ and $28^\circ$ to capture both the street-level scene and the building fa\c{c}ades. This resuls in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate two datasets. The first smaller dataset covers a smaller area and contains $25k$ perspective images. The second larger dataset contains $55k$ images.
 
         \paragraph{Query set.}
-        As a query set with known ground truth GPS positions, we use the 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions. We generate a test query set such that we , first, select a panorama at random and, second, we generate a perspective image with random orientation and random elevation pitch. 
+        As a query set with known ground truth GPS positions, we use the 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.         
+        We generate a test query set such that we, first select a panorama at random and, second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize **** query test images.
 
+	% *** TODO: Add here the SF 1M dataset.
 
       %%%%%%%%%%%%%%%%%%%%%%%%%%
        \subsection{Image descriptors}
        %%%%%%%%%%%%%%%%%%%%%%%%%%
-        We first extract rootSIFT descriptors~\cite{Arandjelovic12} for each image. On top od rootSIFT descriptors we build two different image representations, a bag-of-words and Fisher vectors representation.
+        We perform experiments with two type of image descriptors: the sparse high-dimensional bag-of-visual-word vectors~\cite{Sivic03} and the compact (not-sparse) Fisher vectors~\cite{Jegou12}. Details of each are given next.
+%        We first extract rootSIFT descriptors~\cite{Arandjelovic12} for each image. On top od rootSIFT descriptors we build two different image representations, a bag-of-words and Fisher vectors representation.
 
-        \paragraph{Fisher vectors}
-        Following~\cite{Jegou12} we project the 128-dimensional SIFT descriptors to 64 dimensions using PCA. The projection matrix is learnt on a set of descriptors from 5,000 randomly selected database images. This has also the effect of decorrelating the SIFT descriptor. The 64-dimensional SIFT descriptors are then aggregated into Fisher vectors using a Gaussian mixture model with $N=256$ components, which results in a $2\times256\times64 = 32,768$-dimensional descriptor for each image.  
-      
+        \paragraph{Bag-of-visual-word representation.}
+           We extract rootSIFT descriptors~\cite{Arandjelovic12} for each image and learn a vocabulary of $100$k visual words by approximate k-means clustering~\cite{Philbin07} from a subset of features from $5,000$ randomly selected database images. Then, a tf-idf weighted vector~\cite{Sivic03} is computed for each image by assigning each descriptor to the nearest cluster center.  Finally, all database vectors are normalized to have unit $L_2$ norm.
+        
+            \paragraph{Fisher vectors.}
+        Following~\cite{Jegou12} we project the extracted 128-dimensional rootSIFT descriptors to 64 dimensions using PCA. The projection matrix is learnt on a set of descriptors from 5,000 randomly selected database images. This has also the effect of decorrelating the rootSIFT descriptor. The 64-dimensional descriptors are then aggregated into Fisher vectors using a Gaussian mixture model with $N=256$ components, which results in a $2\times256\times64 = 32,768$-dimensional descriptor for each image.  
         The Gaussian mixture model is learnt from descriptors extracted from 5,000 randomly sampled database images. The  high-dimensional Fisher vector descriptors are then projected down to dimension $d\in\{128,512, 2048\}$ using PCA learnt from all available images in the database. The resulting low dimensional Fisher vectors are then re-normalized to have unit L2-norm, which we found to be important in practice.
 
-        \paragraph{Bag-of-words}
-        For bag-of-word representation we learn a vocabulary of $100$k visual words by approximate k-means clustering~\cite{Philbin07} from a subset of features from $5,000$ randomly selected images. Then, a tf-idf vector is computed for each image by assigning each descriptor to the nearest cluster center.  Finally, all tf-idf vectors are normalized to have unit $L_2$ norm.
 
-      \subsection{Learning parameters and training data.}
+%      \subsection{Learning parameters and training data.}
+      \subsection{Parameters of per-location classifier learning}
         To learn the exemplar support vector machine for each database image $j$, the positive and negative training data are constructed as follows. 
         The \emph{negative training set} $\mathcal N_j$ is obtained by: (i) finding the set of images with geographical distance greater than $200{\rm m}$; (ii)  sorting the images by decreasing value of similarity to image $j$ measured by the dot product between their respective descriptors; (iii) taking the top $N=500$ ranked images as the negative set. 
         In other words, the negative training data consists of the hard negative images, i.e. those that are similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content. 
-        The \emph{positive training set} $\mathcal P_j$ consist of the descriptor $\Phi_j$ of the target image $j$. The set can be further expanded by including close by images having the same visual content. These images can be identified by geometric verification \cite{}.
+        The \emph{positive training set} $\mathcal P_j$ consist of the descriptor $\Phi_j$ of the target image $j$. The set can be further expanded by including close by images having the same visual content. These images can be identified by geometric verification \cite{Philbin07}.
 
+{\tt *** The following paragraph needs updating.}
         For the SVM training we use {\tt libsvm} \cite{libsvm}. We use the same $C_1$ and $C_2$ parameters for all per-exemplar classifiers, but find the optimal value of the parameters for each image representation by a grid search evaluating performance on a held out set.
         %We observe that for different Fisher vector target dimensions the optimal value of parameter $C_1$ is quite stable (typically $C_1=1$) while the optimal parameter for $C_2$varies between $10^{-6}$ to $10^{-1}$.
         To learn the new image representation for each database image $j$ we: (i) learn SVM from $\mathcal P_j$ and $N_j$ (see above); (ii) $L2$ normalize the learned $w_j$ using equation~\eqref{eq:normalization}; and (iii) use this re-normalized vector as the new image descriptor $\Psi_j$ for image $j$. At query time we compute the Fisher vector $\Phi_q$ of the query image and measure its similarity score to the learnt descriptors $\Psi_j$ for each database image by equation~\eqref{eq:class}.
