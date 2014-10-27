@@ -640,12 +640,14 @@ As a result,  computing and storing the calibration functions becomes feasible f
    \end{align}
    where $\vec{w}_j$ and $b_j$ are the parameters of the learnt SVM hyper-plane for location $j$ and $||\vec{w}||$ is the $L_2$ norm of $\vec{w}$ . Given this choice of $\alpha_j$ and $\beta_j$
    the calibrated classification score~\eqref{eq:linear2} reduces to
+
       \begin{align}
 %      \nonumber
 %        f_j(\vec{q}) = (c_j\vec{w}_j)^T \vec{q} + \beta_j
         f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{w}_j^T\vec{q}.
             \label{eq:linear3}
      \end{align}
+
      The intuition is that when $\vec{q}$ is $L_2$ normalized, equation~\eqref{eq:linear3} is equivalent to computing the normalized dot-product between vectors $\vec{q}$ and $\vec{w}$.       This was found to work well in image retrieval~\cite{Sivic03} or matching whitened HOG descriptors~\cite{Doersch13}.
 %      but has not yet been used in conjunction with SVMs as done in this work.
 In this work we investigate whether this intuition about descriptor matching can be used as a form of calibration for the learnt place-specific classifier.  
@@ -821,7 +823,7 @@ However, this computation can be further sped-up using product quantization inde
 
         \paragraph{Query set.}
         As a query set with known ground truth GPS positions, we use the 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.         
-        We generate a test query set such that we, first select a panorama at random and, second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize **** query test images.
+        We generate a test query set such that we, first select a panorama at random and, second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize 4,000 query test images.
 
 	% *** TODO: Add here the SF 1M dataset.
 
@@ -832,10 +834,10 @@ However, this computation can be further sped-up using product quantization inde
 %        We first extract rootSIFT descriptors~\cite{Arandjelovic12} for each image. On top od rootSIFT descriptors we build two different image representations, a bag-of-words and Fisher vectors representation.
 
         \paragraph{Bag-of-visual-word representation.}
-           We extract rootSIFT descriptors~\cite{Arandjelovic12} for each image and learn a vocabulary of $100$k visual words by approximate k-means clustering~\cite{Philbin07} from a subset of features from $5,000$ randomly selected database images. Then, a tf-idf weighted vector~\cite{Sivic03} is computed for each image by assigning each descriptor to the nearest cluster center.  Finally, all database vectors are normalized to have unit $L_2$ norm.
+           We extract SURF descriptors~\cite{Bay06} for each image and learn a vocabulary of $100$k visual words by approximate k-means clustering~\cite{Philbin07} from a subset of features from $5,000$ randomly selected database images. Then, a tf-idf weighted vector~\cite{Sivic03} is computed for each image by assigning each descriptor to the nearest cluster center.  Finally, all database vectors are normalized to have unit $L_2$ norm.
         
-            \paragraph{Fisher vectors.}
-        Following~\cite{Jegou12} we project the extracted 128-dimensional rootSIFT descriptors to 64 dimensions using PCA. The projection matrix is learnt on a set of descriptors from 5,000 randomly selected database images. This has also the effect of decorrelating the rootSIFT descriptor. The 64-dimensional descriptors are then aggregated into Fisher vectors using a Gaussian mixture model with $N=256$ components, which results in a $2\times256\times64 = 32,768$-dimensional descriptor for each image.  
+        \paragraph{Fisher vectors.}
+        Following~\cite{Jegou12} we project the extracted 128-dimensional rootSIFT~\cite{Arandjelovic12} descriptors to 64 dimensions using PCA. The projection matrix is learnt on a set of descriptors from 5,000 randomly selected database images. This has also the effect of decorrelating the rootSIFT descriptor. The 64-dimensional descriptors are then aggregated into Fisher vectors using a Gaussian mixture model with $N=256$ components, which results in a $2\times256\times64 = 32,768$-dimensional descriptor for each image.  
         The Gaussian mixture model is learnt from descriptors extracted from 5,000 randomly sampled database images. The  high-dimensional Fisher vector descriptors are then projected down to dimension $d\in\{128,512, 2048\}$ using PCA learnt from all available images in the database. The resulting low dimensional Fisher vectors are then re-normalized to have unit L2-norm, which we found to be important in practice.
 
 
@@ -844,12 +846,17 @@ However, this computation can be further sped-up using product quantization inde
         To learn the exemplar support vector machine for each database image $j$, the positive and negative training data are constructed as follows. 
         The \emph{negative training set} $\mathcal N_j$ is obtained by: (i) finding the set of images with geographical distance greater than $200{\rm m}$; (ii)  sorting the images by decreasing value of similarity to image $j$ measured by the dot product between their respective descriptors; (iii) taking the top $N=500$ ranked images as the negative set. 
         In other words, the negative training data consists of the hard negative images, i.e. those that are similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content. 
-        The \emph{positive training set} $\mathcal P_j$ consist of the descriptor $\Phi_j$ of the target image $j$. The set can be further expanded by including close by images having the same visual content. These images can be identified by geometric verification \cite{Philbin07}.
+        The \emph{positive training set} $\mathcal P_j$ consist of the descriptor $\vec{x}_j$ of the target image $j$. The set can be further expanded by including close by images having the same visual content. These images can be identified by geometric verification \cite{Philbin07}.
 
-{\tt *** The following paragraph needs updating.}
-        For the SVM training we use {\tt libsvm} \cite{libsvm}. We use the same $C_1$ and $C_2$ parameters for all per-exemplar classifiers, but find the optimal value of the parameters for each image representation by a grid search evaluating performance on a held out set.
+        For the SVM training we use {\tt libsvm} \cite{libsvm}. We use the same $C_1$ and $C_2$ parameters for all per-exemplar classifiers, but find the optimal value of the parameters for each image representation by a grid search evaluating performance on a held out query set.
         %We observe that for different Fisher vector target dimensions the optimal value of parameter $C_1$ is quite stable (typically $C_1=1$) while the optimal parameter for $C_2$varies between $10^{-6}$ to $10^{-1}$.
-        To learn the new image representation for each database image $j$ we: (i) learn SVM from $\mathcal P_j$ and $N_j$ (see above); (ii) $L2$ normalize the learned $w_j$ using equation~\eqref{eq:normalization}; and (iii) use this re-normalized vector as the new image descriptor $\Psi_j$ for image $j$. At query time we compute the Fisher vector $\Phi_q$ of the query image and measure its similarity score to the learnt descriptors $\Psi_j$ for each database image by equation~\eqref{eq:class}.
+        \paragraph{Fisher vectors:}
+        To learn the new image representation for each database image $j$ we: (i) learn SVM from $\mathcal P_j$ and $\mathcal N_j$ (see above); (ii) $L2$ normalize the learned $\vec{w}_j$ using equation~\eqref{eq:linear3}; and (iii) use this re-normalized vector as the new image descriptor $\vec{x}'_j$ for image $j$. At query time we compute the Fisher vector $\vec{q}$ of the query image and measure its similarity score to the learnt descriptors $\vec{x}'_j$ for each database image by equation~\eqref{eq:class}.
+        
+        \paragraph{Bag-of-words:}
+        For each image in turn we (i) learn SVM from $\mathcal P_j$ and $\mathcal N_j$; (ii) compute the SVM score for all database images and construct the empirical cumulative density function~\eqref{eq:empiricalCDF} (iii) keep top 1,000 values that represent non-parametric calibration function. At query time, given the query tfidf vector $\vec{q}$, for each database image $j$ in turn, we compute the SVM score and then we compute calibrated SVM score $f_j$ using the calibration function.
+
+        The positive set $\mathcal P_j$ is expanded by performing a geometry verification on close-by images. In this manner we typically find between 0-5 additional positive images. If these images are used for SVM training each extra data point must be weighted by factor of $1/(2\#\text{of extra positives})$. This prevents SVM to fit on noise introduced in additional the images.
 
       % All images are described using the bag-of-visual-words representation~\cite{Sivic2003}. First, SURF~\cite{Bay06} 
       % %or rootSIFT~\cite{Arandjelovic12} 
@@ -872,54 +879,68 @@ However, this computation can be further sped-up using product quantization inde
    %%%%%%%%%%%%%%%%%%%%
    \section{Results}
    %%%%%%%%%%%%%%%%%%%%
-      We compare the performance of the proposed approach (SVM p-val) with the following baseline methods: (a) Training per-location classifiers without any calibration step (SVM). (b) Calibrating per-location classifiers using the standard logistic regression\footnote
-         {
-         The calibration of SVM scores with logistic regression is based on a subset of 30 hard negatives from $N_j$ and 1-15 available positive examples from $P_j$.
-         } 
-      as in exemplar SVM~\cite{Malisiewicz11} (SVM logistic). (c) The standard bag-of-visual words retrieval (BOW)~\cite{Philbin07}. (d) Our implementation of the confuser suppression  approach (Conf. supp.) of~\cite{Knopp2010} that, in each database image, detects and removes features that frequently appear at other far-away locations (using parameters $t=3.5$ and $w=70$).
 
-      For all methods, we implemented a two-stage place recognition approach. Given a query image, the aim of the first stage is to efficiently find a small subset (20) of candidates that are likely to depict the same place as the query image. In the second stage, we search for restricted homographies between candidates and the query image using RANSAC~\cite{Philbin07}. The candidates are finally re-ranked by decreasing number of inliers.
+  For Pittsburgh 25k database we compare the calibration methods (\emph{p-val}, \emph{$\vec{w}$ re-norm}) to two baselines: standard bag-of-visual-words baseline (BOW) and raw Fisher (FV) vector of dimension 128. For \emph{$\vec{w}$ re-norm} calibration method we also perform experiments on several target Fisher vector dimensions $d\in\{128,512,2048\}$. For Pittsburgh 55k database we compare \emph{$\vec{w}$ re-norm} calibration method to BOW and FV baselines.
+ 
+  Since the ground truth GPS position for each query image is available, for each method we measure performance using the percentage of correctly recognized queries (Recall) similarly to, e.g.,~\cite{Chen11,Knopp2010,Sattler-BMVC12}. The query is correctly localized if at least one of the top $K$ retrieved database images is within $20$ meters from the ground truth position of the query. Results for Pittsburgh 25k dataset are shown for different values of $K$ in table~\ref{tab:recall01} and in figure~\ref{fig:recall} we also show results in the form of a curve. For Pittsburgh 55k dataset the results are summarized in table~\ref{tab:recall02}.
 
-      \begin{figure}[t!]
-          \centering
-          \includegraphics[width=1.1\linewidth]{imgs/FVmemory}    
-          \caption{
-              \textbf{Memory complexity analysis.} 
-              The fraction of correctly localized queries at the top 10 retrieved images (y-axis) for different Fisher vector dimensions (x-axis). The learnt descriptors by our method (FV e-SVM) clearly outperform the raw Fisher vector descriptors (FV) for all dimensions. Note that for a certain level of performance (y-axis) the proposed method learns a more memory efficient (lower dimensional, x-axis) descriptor.
-          }
-          \label{fig:memory}
-      \end{figure}
+ 
+  %The proposed method also significantly outperforms the bag-of-visual-words baseline. 
+  %Figure~\ref{fig:images} shows examples of place recognition results. 
+     
+  The results in table~\ref{tab:recall01} show that while \emph{p-val} calibration is more suitable for BOW descriptors it performs badly on FV. We believe that ...
+  
+  The results for \emph{$\vec{w}$ re-norm} method on FV demonstrate the benefits of the learnt descriptors with respect to the standard Fisher vectors for all target dimensions and lengths of shortlist $K$. The benefits of discriminative learning are specially prominent for low-dimensional compact descriptors ($d=128$). Notice that \emph{$\vec{w}$ re-norm} method also improves the BOW baseline, though it does not outperform the p-val calibration.
 
-      \begin{figure}[t!]
-          \centering
-          \includegraphics[width=1.1\linewidth]{imgs/plotPitt25k}    
-          \caption{
-              \textbf{Evaluation on Pittsburgh 25k \cite{Gronat13} dataset.} The fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for different Fisher vector dimensions. The learnt descriptors by the proposed method (FV e-SVM) consistently improve over the raw Fisher vector descriptors across the whole range of $K$  and all dimensions.
-          }
-          \label{fig:recall}
-      \end{figure}
+
+
+  % \paragraph{Comparison to other methods.}
+  %   On the Pittsburgh 25k database, we compare performance of our learnt discriminative descriptors to the methods of~\cite{Gronat13} and~\cite{Knopp2010}, who report on the same testing data top $K=1$ recall of 36.5\% and 41.9\%, respectively (results taken from~\cite{Gronat13}). 
+  %   Our method outperforms~\cite{Knopp2010} already for dimension $d=128$ (37.8\%) and~\cite{Gronat13} for dimension $d=512$ (47.6\%). Furthermore, note that~\cite{Gronat13,Knopp2010} are based on a bag-of-visual-words representation, which typically needs to store between 1000-2000 non-zero visual words per image, which is significantly more than our learnt 128 or 512 dimensional descriptor. 
+       
+  \paragraph{Memory complexity analysis.}
+    Figure~\ref{fig:memory} compares the performance of the learnt discriminative descriptor (FV \emph{$\vec{w}$ re-norm}) to the raw Fisher vectors (FV) for different target dimensions. %, clearly demonstrating the benefits of the proposed approach. 
+    The results demonstrate that for a given level of accuracy (y-axis) the method learns a more compact (lower-dimensional) representation (x-axis). For example, our learnt 128-dimensional descriptor achieves a similar accuracy, around 65\%, to the 256-dimensional raw Fisher descriptor essentially reducing the memory complexity to 50\% for the same level of performance.  Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the baseline and our method.   
+
+    \begin{figure}[t!]
+        \centering
+        \includegraphics[width=1.1\linewidth]{imgs/FVmemory}    
+        \caption{
+            \textbf{Memory complexity analysis.} 
+            The fraction of correctly localized queries at the top 10 retrieved images (y-axis) for different Fisher vector dimensions (x-axis). The learnt descriptors by our method (FV e-SVM) clearly outperform the raw Fisher vector descriptors (FV) for all dimensions. Note that for a certain level of performance (y-axis) the proposed method learns a more memory efficient (lower dimensional, x-axis) descriptor.
+        }
+        \label{fig:memory}
+    \end{figure}
+
+    \begin{figure}[t!]
+        \centering
+        \includegraphics[trim=35mm 70mm 40mm 75mm, clip=true, width=\linewidth]{imgs/plot25knew.pdf}    
+        \caption{
+            \textbf{Evaluation on Pittsburgh 25k \cite{Gronat13} dataset.} The fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for different Fisher vector dimensions. The learnt descriptors by the proposed method (FV e-SVM) consistently improve over the raw Fisher vector descriptors across the whole range of $K$  and all dimensions.
+        }
+        \label{fig:recall}
+    \end{figure}
 
 
       \input{tableResults01.tex}
-
-      Since the ground truth GPS position for each query image is available, we measure the overall recognition performance by the percentage of query test images for which the top-ranked database image was located within a distance of $20$ meters from the ground truth query location.  Results are summarized in table~\ref{tab:eval} and clearly demonstrate the benefits of  careful calibration of the per-location classifiers. In addition, the proposed per-location classifier method outperforms the baseline bag-of-visual-word approach~\cite{Philbin07} including confuser suppression~\cite{Knopp2010}.
+      \input{tableResults02.tex}
 
       Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:demo1}. Figure~\ref{fig:3qVSw} illustrates the weights learnt for one database image applied
       to three different query images.
 
-   %%%%%%%%%%%%%%%%%%%%%%%%
-   \subsection{Scalability.}
-   %%%%%%%%%%%%%%%%%%%%%%%% 
-      The linear SVM classifiers trained for each database image are currently non-sparse,
-      which increases the computational and memory requirements
-      at query time compared to the original bag-of-visual-words representation.
-      For a database of 25,000 images, applying all classifiers on a query image takes currently on average 1.72s. The method could be further sped-up by, for example: (i) reducing the dimensionality of the input vectors~\cite{Jegou12}, or (ii) enforcing additional sparsity constraints on learnt weight vectors $w$.
+   % %%%%%%%%%%%%%%%%%%%%%%%%
+   % \subsection{Scalability.}
+   % %%%%%%%%%%%%%%%%%%%%%%%% 
+   %    The linear SVM classifiers trained for each database image are currently non-sparse,
+   %    which increases the computational and memory requirements
+   %    at query time compared to the original bag-of-visual-words representation.
+   %    For a database of 25,000 images, applying all classifiers on a query image takes currently on average 1.72s. The method could be further sped-up by, for example: (i) reducing the dimensionality of the input vectors~\cite{Jegou12}, or (ii) enforcing additional sparsity constraints on learnt weight vectors $w$.
 
    \input{myFigure02.tex}
 %%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%
-   We have shown that place recognition can be cast as a classification problem and have used geotags as a readily-available supervision to train an ensemble of classifiers, one for each location in the database. As only few positive examples are available for each location, we have proposed a non-parametric procedure to calibrate the output of each classifier without the need for additional positive training data. The results show improved place recognition performance over baseline methods and demonstrate that careful calibration is critical to achieve competitive place recognition performance. The developed calibration method is not specific to place recognition and can be useful for other per-exemplar classification tasks, where only a small number of positive examples are available~\cite{Malisiewicz11}.
+   We have shown that place recognition can be cast as a classification problem and have used geotags as a readily-available supervision to train an ensemble of classifiers, one for each location in the database. As only few positive examples are available for each location, we have proposed two procedures to calibrate the output of each classifier without the need for additional positive training data. The results show improved place recognition performance over baseline methods and demonstrate that careful calibration is critical to achieve competitive place recognition performance. The developed calibration methods are not specific to place recognition and can be useful for other per-exemplar classification tasks, where only a small number of positive examples are available~\cite{Malisiewicz11}.
 
    \vspace*{-3mm}
 
@@ -927,7 +948,7 @@ However, this computation can be further sped-up using product quantization inde
 \begin{acknowledgements}
    This work was supported by the MSR-INRIA laboratory, the EIT-ICT labs.
    {
-   \footnotesize
+   \small
    \noindent
    Supported by the Intelligence Advanced Research Projects Activity (IARPA) via Air Force Research Laboratory. The U.S. Government is authorized to reproduce and distribute reprints for governmental purposes notwithstanding any copyright annotation thereon. Disclaimer:  The views and conclusions contained herein are those of the authors and should not be interpreted as necessarily representing the official policies or endorsements, either expressed or implied, of IARPA, AFRL or the U.S. Government.
    }
