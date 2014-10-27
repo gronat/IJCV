@@ -2,8 +2,16 @@
 *.pdf
 *.log
 *.aux
+*.blg
+*.bbl
 !graphBigO.pdf
 !qnt1x.pdf
 !qnt2x.pdf
+!qntEx1.pdf
+!qntEx2.pdf
+!pitt25knew.pdf
+*.aux
+*.bbl
+*.blg
 
 
