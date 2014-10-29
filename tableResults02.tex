@@ -17,7 +17,7 @@
 		\rowcolor{maroon!10}
 		FV128     & 10.9 & 14.1 & 20.2 & 26.4 & 33.2 \\
 		\rowcolor{maroon!10}
-		\textbf{FV128 w renorm}  & \textbf{13.5}  &  \textbf{17.7}  &  \textbf{25.0}  &  \textbf{31.8}  &  \textbf{39.0} \\
+		\textbf{FV128 w-norm}  & \textbf{13.5}  &  \textbf{17.7}  &  \textbf{25.0}  &  \textbf{31.8}  &  \textbf{39.0} \\
     \hline  
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \rowcolor{maroon!10}
@@ -26,7 +26,7 @@
     % FV512 p-val   & \textbf{}  & \textbf{} & \textbf{} & \textbf{} & \textbf{}  &
     %                          \textbf{} &  \textbf{} &  \textbf{}  & \textbf{} &  \textbf{} \\
     \rowcolor{maroon!10}
-    \textbf{FV512 w renorm}  & \textbf{19.8} &  \textbf{25.1} &  \textbf{32.7}  & \textbf{38.7} &  \textbf{46.0} \\
+    \textbf{FV512 w-norm}  & \textbf{19.8} &  \textbf{25.1} &  \textbf{32.7}  & \textbf{38.7} &  \textbf{46.0} \\
     \hline
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		\rowcolor{maroon!10}
@@ -35,18 +35,18 @@
 		% FV2048 p-val  & \textbf{} & \textbf{} & \textbf{} & \textbf{} & \textbf{} &
   %       \textbf{} & \textbf{} & \textbf{} & \textbf{} & \textbf{}\\
         \rowcolor{maroon!10}
-        \textbf{FV2048 w renorm}  & \textbf{20.8} & \textbf{25.9} & \textbf{33.1} & \textbf{38.7} & \textbf{45.9} \\
+        \textbf{FV2048 w-norm}  & \textbf{20.8} & \textbf{25.9} & \textbf{33.1} & \textbf{38.7} & \textbf{45.9} \\
         \hline
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %       \rowcolor{maroon!10}
   %       FV8192        & 46.0  & 52.7 & 62.5 & 69.4 & 76.4 & - & - & - & - &  -   \\
   %       \rowcolor{maroon!10}
-  %       \textbf{FV8192 w renorm}  & \textbf{48.4} & \textbf{55.6} & \textbf{65.4} & \textbf{72.6} & \textbf{79.0} & - & - & - & - & -\\
+  %       \textbf{FV8192 w-norm}  & \textbf{48.4} & \textbf{55.6} & \textbf{65.4} & \textbf{72.6} & \textbf{79.0} & - & - & - & - & -\\
 		% \hline
 	\end{tabularx}
 	\caption{ \textcolor{myRed}{}
 %		The percentage of correctly localized test queries for which the topK ranked database image is within $20$ meters from the ground truth query position. The proposed method (svmFV) outperforms the baseline methods.
-The fraction of correctly recognized queries (recall@K) vs. the number of top $K\in\{1,2,5,10,20\}$ retrieved database images for different Fisher vector dimensions $d\in\{128,512,2048\}$. The learnt descriptors by the proposed method (FV w renorm) consistently improve over the raw Fisher vector descriptors across the whole range of $K$ and all dimensions on 55k Pittsburgh image datasets.		
+The fraction of correctly recognized queries (recall@K) vs. the number of top $K\in\{1,2,5,10,20\}$ retrieved database images for different Fisher vector dimensions $d\in\{128,512,2048\}$. The learnt descriptors by the proposed method (FV w-norm) consistently improve over the raw Fisher vector descriptors across the whole range of $K$ and all dimensions on 55k Pittsburgh image datasets.		
 }
 \label{tab:recall02}
 \end{centering}
