@@ -883,7 +883,7 @@ However, this computation can be further sped-up using product quantization inde
   We compare the calibration methods (\emph{p-val}, \emph{w-norm}) to two baselines: standard bag-of-visual-words baseline (BOW) and raw Fisher (FV) vector of dimension 128. For \emph{w-norm} calibration method we also perform experiments on several target Fisher vector dimensions $d\in\{128,512,2048\}$. Since the ground truth GPS position for each query image is available, for each method we measure performance using the percentage of correctly recognized queries (Recall) similarly to, e.g.,~\cite{Chen11,Knopp2010,Sattler-BMVC12}.The query is correctly localized if at least one of the top $K$ retrieved database images is within $20$ meters from the ground truth position of the query. 
 
   \subsection{Fisher vectors}
-  The results for FV on Pittsburgh 25k dataset are summarized in table \ref{tab:recall01}. For \emph{w-norm} method on FV the results demonstrate benefits of the learnt descriptors with respect to the standard Fisher vectors. In figure~\ref{fig:recall} we show results in the form of a recall curve. Notice that \emph{w-norm} method improves the recall curves for all target dimensions and lengths of shortlist $K$.
+  Results for different values of $K$ are shown on Pittsburgh 25k dataset are summarized in table \ref{tab:recall01}. For \emph{w-norm} method on FV the results demonstrate benefits of the learnt descriptors with respect to the standard Fisher vectors. For $K=1$ the recall of raw FV of dimension $d=128$ is $33.6\%$ while for leaned FV descriptor of the same dimension the recall is $38.3\%$. In figure~\ref{fig:recall} we show results in the form of a recall curve. Notice that \emph{w-norm} method improves the recall curves for all target dimensions and lengths of shortlist $K$.
 
   \input{tableResults01.tex}
 
@@ -901,7 +901,7 @@ However, this computation can be further sped-up using product quantization inde
     \end{figure}
 
   \subsection{Bag-of-words}
-  As shown in table \ref{tab:recall01} both methods improve over the BOW baseline. Figure~\ref{fig:recallBOW} shows the results in a curve. Notice that while the \emph{p-val} calibration improves the recall for small values of $K$ the \emph{w-norm} method improves the recall for larger short lists. This is related to the fact that the calibration from the the negative data has the advantage that the precision is privileged over recall as discussed in Section \ref{sec:calibration}.
+  Both calibration methods improve over the BOW baseline as shown in table \ref{tab:recall01}. Figure~\ref{fig:recallBOW} shows the results in a curve. Notice that while the \emph{p-val} calibration improves the recall for small values of $K$ the \emph{w-norm} method improves the recall for larger short lists. This is related to the fact that the calibration from the the negative data has the advantage that the precision is privileged over recall as discussed in Section \ref{sec:calibration}.
   
 
     \begin{figure}[t!]
