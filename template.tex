@@ -934,12 +934,12 @@ However, this computation can be further sped-up using product quantization inde
 
   \subsection{Visualizations}
     \input{tableResults02.tex}
-
+    \input{myFigureWnorm.tex}
     In figure~\ref{fig:3qVSw} we visualize the learnt SVM weights on BOW for \emph{p-val}. We visualize the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score.For instance for the left figure notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a). Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place.
 
     In the top row we visualize the calibration of raw SVM score for three different queries. The calibration function of the target image $j$ is shown in the blue and the corresponding SVM scores of the three queries are denoted by red circles. Notice that both images (b) and (c) have high calibrated score even their respective SVM score was different.
 
-    Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:demo1}. Figure~\ref{fig:3qVSw} illustrates the weights learnt for one database image applied to three different query images.
+    Examples of correctly and incorrectly localized queries are shown in figure \ref{fig:images}. The query image is show in the left column, the shortlist of top four retrieved images is displayed on the right. The first row shows images retrieved by \emph{w-norm} method for FV128 while the second row shows images retrieved by raw Fisher vector.
 
    % %%%%%%%%%%%%%%%%%%%%%%%%
    % \subsection{Scalability.}
@@ -950,15 +950,15 @@ However, this computation can be further sped-up using product quantization inde
    %    For a database of 25,000 images, applying all classifiers on a query image takes currently on average 1.72s. The method could be further sped-up by, for example: (i) reducing the dimensionality of the input vectors~\cite{Jegou12}, or (ii) enforcing additional sparsity constraints on learnt weight vectors $w$.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{myFigure02.tex}
-
 %%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%
 TODO...
- %We have shown that place recognition can be cast as a classification problem and have used geotags as a readily-available supervision to train an ensemble of classifiers, one for each location in the database. As only few positive examples are available for each location, we have proposed two procedures to calibrate the output of each classifier without the need for additional positive training data. The results show improved place recognition performance over baseline methods and demonstrate that careful calibration is critical to achieve competitive place recognition performance. The developed calibration methods are not specific to place recognition and can be useful for other per-exemplar classification tasks, where only a small number of positive examples are available~\cite{Malisiewicz11}.
-+
+Place recognition can be cast as learning \newline
+Two calibration methods \newline
+Two descriptors \newline
+Performance demonstrated on two datasets \newline
+
 
 
 \begin{acknowledgements}
