@@ -74,6 +74,7 @@ grestore
 \definecolor{myGreen}{HTML}{33FF00}
 \definecolor{myRed}{HTML}{FF3030}
 \definecolor{myGrey}{HTML}{AA5555}
+\definecolor{myWhite}{HTML}{FFFFFF}
 \definecolor{maroon}{cmyk}{0,0.87,0.68,0.32}
 % please place your own definitions here and don't use \def but
 % \newcommand{}{}
@@ -93,6 +94,9 @@ grestore
    Query (b) is in fact also an image of the same location with a portion of the left skyscraper in the target image detected in the upper left corner and the side of the rightmost building in the target image detected in the top right corner. Both are clearly detected by the method as indicated by a large quantity of green circles in the corresponding regions.
 }
 \newcommand{\diag}{\mathop{\mathrm{diag}}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
 
 %
 % Insert the name of "your journal" with
@@ -291,24 +295,24 @@ of the proposed approach (section~\ref{sec:experiments}).
       Each linear SVM classifier learns a score $s_j$ of the form 
 
       \begin{align}
-        s_j(\vec{q})=\vec{q}^T \vec{w_j}+b_j
+        s_j(\vec{q})=\vec{q}^T \vec{w}_j+b_j
         \label{eq:linear}
       \end{align}
 
       \noindent
-      where $\vec{w_j}$ is a weight vector re-weighting contributions of individual visual words and $b_j$ is the bias specific for image $j$. Given the training sets $\mathcal P_j$ and $\mathcal N_j$, the aim is to find a vector $\vec{w_j}$ and bias $b_j$ such that the score difference between $\vec{x_j}$ and the closest neighbor from its negative set $\mathcal N_j$ is {\em maximized}. % modulo margin (perhaps mention this).
-      Learning the weight vector $\vec{w_j}$ and bias $b_j$ is formulated as a minimization of the convex objective 
+      where $\vec{w}_j$ is a weight vector re-weighting contributions of individual visual words and $b_j$ is the bias specific for image $j$. Given the training sets $\mathcal P_j$ and $\mathcal N_j$, the aim is to find a vector $\vec{w}_j$ and bias $b_j$ such that the score difference between $\vec{x_j}$ and the closest neighbor from its negative set $\mathcal N_j$ is {\em maximized}. % modulo margin (perhaps mention this).
+      Learning the weight vector $\vec{w}_j$ and bias $b_j$ is formulated as a minimization of the convex objective 
       \begin{align}
         \nonumber
-        \Omega(\vec{w_j},b_j)=||\vec{w_j}||^{2}& +C_1\sum_{\vec{x}\in \mathcal P_j}h(\vec{w_j}^T\vec{x}+b_j)   \\
+        \Omega(\vec{w}_j,b_j)=||\vec{w}_j||^{2}& +C_1\sum_{\vec{x}\in \mathcal P_j}h(\vec{w}_j^T\vec{x}+b_j)   \\
         \label{eq:obj}
-                           & +C_2\sum_{\vec{x}\in \mathcal N_j}h(-\vec{w_j}^T\vec{x}-b_j), 
+                           & +C_2\sum_{\vec{x}\in \mathcal N_j}h(-\vec{w}_j^T\vec{x}-b_j), 
       \end{align}
 
       \noindent
       where the first term is the regularizer, the second term is the loss on the positive training data weighted by scalar parameter $C_1$, and the third term is the loss on the negative training data weighted by scalar parameter $C_2$.   
       This is a standard SVM formulation \eqref{eq:obj}, also used in exemplar-SVM~\cite{Malisiewicz11}.
-      In our case $h$ is the squared hinge loss, which we found to work better in our setting than the standard hinge-loss. $\vec{w_j}$ and $b_j$ are learned separately for each database image $j$ in turn. 
+      In our case $h$ is the squared hinge loss, which we found to work better in our setting than the standard hinge-loss. $\vec{w}_j$ and $b_j$ are learned separately for each database image $j$ in turn. 
 %      \sout{
 %      In our case (details in section~\ref{sec:experiments}), we use about 1-5 positive examples, and 200 negative examples. As the dimensionality of $\vec{w}$ is $100,000$ all training data points are typically support vectors. 
 %      }
@@ -393,6 +397,7 @@ In particular, the method estimates the significance of the score of a test exam
          }
          \vspace*{-3mm}
          \caption[]{
+            \textbf{Calibration functions.}
             An illustration of the proposed normalization of SVM~scores for two different database images. In each plot, the x-axis shows the raw SVM score. The y-axis shows the calibrated output. For the given query, the raw SVM score of image (b) is lower than for image (a), but the calibrated score of image (b) is higher than for image (a). 
          }
          \vspace*{-2mm}
@@ -407,7 +412,9 @@ In particular, the method estimates the significance of the score of a test exam
             \includegraphics[width=\linewidth]{imgs/qntEx2.pdf}
          }
          \vspace*{-3mm}
-         \caption{Illustration of the relation between (a) the probability density of the random variable $S_0$ modeling the scores of the negative examples and (b) the corresponding cumulative density function $F_0(s)=\PP(S_0 \leq s)$.
+         \caption{
+         \textbf{Cumulative density function.}
+         Illustration of the relation between (a) the probability density of the random variable $S_0$ modeling the scores of the negative examples and (b) the corresponding cumulative density function $F_0(s)=\PP(S_0 \leq s)$.
          }
                \vspace*{-3mm}
          \label{fig:qntExample}
@@ -430,6 +437,11 @@ In particular, the method estimates the significance of the score of a test exam
  
  
       \begin{algorithm}
+        \algorithmicrequire{\hspace{5mm}
+            $\mathcal{X}$ \dots column wise matrix of image descriptors\newline  
+            \textcolor{myWhite}{.\hspace{13mm}}$\vec{w}_j$, $b_j$ \dots learnt SVM weights and biases\newline
+        }
+        \algorithmicensure{\hspace{2mm} $\hat{F}_{0j}$ \dots calibration functions}
          \caption{P-value calibration: offline stage}\label{alg:offline}
          \begin{algorithmic}[1]
          \Procedure{p-value calibration}{}
@@ -451,6 +463,13 @@ In particular, the method estimates the significance of the score of a test exam
       \end{algorithm}
 
        \begin{algorithm}
+          \algorithmicrequire{\hspace{5mm}
+              $\vec{q}$ \dots query image descriptor\newline  
+              \textcolor{myWhite}{.\hspace{13mm}}$\vec{w}_j$, $b_j$ \dots learnt SVM weights and biases\newline
+              \textcolor{myWhite}{.\hspace{13mm}}$\hat{F}_{0j}$ \dots learnt calibration function\newline
+          }
+          \algorithmicensure{\hspace{2mm} $f_j(\vec{q})$ \dots calibrated score}
+          %
          \caption{P-value calibration: online stage}\label{alg:online}
          \begin{algorithmic}[1]
          \Procedure{calibrating scores}{}
@@ -713,13 +732,13 @@ $\vec{q}$ is the input query descriptor, $\vec{s}$ is a $1\times N$ vector of ou
  
  \paragraph{Bag-of-visual-words:}
 In the bag-of-visual-words representation, each image is represented by a high dimensional vector $\vec{x}$, where the dimensionality $d$ is typically $100,000$, but the vector is very sparse with only about 2,000 non-zero entries. 
-The learnt $\vec{w_j}$ are of the same (high) dimension $d$ but are {\em not sparse}. As a result, directly storing the learnt classifiers becomes quickly infeasible.
+The learnt $\vec{w}_j$ are of the same (high) dimension $d$ but are {\em not sparse}. As a result, directly storing the learnt classifiers becomes quickly infeasible.
 %  However, for the bag-of-visual-words representation, storing directly the classifier weights $\vec{w}$ becomes quickly non-feasible as the learnt $\vec{w}$ are very high-dimensional ($d=100,00$) but not sparse. 
   To illustrate this, consider a database of $N=1,000,000$ images. Storing the original descriptors with about 2,000 non-zero entries for each image would take around 8GB. However, directly storing the learnt non-sparse $100,000\times 1,000,000 $ matrix $\mathcal{W}$ would require 400GB of memory. % for the same database.
   To address this issue we have developed an alternative indexing structure taking advantage of the dual form of the linear classifier as a sparse linear combination of a small number of support vectors~\cite{scholkopf2002learning}.   
  The key observation is that the number of support vectors $k$ is significantly lower then dimensionality $d$ of the original image descriptor. In the following we omit index $j$ for clarity.  In detail, we represent each $\vec{w}$ by its corresponding coefficients $\alpha_i$ of the linear combination of the support vectors (individual image descriptors) $\vec{x}_i$ such that
   \begin{equation}
-        \vec{w}=\sum_{i} \alpha_i \vec{x_i} = \mathcal{X} \cdot \vec{\alpha},
+        \vec{w}=\sum_{i} \alpha_i \vec{x}_i = \mathcal{X} \cdot \vec{\alpha},
         \label{eq:dual}
       \end{equation}
       \noindent
@@ -756,17 +775,17 @@ Note that sparsity can be imposed directly on the learnt classifiers $\vec{w}$ b
 %  Notice that $\vec{q}^T\mathcal{X}$ is vector of similarity scores between the query and all database images. Hence, the score $s$ can be interpreted as a similarity score that is weighted by coefficients $\alpha$ stored in matrix $\mathcal{A}$. Using this representation, the memory footprint is significantly reduced. Instead of storing all (non-sparse) weight vectors $\vec{w}_j$, which has memory complexity $O(dN)$ where $d=100,000$ is the dimensionality of the image representation and $N$ is the size of the database, we store its dual representation, which has memory complexity $O(kN)$ where $k = 500$ is the number of support vectors. Hence, the storage requirements are reduced by a factor of $200$.  Note that sparsity can be imposed directly on the learnt classifiers $\vec{w}$ by appropriate regularization~\cite{}. However, we found this approach did not yield competitive results. 
  %   imposing sparsity directly on $w$ did not yield competitive results.  
 %   In addition, depending on the calibration method, we also store the calibration function (for the p-value calibration) or the calibration parameters are include in the classifier (calibration by-normalization). 
-%      For each image $j$ in the database the linear SVM is learnt \eqref{eq:linear}. The image is then represented by corresponding weight $\vec{w_j}$ and bias $b_j$. The main drawback of this representation is that when the original vector $\vec{x_j}$ is sparse and high dimensional, for instance BOW vector, the learned weight vector $\vec{w_j}$ of the same dimensionality is dense. Hence a memory requirement for storage of the new representation grows dramatically. For instance, if the visual word vocabulary size is $100,000$ and each image contains $2,000$ features on average, the memory required for storage of one BOW image representation is $\sim 8$kB. However the memory required for storing the SVM weight is $\sim390$kB per image.
+%      For each image $j$ in the database the linear SVM is learnt \eqref{eq:linear}. The image is then represented by corresponding weight $\vec{w}_j$ and bias $b_j$. The main drawback of this representation is that when the original vector $\vec{x_j}$ is sparse and high dimensional, for instance BOW vector, the learned weight vector $\vec{w}_j$ of the same dimensionality is dense. Hence a memory requirement for storage of the new representation grows dramatically. For instance, if the visual word vocabulary size is $100,000$ and each image contains $2,000$ features on average, the memory required for storage of one BOW image representation is $\sim 8$kB. However the memory required for storing the SVM weight is $\sim390$kB per image.
 
 %      This drawback can be efficiently solved by storing SVM vectors in its dual representation. The key observation is that number of training data $K$ is significantly lower then dimensionality $D$ of the original tfidf vector. In the following we omit index $j$ for clarity. Since $K\ll D$ all the training data points are typically support vectors, hence each vector $\vec{w}$ can be then expressed in dual form as linear combination
 %
 %      \begin{equation}
-%        \vec{w}=\sum_{i\in \mathcal{P},\mathcal{N}} \alpha_i \vec{x_i} = \mathcal{X} \cdot \vec{\alpha}
+%        \vec{w}=\sum_{i\in \mathcal{P},\mathcal{N}} \alpha_i \vec{x}_i = \mathcal{X} \cdot \vec{\alpha}
 %        \label{eq:dual}
 %      \end{equation}
 %
 %      \noindent
-%      where $\alpha_i$, the elemnts of vector $\vec{\alpha}$, are coefficients of linear combination of training data $\vec{x_i}$ and the matrix $\mathcal{X}$ contains descriptors of all database. Notice that the vector $\vec{\alpha}$ is sparse and number of non-zero elements depends on the number of training data $K$. Finally, a column wise matrix $\mathcal{W}$ containing all learned SVM weights can be expressed in a dual form as
+%      where $\alpha_i$, the elemnts of vector $\vec{\alpha}$, are coefficients of linear combination of training data $\vec{x}_i$ and the matrix $\mathcal{X}$ contains descriptors of all database. Notice that the vector $\vec{\alpha}$ is sparse and number of non-zero elements depends on the number of training data $K$. Finally, a column wise matrix $\mathcal{W}$ containing all learned SVM weights can be expressed in a dual form as
 %
 %      \begin{equation}
 %        \mathcal{W} = \mathcal{X}\cdot \mathcal{A}  
@@ -892,7 +911,7 @@ However, this computation can be further sped-up using product quantization inde
   Finally, the \emph{w-norm} method have been tested on the larger Pittsburgh 55k dataset. As shown in table~\ref{tab:recall02} the method consistently improves the performance over the raw Fisher vector descriptors on all Fisher vector dimensions. 
     \begin{figure}[t!]
         \centering
-        \includegraphics[width=1.1\linewidth]{imgs/plotPitt25k}  
+        \includegraphics[width=1.1\linewidth]{imgs/plotPitt25kNoBOW}  
         %\includegraphics[trim=35mm 70mm 40mm 75mm, clip=true, width=\linewidth]{imgs/plotPitt25k}    
         \caption{
             \textbf{Evaluation on Pittsburgh 25k \cite{Gronat13} dataset for FV.} The fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for different Fisher vector dimensions. The learnt descriptors by the proposed method (FV w-norm) consistently improve over the raw Fisher vector descriptors across the whole range of $K$ and all dimensions.
@@ -935,6 +954,7 @@ However, this computation can be further sped-up using product quantization inde
   \subsection{Visualizations}
     \input{tableResults02.tex}
     \input{myFigureWnorm.tex}
+    \input{myFigurePval.tex}
     In figure~\ref{fig:3qVSw} we visualize the learnt SVM weights on BOW for \emph{p-val}. We visualize the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score.For instance for the left figure notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a). Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place.
 
     In the top row we visualize the calibration of raw SVM score for three different queries. The calibration function of the target image $j$ is shown in the blue and the corresponding SVM scores of the three queries are denoted by red circles. Notice that both images (b) and (c) have high calibrated score even their respective SVM score was different.
