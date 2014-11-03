@@ -1,6 +1,4 @@
-\begin{table}[t!]
-\begin{centering}
-	\begin{tabularx}{0.89\linewidth}{|l|c c c c c|}
+	\begin{tabularx}{0.865\linewidth}{|l|c c c c c|}
 		\hline 
 		\rowcolor{maroon!50}
 		Method: & \multicolumn{5}{c|}{55k Pittsburgh} \\
@@ -44,10 +42,4 @@
   %       \textbf{FV8192 w-norm}  & \textbf{48.4} & \textbf{55.6} & \textbf{65.4} & \textbf{72.6} & \textbf{79.0} & - & - & - & - & -\\
 		% \hline
 	\end{tabularx}
-	\caption{ 
-    %	The percentage of correctly localized test queries for which the topK ranked database image is within $20$ meters from the ground truth query position. The proposed method (svmFV) outperforms the baseline methods.
-    \textbf{Results on Pittsburgh 25k dataset.} The fraction of correctly recognized queries (recall@K) vs. the number of top $K\in\{1,2,5,10,20\}$ retrieved database images for different Fisher vector dimensions $d\in\{128,512,2048\}$. The learnt descriptors by the proposed \emph{w-norm} mthod for Fisher vectors consistently improve over the raw Fisher vector descriptors across the whole range of $K$ and all dimensions on 55k Pittsburgh image datasets.		
-  }
-\label{tab:recall02}
-\end{centering}
-\end{table}
+
