@@ -232,12 +232,13 @@ It is, however, an important problem as automatic, accurate and fast visual plac
 \section{Per-location classifiers for place recognition}
 \label{sec:classifiers}
 %%%%%%%%%%%%%%%%%%%%%%%%
-   We are given an image descriptor $\vec{x}_j$, one for each database image $j$. This representation can be a sparse tf-idf weighted bag-of-visual-words vector~\cite{Sivic03} or a dense compact descriptor such as the Fisher vector (FV)~\cite{Jegou12}. The goal is to learn a score $f_j$ for each database image $j$, so that, at test time, given the descriptor $\vec{q}$ of the query image, we can either retrieve the correct target image as the image $j^*$ with the highest score 
+   We are given an image descriptor $\vec{x}_j$, one for each database image $j$. This representation can be a sparse tf-idf weighted bag-of-visual-words vector~\cite{Sivic03} or a dense compact descriptor such as the Fisher vector (FV)~\cite{Jegou12}. The goal is to learn a score $f_j$ for each database image $j$, so that, at test time, given the descriptor $\vec{q}$ of the query image, we can either retrieve the correct target image as the image $j^*$ with the highest score
+   % 
    \begin{equation}
    \label{eq:class}
     j^*=\operatorname*{arg\;max}_{j} f_j(\vec{q}) 
    \end{equation}
-
+    %
    \noindent
    or use these scores to rank candidate images and use geometric verification to identify the correct location in an $n$-best list.
    Instead of approaching the problem directly as a large multiclass classification problem, we tackle the problem by learning a per-exemplar linear SVM classifier~\cite{Malisiewicz11}  for each database image $j$.
@@ -248,22 +249,23 @@ It is, however, an important problem as automatic, accurate and fast visual plac
    \subsection{Learning per-location SVM classifiers }
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       Each linear SVM classifier learns a score $s_j$ of the form 
-
+      %
       \begin{align}
         s_j(\vec{q})=\vec{q}^T \vec{w}_j+b_j
         \label{eq:linear}
       \end{align}
-
+      %
       \noindent
       where $\vec{w}_j$ is a weight vector re-weighting contributions of individual visual words and $b_j$ is the bias specific for image $j$. Given the training sets $\mathcal P_j$ and $\mathcal N_j$, the aim is to find a vector $\vec{w}_j$ and bias $b_j$ such that the score difference between $\vec{x_j}$ and the closest neighbor from its negative set $\mathcal N_j$ is {\em maximized}. % modulo margin (perhaps mention this).
       Learning the weight vector $\vec{w}_j$ and bias $b_j$ is formulated as a minimization of the convex objective 
+      %
       \begin{align}
         \nonumber
         \Omega(\vec{w}_j,b_j)=||\vec{w}_j||^{2}& +C_1\sum_{\vec{x}\in \mathcal P_j}h(\vec{w}_j^T\vec{x}+b_j)   \\
         \label{eq:obj}
                            & +C_2\sum_{\vec{x}\in \mathcal N_j}h(-\vec{w}_j^T\vec{x}-b_j), 
       \end{align}
-
+      %
       \noindent
       where the first term is the regularizer, the second term is the loss on the positive training data weighted by scalar parameter $C_1$, and the third term is the loss on the negative training data weighted by scalar parameter $C_2$.   
       This is a standard SVM formulation \eqref{eq:obj}, also used in exemplar-SVM~\cite{Malisiewicz11}.
@@ -294,12 +296,12 @@ In particular, the method estimates the significance of the score of a test exam
        }
       )
       is naturally estimated by the empirical cumulative density function $\hat{F}_0$, which is computed as: 
-      
+      %
       \begin{equation}
         \hat{F}_0(s)=\frac{1}{\Ncal} \sum_{n=1}^{\Ncal} 1_{\{s_n \leq s\}},
         \label{eq:empiricalCDF}
       \end{equation}
-
+      %
       \noindent
       where $(s_n)_{1\leq n \leq \Ncal }$ are the SVM scores associated with $\Ncal$ negative examples used for calibration.
       $\hat{F}_0(s)$ 
@@ -307,7 +309,7 @@ In particular, the method estimates the significance of the score of a test exam
       Computing $\hat{F}_0$ exactly would require to store all the SVM scores for all the calibration data for all classifiers, so in practice, we only keep a fraction of the larger scores.
       We also interpolate the empirical cdf between consecutive datapoints so that instead of being a staircase function it is a continuous piecewise linear function such as illustrated in figure~\ref{fig:calib}. Given a query, we first compute its SVM score $s_q$ and then compute the calibrated probability $f(q)=\hat{F}_0(s_q)$.
       We obtain a similar calibrated probability $f_j(q)$ for each of the SVMs associated with each of the target locations, which can now be ranked.
-
+      %
       \begin{figure}[t]
          \vspace{1mm}
          \subfigure[]{
@@ -321,7 +323,8 @@ In particular, the method estimates the significance of the score of a test exam
          }
          \vspace*{-3mm}
          \caption[]{
-            An illustration of the proposed normalization of SVM~scores for two different database images. In each plot, the x-axis shows the raw SVM score. The y-axis shows the calibrated output. For the given query, the raw SVM score of image (b) is lower than for image (a), but the calibrated score of image (b) is higher than for image (a). 
+            \textbf{An illustration of the proposed normalization of SVM~scores for two different database images.}
+            In each plot, the x-axis shows the raw SVM score. The y-axis shows the calibrated output. For the given query, the raw SVM score of image (b) is lower than for image (a), but the calibrated score of image (b) is higher than for image (a). 
          }
          \vspace*{-2mm}
          \label{fig:calib}
@@ -486,11 +489,12 @@ In particular, the method estimates the significance of the score of a test exam
     \end{align}
  %
   where $\vec{w}_j$ and $b_j$ are the parameters of the learnt SVM hyper-plane for location $j$ and $||\vec{w}||$ is the $L_2$ norm of $\vec{w}$ . Given this choice of $\alpha_j$ and $\beta_j$ the calibrated classification score~\eqref{eq:linear2} reduces to
-%
+      %
       \begin{align}
         f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{w}_j^T\vec{q}.
             \label{eq:linear3}
      \end{align}
+      %
 
   The intuition is that when $\vec{q}$ is $L_2$ normalized, equation~\eqref{eq:linear3} is equivalent to computing the normalized dot-product between vectors $\vec{q}$ and $\vec{w}$.       This was found to work well in image retrieval~\cite{Sivic03} or matching whitened HOG descriptors~\cite{Doersch13}.
 %      but has not yet been used in conjunction with SVMs as done in this work.
@@ -514,12 +518,12 @@ In particular, the method estimates the significance of the score of a test exam
   %  This becomes the new representation for each image in the database. 
   In this section we discuss how the classifier parameters can be stored in a memory efficient manner that is amenable for indexing. 
   The goal is to apply all the learnt classifiers to the query descriptor $\vec{q}$
-
+      %
       \begin{equation}
       \label{eq:allscores}
         \vec{s}=\vec{q}^T \mathcal{W}+\vec{b}, %=\vec{q}^T \mathcal{X}\cdot \mathcal{A}+\vec{b}
       \end{equation}
-
+      %
   where $\mathcal{W}$ is $d\times N$ matrix storing all the learnt $\vec{w}_j$ classifiers as columns, $\vec{b}$ is a $1\times N$ vector storing all the learnt bias values $b_j$, 
   $\vec{q}$ is the input query descriptor, $\vec{s}$ is a $1\times N$ vector of output scores for all classifiers in the database, $N$ is the number of images in the database  and $d$ is the dimensionality of the image representation. 
   As discussed in detail in section~\ref{sec:experiments} we investigate two different image representations:  (i) the bag-of-visual-word vectors~\cite{Sivic03} and (ii) the compact Fisher vectors~\cite{Jegou12}. The learnt classifiers for these two image descriptors have different statistics and require different methods for storing and indexing. Next, we discuss the classifier representations for the two types of image representations.
@@ -530,23 +534,23 @@ In particular, the method estimates the significance of the score of a test exam
     To illustrate this, consider a database of $N=1,000,000$ images. Storing the original descriptors with about 2,000 non-zero entries for each image would take around 8GB. However, directly storing the learnt non-sparse $100,000\times 1,000,000 $ matrix $\mathcal{W}$ would require 400GB of memory. % for the same database.
     To address this issue we have developed an alternative indexing structure taking advantage of the dual form of the linear classifier as a sparse linear combination of a small number of support vectors~\cite{scholkopf2002learning}.   
     The key observation is that the number of support vectors $k$ is significantly lower then dimensionality $d$ of the original image descriptor. In the following we omit index $j$ for clarity.  In detail, we represent each $\vec{w}$ by its corresponding coefficients $\alpha_i$ of the linear combination of the support vectors (individual image descriptors) $\vec{x}_i$ such that
-
+      %
       \begin{equation}
         \vec{w}=\sum_{i} \alpha_i \vec{x}_i = \mathcal{X} \cdot \vec{\alpha},
         \label{eq:dual}
       \end{equation}
-
+      %
       \noindent
     where $\alpha_i$, the elements of vector $\vec{\alpha}$, are coefficients of the linear combination of the training data points $\vec{x}_i$ and the matrix $\mathcal{X}$ contains (as columns) descriptors of the entire database. Note that the vector $\vec{\alpha}$ is sparse and the number of non-zero elements depends on the number of support vectors $k$. 
 
    
     As a result, matrix $\mathcal{W}$ containing all learned classifier weights can be expressed in the dual form as
-
+      %
       \begin{equation}
         \label{eq:dualFinal}
         \mathcal{W} = \mathcal{X} \mathcal{A},  
       \end{equation}
-
+      %
     \noindent
     where $\mathcal{X}$ is the (sparse) matrix of the bag-of-visual-words image descriptors and $\mathcal{A}$ is the (sparse) matrix of $\alpha$ coefficients, 
     where each column corresponds to vector $\vec{\alpha}$ from \eqref{eq:dual}. Using this representation, the memory footprint is significantly reduced. Instead of storing all (non-sparse) weight vectors $\mathcal{W}$, which has memory complexity $O(dN)$ where $d$~(= 100,000) is the dimensionality of the image representation and $N$ is the size of the database, we store two sparse matrices $\mathcal{X}$ and $\mathcal{A}$, which has memory complexity $O(mN+kN)$ where $m$~(=2,000) is the number on non-zero elements in the original bag-of-visual-word descriptors, and $k$ is the typical number of support vectors. In our case $k$ is about the size of the training data which is around 500. As a result, the storage requirements are significantly reduced. For example, for a database of 1M images the dual representation requires only about 10 GB of storage compared to 400GB for directly storing classifiers $\mathcal{W}$.  
@@ -570,10 +574,10 @@ In particular, the method estimates the significance of the score of a test exam
   \subsection{Image datasets}
   %%%%%%%%%%%%%%%%%%%%%%%%%%
     \paragraph{Image database.}
-      We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles $4^\circ$ and $28^\circ$ to capture both the street-level scene and the building fa\c{c}ades. This resuls in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate two datasets. The first smaller dataset covers a smaller area and contains $25k$ perspective images. The second larger dataset contains $55k$ images.
+      We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles $4^\circ$ and $28^\circ$ to capture both the street-level scene and the building fa\c{c}ades. This results in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate two datasets. The first smaller dataset covers a smaller area and contains $25$k perspective images. The second larger dataset contains $55$k images.
 
       \paragraph{Query set.}
-      As a query set with known ground truth GPS positions, we use the 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.         
+      As a query set with known ground truth GPS positions, we use 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.         
       We generate a test query set such that we, first select a panorama at random and, second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize 4,000 query test images.
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -585,7 +589,7 @@ In particular, the method estimates the significance of the score of a test exam
          We extract SURF descriptors~\cite{Bay06} for each image and learn a vocabulary of $100$k visual words by approximate k-means clustering~\cite{Philbin07} from a subset of features from $5,000$ randomly selected database images. Then, a tf-idf weighted vector~\cite{Sivic03} is computed for each image by assigning each descriptor to the nearest cluster center.  Finally, all database vectors are normalized to have unit $L_2$ norm.
         
       \paragraph{Fisher vectors.}
-        Following~\cite{Jegou12} we project the extracted 128-dimensional rootSIFT~\cite{Arandjelovic12} descriptors to 64 dimensions using PCA. The projection matrix is learnt on a set of descriptors from 5,000 randomly selected database images. This has also the effect of decorrelating the rootSIFT descriptor.The 64-dimensional descriptors are then aggregated into Fisher vectors using a Gaussian mixture model with $N=256$ components, which results in a $2\times256\times64 = 32,768$-dimensional descriptor for each image.  
+        Following~\cite{Jegou12} we project the extracted 128-dimensional rootSIFT~\cite{Arandjelovic12} descriptors to 64 dimensions using PCA. The projection matrix is learnt on a set of descriptors from 5,000 randomly selected database images. This has also the effect of decorrelating the rootSIFT descriptor. The 64-dimensional descriptors are then aggregated into Fisher vectors using a Gaussian mixture model with $N=256$ components, which results in a $2\times256\times64 = 32,768$-dimensional descriptor for each image.  
         The Gaussian mixture model is learnt from descriptors extracted from 5,000 randomly sampled database images. The  high-dimensional Fisher vector descriptors are then projected down to dimension $d\in\{128,512, 2048\}$ using PCA learnt from all available images in the database. The resulting low dimensional Fisher vectors are then-normalized to have unit L2-norm, which we found to be important in practice.
       
     %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -601,7 +605,7 @@ In particular, the method estimates the significance of the score of a test exam
 
       For the calibration by re-normalization, we $L_2$ normalize the learned $\vec{w}_j$ using equation~\eqref{eq:linear3} and use this-normalized vector as the new image descriptor $\vec{x}'_j$ for image $j$. At query time we compute the descriptor $\vec{q}$ of the query image and measure its similarity score to the learnt descriptors $\vec{x}'_j$ for each database image by equation~\eqref{eq:class}.
 
-      For the p-value calibration, we take the learnt classifier for each database image $j$ and compute its SVM score for all other database images to construct its empirical cumulative density function~\eqref{eq:empiricalCDF}. We keep only the top 1,000 values that in turn represent the calibration function. At query time, given the query descriptor $\vec{q}$, we compute the SVM score~\eqref{eq:linear} for each database image $j$, and compute its calibrated SVM score $f_j$~\eqref{eq:empiricalCDF}.
+      For the p-value calibration, we take the learnt classifier for each database image $j$ and compute its SVM score for all other database images to construct its empirical cumulative density function~\eqref{eq:empiricalCDF}. We keep only the top 1,000 values that, in turn, represent the calibration function. At query time, given the query descriptor $\vec{q}$, we compute the SVM score~\eqref{eq:linear} for each database image $j$, and compute its calibrated SVM score $f_j$~\eqref{eq:empiricalCDF}.
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Results}
@@ -695,7 +699,7 @@ In particular, the method estimates the significance of the score of a test exam
         \caption{ 
           \textbf{Evaluation of the learnt Fisher vector representation on the Pittsburgh 25k \cite{Gronat13} dataset.}
            The table shows the fraction of correctly recognized queries (recall@K) for the different values of $K\in\{1,2,5,10,20\}$ retrieved database images. 
-	   The learnt Fisher vector representation (FV w-norm) consistently improves over the standard Fisher vector matching baseline (FV) for all dimensions $d\in\{128,512,2048\}$.
+	   The learnt Fisher vector representation (FV \emph{w-norm}) consistently improves over the standard Fisher vector matching baseline (FV) for all dimensions $d\in\{128,512,2048\}$.
         }
         \label{tab:recallFV}
       \end{centering}
@@ -709,7 +713,7 @@ In particular, the method estimates the significance of the score of a test exam
         \vspace*{-7mm}
         \caption{
             \textbf{Evaluation of the learnt Fisher vector representation on the Pittsburgh 25k \cite{Gronat13} dataset.} 
-            The graph shows the fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for the raw Fisher vector baseline (FV) for different dimensions compared to the learnt representation (w-norm). Note the consistent improvements over all lengths of shortlist $K$ for all dimensions.
+            The graph shows the fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for the raw Fisher vector baseline (FV) for different dimensions compared to the learnt representation (\emph{w-norm}). Note the consistent improvements over all lengths of shortlist $K$ for all dimensions.
         }
         \label{fig:recall}
     \end{figure}
@@ -721,9 +725,10 @@ In particular, the method estimates the significance of the score of a test exam
     Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:images}. 
 %    The query image is show in the left column and the shortlist of the top four retrieved images is shown on the right. For each query, the first row shows images retrieved by the learnt Fisher vector descriptor for dimension $d=128$, while the second row shows images retrieved by raw Fisher vector of the same dimension.
     
-        Finally, we test the learnt Fisher vector representation on the larger Pittsburgh 55k dataset. As shown in table~\ref{tab:recallFV55k} the proposed per-location learning method still consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist.     
-        
-    Next, we compare the performance of the two learnt representations relative to their memory footprints.  
+        Finally, we test the learnt Fisher vector representation on the larger Pittsburgh 55k dataset. As shown in table~\ref{tab:recallFV55k} the proposed per-location learning method still consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist. 
+
+\noindent
+        Next, we compare the performance of the two learnt representations relative to their memory footprints.  
 
     %%% FIGURE: Visualization for FV  
     \begin{figure*}[tbp]
@@ -741,7 +746,7 @@ In particular, the method estimates the significance of the score of a test exam
     \end{figure*}
     
     %%% TABLE: results on Pittsburgh 55k
-    \begin{table}[tbp]
+    \begin{table}[bh]
       \begin{centering}
         \input{tableResults02.tex}
                 \caption{ 
@@ -763,7 +768,7 @@ In particular, the method estimates the significance of the score of a test exam
   Ideally, we wish to learn a more compact representation, that still improves the recognition accuracy. However, usually there is a trade-off between the discriminative power of the representation and its size, where having a more compact representation reduces the recognition accuracy~\cite{Jegou12}. We observe a similar behavior but our learnt representation results in a higher recognition accuracy for a given size, or alternatively, significantly reduces the size of the representation for a given accuracy.   
    The results are summarized in figure~\ref{fig:memory}.
 %    Figure~\ref{fig:memory} compares the performance of the proposed per-location learning method for the two different image representations  compared to their memory requirements. 
-     The figure shows the recognition performance (y-axis) for the different dimensionality of the Fisher vector representation, which corresponds to different memory footprints (x-axis). For example, the for $d=128$ the memory footprint is about 24~MB, whereas for $d=2048$ the memory footprint is about 384~MB. Note that the x-axis is in log-scale. The bag-of-visual-words representation has a fixed dimensionality (and fixed memory footprint) and hence each bag-of-visual-words method is shown only as a single point on the graph.  For Fisher vectors, the results demonstrate that for a given level of accuracy (y-axis) the proposed method learns a more compact (lower-dimensional) representation (x-axis). For example, our learnt 128-dimensional descriptor (memory footprint of 24 MB) achieves a similar accuracy (around 65\%) as the 256-dimensional raw Fisher descriptor (memory footprint of 51MB). This corresponds to 50\% memory savings for the same level of recognition performance. Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the FV baseline and our method. The results also demonstrate the benefits of using the compact FV descriptors compared to the bag-of-visual-words baseline achieving significantly better recognition accuracy for a similar memory footprint.
+     The figure shows the recognition performance (y-axis) for the different dimensionality of the Fisher vector representation, which corresponds to different memory footprints (x-axis). For example, for $d=128$ the memory footprint is about 24~MB, whereas for $d=2048$ the memory footprint is about 384~MB. Note that the x-axis is in log-scale. The bag-of-visual-words representation has a fixed dimensionality (and fixed memory footprint) and hence each bag-of-visual-words method is shown only as a single point on the graph.  For Fisher vectors, the results demonstrate that for a given level of accuracy (y-axis) the proposed method learns a more compact (lower-dimensional) representation (x-axis). For example, our learnt 128-dimensional descriptor (memory footprint of 24 MB) achieves a similar accuracy (around 65\%) as the 256-dimensional raw Fisher descriptor (memory footprint of 51MB). This corresponds to 50\% memory savings for the same level of recognition performance. Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the FV baseline and our method. The results also demonstrate the benefits of using the compact FV descriptors compared to the bag-of-visual-words baseline achieving significantly better recognition accuracy for a similar memory footprint.
     
     %%% FIGURE: Memory efficiency
     \begin{figure}[t!]
