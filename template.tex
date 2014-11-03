@@ -896,13 +896,15 @@ However, this computation can be further sped-up using product quantization inde
    \label{sec:results}
    %%%%%%%%%%%%%%%%%%%%
 
-We evaluate the proposed per-location classifier learning approach on two different image descriptors: the bag-of-visual-words model (section~\ref{sec:bow_results} ) and Fisher vectors (section~\ref{sec:fisher_restuls}).  Next, we evaluate the recognition accuracy vs. the memory requirements (section~\ref{sec:memory_results}), and finally report qualitative results  (section~\ref{sec:qualitative_results}).   
+We evaluate the proposed per-location classifier learning approach on two different image descriptors: the bag-of-visual-words model (section~\ref{sec:bow_results} ) and Fisher vectors (section~\ref{sec:fisher_restuls}).  Finally, we also evaluate the dependence of the recognition accuracy on the memory requirements (section~\ref{sec:memory_results}).
+% and finally report qualitative results  (section~\ref{sec:qualitative_results}).   
 Since the ground truth GPS position for each query image is available, for each method we measure performance using the percentage of correctly recognized queries (Recall) similarly to, e.g.,~\cite{Chen11,Knopp2010,Sattler-BMVC12}. We deem the query as correctly localized if at least one of the top $K$ retrieved database images is within $20$ meters from the ground truth position of the query. 
 
 
 %We compare the proposed method for learning per-location classifiers to two baselines: the standard bag-of-visual-words model (BOW) and the raw Fisher (FV) vector without any learning. 
 
 %  We compare the calibration methods (\emph{p-val}, \emph{w-norm}) to two baselines: standard bag-of-visual-words baseline (BOW) and raw Fisher (FV) vector of dimension 128. For \emph{w-norm} calibration method we also perform experiments on several target Fisher vector dimensions $d\in\{128,512,2048\}$. Since the ground truth GPS position for each query image is available, for each method we measure performance using the percentage of correctly recognized queries (Recall) similarly to, e.g.,~\cite{Chen11,Knopp2010,Sattler-BMVC12}.The query is correctly localized if at least one of the top $K$ retrieved database images is within $20$ meters from the ground truth position of the query. 
+
 
 %%%%%%%%%%%%%%%%%
   \subsection{Bag-of-visual-words model}
@@ -913,7 +915,14 @@ Since the ground truth GPS position for each query image is available, for each 
 %  oth calibration methods improve over the BOW baseline as shown in table \ref{tab:recall01}. Figure~\ref{fig:recallBOW} shows the results in a curve. 
 %  We further note that while the \emph{p-val} calibration improves recall for small values of top $K$ ranked image, the \emph{w-norm} method improves recall for longer short lists. This is related to the fact that the  \emph{p-val} calibration that uses the negative data improves precision over recall as discussed in section~\ref{sec:calibration}.
   
-% TODO ****: add no calibration.
+ % TODO ****: add no calibration.
+ 
+ % Qualitative results.
+    In figure~\ref{fig:3qVSw} we visualize the learnt SVM weights on BOW for \emph{p-val}. We visualize the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score.For instance for the left figure notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a). Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place.
+    In the top row we visualize the calibration of raw SVM score for three different queries. The calibration function of the target image $j$ is shown in the blue and the corresponding SVM scores of the three queries are denoted by red circles. Notice that both images (b) and (c) have high calibrated score even their respective SVM score was different.     
+    Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:images_bow}. The query image is show in the left column and the shortlist of the top four retrieved images is shown on the right. For each query, the first row shows images retrieved by the learnt bag-of-visual-words descriptor, while the second row shows images retrieved by the raw bag-of-visual-words descriptor without place specific learning.
+
+
 
 
     \begin{figure}[t!]
@@ -921,7 +930,7 @@ Since the ground truth GPS position for each query image is available, for each 
         \includegraphics[width=1.1\linewidth]{imgs/plotPitt25kBOW}  
         %\includegraphics[trim=35mm 70mm 40mm 75mm, clip=true, width=\linewidth]{imgs/plotPitt25k}    
         \caption{
-            \textbf{Evaluation of the learnt bag-of-visual-words representation on the Pittsburgh 25k \cite{Gronat13} dataset.} The graphs shows the fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for the raw bag-of-visual-words baseline (BOW) and the learnt representation with two different calibration methods (p-val and w-norm).
+            \textbf{Evaluation of the learnt bag-of-visual-words representation on the Pittsburgh 25k \cite{Gronat13} dataset.} The graph shows the fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for the raw bag-of-visual-words baseline (BOW) and the learnt representation with two different calibration methods (p-val and w-norm).
         }
         \label{fig:recallBOW}
     \end{figure}
@@ -930,63 +939,63 @@ Since the ground truth GPS position for each query image is available, for each 
 %%%%%%%%%%%%%%%%%
   \subsection{Fisher vectors}
   \label{sec:fisher_restuls}
-  Results for the Fisher vector descriptor of different dimension $d\in{128, 512 and 2048}$ are shown in table~\ref{tab:recall01} and figure~\ref{fig:recall}.
+  Results of the proposed per-location learning method for the Fisher vector descriptor of different dimension $d\in\{128, 512, 2048\}$ 
+  are shown in table~\ref{tab:recall01} and figure~\ref{fig:recall}.
   Similar to bag-of-visual-words, the learnt representation (w-norm) significantly improves the place recognition performance over the baseline raw Fisher vector (FV) without learning. The improvements are consistent across different lengths of shortlist $K$ and for different dimensionality of the Fisher vector representation. 
- We report results only for the w-norm calibration as we found that the p-val calibration did not perform well together with the learnt Fisher vector representation.
-We believe this may be attributed to the dimensionality of the representation, where the statistic of the classifier scores for the extremely high-dimensional
-bag-of-visual-words TOFINISH.. 
-  
-  
-  
+ We report results only for the w-norm calibration as we found that the p-val calibration did not perform well together with the learnt Fisher vector representation ( top 1 recall of **.*\%). When examining the results, we believe this may be attributed to the fact that Fisher vectors are low dimensional (d is up to 2048) and not-sparse compared to the extremely high-dimensional (d=100,000) bag-of-visual-words representation, which affects the distribution of the classifier scores on the negative test data. 
 %  Results for different values of $K$ are shown on Pittsburgh 25k dataset are summarized in table \ref{tab:recall01}. For \emph{w-norm} method on FV the results demonstrate benefits of the learnt descriptors with respect to the standard Fisher vectors. For $K=1$ the recall of raw FV of dimension $d=128$ is $33.6\%$ while for leaned FV descriptor of the same dimension the recall is $38.3\%$. In figure~\ref{fig:recall} we show results in the form of a recall curve. Notice that \emph{w-norm} method improves the recall curves for all target dimensions and lengths of shortlist $K$.
 
   \input{tableResults01.tex}
 
 %  However we observe that the \emph{p-val} calibration method fails on Fisher vectors. The method have been tested on FV of dimension 128 and as shown in table \ref{tab:recall01} the results do not outperform the raw FV baseline. We believe that this is given by a different nature of the descritpors....... TODO
-
-  Finally, the \emph{w-norm} method have been tested on the larger Pittsburgh 55k dataset. As shown in table~\ref{tab:recall02} the method consistently improves the performance over the raw Fisher vector descriptors on all Fisher vector dimensions. 
+%  Finally, the \emph{w-norm} method have been tested on the larger Pittsburgh 55k dataset. As shown in table~\ref{tab:recall02} the method consistently improves the performance over the raw Fisher vector descriptors on all Fisher vector dimensions. 
+ Finally, we test the learnt Fisher vector representation on the larger Pittsburgh 55k dataset. As shown in table~\ref{tab:recall02} the proposed per-location learning method consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist. 
     \begin{figure}[t!]
         \centering
         \includegraphics[width=1.1\linewidth]{imgs/plotPitt25k}  
         %\includegraphics[trim=35mm 70mm 40mm 75mm, clip=true, width=\linewidth]{imgs/plotPitt25k}    
         \caption{
-            \textbf{Evaluation on Pittsburgh 25k \cite{Gronat13} dataset for FV.} The fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for different Fisher vector dimensions. The learnt descriptors by the proposed method (FV w-norm) consistently improve over the raw Fisher vector descriptors across the whole range of $K$ and all dimensions.
+            \textbf{Evaluation of the learnt Fisher vector representation on the Pittsburgh 25k \cite{Gronat13} dataset.} 
+            The graph shows the fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for the raw Fisher vector baseline (FV) for different dimensions compared to the learnt representation (w-norm). Note the consistent improvements over all lengths of shortlist $K$ for all dimensions.
         }
         \label{fig:recall}
     \end{figure}
 
+    \input{myFigureWnorm.tex}    
+ Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:images}. The query image is show in the left column and the shortlist of the top four retrieved images is shown on the right. For each query, the first row shows images retrieved by the learnt Fisher vector descriptor for dimension $d=128$, while the second row shows images retrieved by raw Fisher vector of the same dimension.
+Next, we compare the performance of the two learnt representations relative to their memory requirements.  
+
+  \input{tableResults02.tex}
 
 
   % \paragraph{Comparison to other methods.}
   %   On the Pittsburgh 25k database, we compare performance of our learnt discriminative descriptors to the methods of~\cite{Gronat13} and~\cite{Knopp2010}, who report on the same testing data top $K=1$ recall of 36.5\% and 41.9\%, respectively (results taken from~\cite{Gronat13}). 
   %   Our method outperforms~\cite{Knopp2010} already for dimension $d=128$ (37.8\%) and~\cite{Gronat13} for dimension $d=512$ (47.6\%). Furthermore, note that~\cite{Gronat13,Knopp2010} are based on a bag-of-visual-words representation, which typically needs to store between 1000-2000 non-zero visual words per image, which is significantly more than our learnt 128 or 512 dimensional descriptor. 
        
+ %%%%%%%%%%%%%%%%
   \subsection{Memory complexity analysis}
   \label{sec:memory_results}
-  
-    Figure~\ref{fig:memory} compares the performance of proposed methods vs. space complexity. The results demonstrate that for a given level of accuracy (y-axis) the method learns a more compact (lower-dimensional) representation (x-axis). 
-    For example, our learnt 128-dimensional descriptor which space complexit for Pittsburgh 25k dataset is 24MB achieves a similar accuracy, around 65\%, to the 256-dimensional raw Fisher descriptor whit memory complexity of 51MB. The \emph{w-norm} essentially reduces the memory complexity to 50\% for the same level of performance. Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the baseline and our method. The figure also demonstrates the advantage of usage of compressed Fisher vector representation over the BOW in terms of memory efficiency.  
-
+    Figure~\ref{fig:memory} compares the performance of the proposed per-location learning method for the two different image representations  compared to their memory requirements.  For FV we show recognition performance (y-axis) for the different dimensionality of the representation, which corresponds to different memory footprints (x-axis). For example, the for $d=128$ the memory footprint is about *** MB, whereas for $d=2048$ it is about *** MB. The bag-of-visual-words representation has a fixed dimensionality and hence each bag-of-visual-words method is shown only as a single point on the graph.  For Fisher vectors, the results demonstrate that for a given level of accuracy (y-axis) the proposed method learns a more compact (lower-dimensional) representation (x-axis).  For example, our learnt 128-dimensional descriptor (memory footprint of 24 MB) achieves a similar accuracy (around 65\%) as the 256-dimensional raw Fisher descriptor (memory footprint of 51MB). This corresponds to 50\% memory savings or the same level of recognition performance. Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the FV baseline and our method. The results also demonstrate the benefits of using the compact FV descriptors compared to the bag-of-visual-words baseline achieving significantly better recognition accuracy for a similar memory footprint.
     \begin{figure}[t!]
         \centering
         \includegraphics[width=1.1\linewidth]{imgs/FVmemory02}    
         \caption{
-            \textbf{Memory complexity analysis for Pittsburgh 25k dataset.} 
-            The fraction of correctly localized queries at the top 10 retrieved images (y-axis) vs. memory complexity (x-axis) for different methods. The learnt descriptors by the FV \emph{w renorm} mehtod clearly outperform the raw Fisher vector descriptors (FV) in terms of memory efficiency. Note that for a certain level of performance (y-axis) the proposed method learns a more memory efficient (lower dimensional) descriptor.
+            \textbf{The recognition performance vs. the memory requirements for the Pittsburgh 25k dataset.} 
+            The fraction of correctly localized queries at the top 10 retrieved images (y-axis) vs. the memory requirements (x-axis) for the different methods. For Fisher vectors, the learnt descriptor (FV \emph{w-renorm}) clearly outperforms the raw Fisher vector descriptor (FV) across the different memory footprints (x-axis). 
+%            Note also that for a certain level of performance (y-axis) the proposed method learns a more compact (lower dimensional) descriptor. 
+            Learnt per-location representations for the bag-of-visual-words model (BOW p-val and BOW w-norm) also improve performance over the raw bag-of-visual-words (BOW). However, the Fisher vectors provide much better recognition performance for the same memory footprint.  
         }
         \label{fig:memory}
     \end{figure}
 
-  \subsection{Visualizations}
-  \label{sec:qualitative_results}
-  
-    \input{tableResults02.tex}
-    \input{myFigureWnorm.tex}
-    In figure~\ref{fig:3qVSw} we visualize the learnt SVM weights on BOW for \emph{p-val}. We visualize the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score.For instance for the left figure notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a). Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place.
+%%%%%%%%%%%%%%%%%
+%  \subsection{Visualizations}
+%  \label{sec:qualitative_results}  
+%    \input{tableResults02.tex}
+%    In figure~\ref{fig:3qVSw} we visualize the learnt SVM weights on BOW for \emph{p-val}. We visualize the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score.For instance for the left figure notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a). Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place.
 
-    In the top row we visualize the calibration of raw SVM score for three different queries. The calibration function of the target image $j$ is shown in the blue and the corresponding SVM scores of the three queries are denoted by red circles. Notice that both images (b) and (c) have high calibrated score even their respective SVM score was different.
+%    In the top row we visualize the calibration of raw SVM score for three different queries. The calibration function of the target image $j$ is shown in the blue and the corresponding SVM scores of the three queries are denoted by red circles. Notice that both images (b) and (c) have high calibrated score even their respective SVM score was different.
 
-    Examples of correctly and incorrectly localized queries are shown in figure \ref{fig:images}. The query image is show in the left column, the shortlist of top four retrieved images is displayed on the right. The first row shows images retrieved by \emph{w-norm} method for FV128 while the second row shows images retrieved by raw Fisher vector.
 
    % %%%%%%%%%%%%%%%%%%%%%%%%
    % \subsection{Scalability.}
