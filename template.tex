@@ -647,7 +647,7 @@ In particular, the method estimates the significance of the score of a test exam
       \end{centering}
     \end{table}
 
-    %%% FIGURE: FV recall curves
+    %%% PLOT: FV recall curves
     \begin{figure}[t!]
         \centering
         \includegraphics[width=1.1\linewidth]{imgs/plotPitt25kBOW}  
@@ -660,6 +660,16 @@ In particular, the method estimates the significance of the score of a test exam
         \label{fig:recallBOW}
     \end{figure}
 
+    %%% FIGURE: Visualization, examples for BOW p-val
+    \begin{figure*}[t!]
+      \input{myFigurePval.tex}
+      \caption{
+          \textbf{Examples of improvements and failure cases for \emph{p-val} method on BOW.}
+          Each example shows a query image (left) together with correct (green) and incorrect (red) matches from the database obtained by \emph{p-val} method (top) and the BOW descriptor baseline (bottom).       
+      }
+      \label{fig:images}
+    \end{figure*}
+
    %%%%%%%%%%%%%%%%%
   \subsection{Fisher vectors}
   \label{sec:fisher_restuls}
@@ -671,7 +681,7 @@ In particular, the method estimates the significance of the score of a test exam
     We report results only for the w-norm calibration as we found that the p-val calibration did not perform well together with the learnt Fisher vector representation ( top 1 recall of 25.3\%). When examining the results, we believe this may be attributed to the fact that Fisher vectors are low dimensional (d is up to 2048) and not-sparse compared to the extremely high-dimensional (d=100,000) bag-of-visual-words representation, which affects the distribution of the classifier scores on the negative test data. 
 
     %%% TABLE: Results 25k FV only
-    \begin{table}[t!]
+    \begin{table}[b!]
       \begin{centering}
         \input{tableResults01.tex}
         \caption{ 
@@ -684,7 +694,7 @@ In particular, the method estimates the significance of the score of a test exam
 
     Finally, we test the learnt Fisher vector representation on the larger Pittsburgh 55k dataset. As shown in table~\ref{tab:recallFV55k} the proposed per-location learning method consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist. 
 
-    %%% FIGURE: FV recall curves
+    %%% PLOT: FV recall curves
     \begin{figure}[t!]
         \centering
         \includegraphics[width=1.1\linewidth]{imgs/plotPitt25kNoBOW}  
@@ -697,7 +707,7 @@ In particular, the method estimates the significance of the score of a test exam
     \end{figure}
 
     %%% FIGURE: Visualization for FV  
-    \begin{figure*}[t!]
+    \begin{figure*}[b!]
       \input{myFigureWnorm.tex}
       \caption{
         \textbf{Examples of improvements and failure cases for \emph{w-norm} method on Fisher vectors.}
@@ -710,7 +720,7 @@ In particular, the method estimates the significance of the score of a test exam
     Next, we compare the performance of the two learnt representations relative to their memory requirements.  
 
     %%% TABLE: results on Pittsburgh 55k
-    \begin{table}[t!]
+    \begin{table}[b!]
       \begin{centering}
         \input{tableResults02.tex}
         \caption{ 
@@ -739,15 +749,6 @@ In particular, the method estimates the significance of the score of a test exam
         \label{fig:memory}
     \end{figure}
 
-    %%% FIGURE: Visualization, examples for BOW p-val
-    \begin{figure*}[t!]
-      \input{myFigurePval.tex}
-      \caption{
-          \textbf{Examples of improvements and failure cases for \emph{p-val} method on BOW.}
-          Each example shows a query image (left) together with correct (green) and incorrect (red) matches from the database obtained by \emph{p-val} method (top) and the BOW descriptor baseline (bottom).       
-      }
-      \label{fig:images}
-    \end{figure*}
 
 %%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
@@ -764,7 +765,7 @@ per-exemplar classification tasks, where only a small number of positive example
 \begin{acknowledgements}
    This work was supported by the MSR-INRIA laboratory, the EIT-ICT labs.
    {
-   \small
+   %\small
    \noindent
    Supported by the Intelligence Advanced Research Projects Activity (IARPA) via Air Force Research Laboratory. The U.S. Government is authorized to reproduce and distribute reprints for governmental purposes notwithstanding any copyright annotation thereon. Disclaimer:  The views and conclusions contained herein are those of the authors and should not be interpreted as necessarily representing the official policies or endorsements, either expressed or implied, of IARPA, AFRL or the U.S. Government.
    }
