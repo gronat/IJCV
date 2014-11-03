@@ -130,7 +130,7 @@ placed here. General acknowledgments should be placed at the end of the article.
            S. Author \at
               second address
 }
-
+\vspace{-5mm}
 \date{Received: date / Accepted: date}
 % The correct dates will be entered by the editor
 %\maketitle
@@ -142,8 +142,9 @@ placed here. General acknowledgments should be placed at the end of the article.
     \maketitle
     \begin{center}
         \centering
+        \vspace*{-2mm}
         \includegraphics[width=.85\textwidth]{imgs/titleTeX.jpg}
-        \vspace*{-3mm}
+        \vspace*{-2mm}
         \captionof{figure}
         {
           The goal of this work is to localize a query photograph (left) by finding other images of the same place in a large geotagged image database (right). 
@@ -366,32 +367,34 @@ In particular, the method estimates the significance of the score of a test exam
  
  
       \begin{algorithm}
-        \algorithmicrequire{\hspace{5mm}
+          \caption{P-value calibration: offline stage}
+          \label{alg:offline}
+          \algorithmicrequire{\hspace{5mm}
             $\mathcal{X}$ \dots column wise matrix of image descriptors\newline  
             \textcolor{myWhite}{.\hspace{13mm}}$\vec{w}_j$, $b_j$ \dots learnt SVM weights and biases\newline
-        }
-        \algorithmicensure{\hspace{2mm} $\hat{F}_{0j}$ \dots calibration functions}
-         \caption{P-value calibration: offline stage}\label{alg:offline}
-         \begin{algorithmic}[1]
-         \Procedure{p-value calibration}{}
-         \State $N \gets$ database size
-         %\State $K \gets$ size of the cdf tail to be kept
-         \State $\mathcal{X} \gets$ descriptor matrix of negative examples %all database images
-         \For{$\forall j \in 1 \dots N$}
-            \State $N_c \gets$ number of negative examples
-            \State $\vec{w} \gets$ learned SVM weight for image $j$
-            \State $b \gets$ learned SVM bias for image $j$
-            \State $\vec{\sigma} \gets \vec{w}^T \mathcal{X}+b$
-            \State {\em Compute the cdf:}  % $\vec{s_j}, \hat{F}_{0j}$ }
-            \State $\vec{s_j} \gets$ sorted $\vec{\sigma}$ in descending order
-            \State $\hat{F}_{0j} \gets [N_c \dots 0]/N_c$
-         \EndFor
-         \EndProcedure
+          }
+          \algorithmicensure{\hspace{2mm} $\hat{F}_{0j}$ \dots calibration functions}
+          \begin{algorithmic}[1]
+              \Procedure{p-value calibration}{}
+              \State $N \gets$ database size
+              %\State $K \gets$ size of the cdf tail to be kept
+              \State $\mathcal{X} \gets$ descriptor matrix of negative examples %all database images
+              \For{$\forall j \in 1 \dots N$}
+                \State $N_c \gets$ number of negative examples
+                \State $\vec{w} \gets$ learned SVM weight for image $j$
+                \State $b \gets$ learned SVM bias for image $j$
+                \State $\vec{\sigma} \gets \vec{w}^T \mathcal{X}+b$
+                \State {\em Compute the cdf:}  % $\vec{s_j}, \hat{F}_{0j}$ }
+                \State $\vec{s_j} \gets$ sorted $\vec{\sigma}$ in descending order
+                \State $\hat{F}_{0j} \gets [N_c \dots 0]/N_c$
+              \EndFor
+              \EndProcedure
          \end{algorithmic}
-         \label{alg:onffline}
       \end{algorithm}
 
        \begin{algorithm}
+          \caption{P-value calibration: online stage}
+          \label{alg:online}
           \algorithmicrequire{\hspace{5mm}
               $\vec{q}$ \dots query image descriptor\newline  
               \textcolor{myWhite}{.\hspace{13mm}}$\vec{w}_j$, $b_j$ \dots learnt SVM weights and biases\newline
@@ -399,31 +402,29 @@ In particular, the method estimates the significance of the score of a test exam
           }
           \algorithmicensure{\hspace{2mm} $f_j(\vec{q})$ \dots calibrated score}
           %
-         \caption{P-value calibration: online stage}\label{alg:online}
-         \begin{algorithmic}[1]
-         \Procedure{calibrating scores}{}
-         \State $\vec{q} \gets$ query image descriptor
-         \State $N \gets$ database size
-%         \State $y \gets [0,1,\dots (K-1)]$
-         \For{$\forall j \in 1 \dots N$} // for each database image
-            \State $\vec{w} \gets$ learned SVM weight for image $j$
-            \State $b \gets$ learned SVM bias for image $j$
-            \State $\hat{F}_{0} \gets \hat{F}_{0j}$ // Empirical cdf
-            \State $\vec{s} \gets \vec{s_j}$ // Corresponding sorted scores
-            \State $s_q \gets \vec{q}^T\vec{w}+b$  // compute uncalibrated classifier score 
-%		        \State $\hat{F}_0 \gets \hat{F}_{0j}$
-            \State Find $n$ such that $s_{n} \leq s_q < s_{n+1} $
-            \State Compute the interpolated empirical cdf value:
-            \Statex $\hspace{9mm}
-              \hat{F}_0(s_q)\approx 
-              \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
-            $
-            \State $f_j(\vec{q})=\hat{F}_0(s_q)$ // output the calibrated score
-         
-         \EndFor
-         \EndProcedure
-         \end{algorithmic}
-         \label{alg:online}
+        \begin{algorithmic}[1]
+              \Procedure{calibrating scores}{}
+              \State $\vec{q} \gets$ query image descriptor
+              \State $N \gets$ database size
+              %         \State $y \gets [0,1,\dots (K-1)]$
+              \For{$\forall j \in 1 \dots N$} // for each database image
+                \State $\vec{w} \gets$ learned SVM weight for image $j$
+                \State $b \gets$ learned SVM bias for image $j$
+                \State $\hat{F}_{0} \gets \hat{F}_{0j}$ // Empirical cdf
+                \State $\vec{s} \gets \vec{s_j}$ // Corresponding sorted scores
+                \State $s_q \gets \vec{q}^T\vec{w}+b$  // compute uncalibrated classifier score 
+              %		        \State $\hat{F}_0 \gets \hat{F}_{0j}$
+                \State Find $n$ such that $s_{n} \leq s_q < s_{n+1} $
+                \State Compute the interpolated empirical cdf value:
+                \Statex $\hspace{9mm}
+                  \hat{F}_0(s_q)\approx 
+                  \hat{F}_0(s_n)+\frac{s_q-s_n}{s_{n+1}-s_n} (\hat{F}_0(s_{n+1})-\hat{F}_0(s_n)).
+                $
+                \State $f_j(\vec{q})=\hat{F}_0(s_q)$ // output the calibrated score
+
+              \EndFor
+              \EndProcedure
+        \end{algorithmic}
       \end{algorithm}
       
 
@@ -553,7 +554,7 @@ In particular, the method estimates the significance of the score of a test exam
     As a result, matrix $\mathcal{W}$ containing all learned classifier weights can be expressed in the dual form as
 
       \begin{equation}
-        \label{eq:dual}
+        \label{eq:dualFinal}
         \mathcal{W} = \mathcal{X} \mathcal{A},  
       \end{equation}
 
@@ -564,7 +565,7 @@ In particular, the method estimates the significance of the score of a test exam
 
 
   \paragraph{Fisher vectors:}    
-    The Fisher vector descriptors are not sparse and therefore the dual representation given by~\eqref{eq:dual} does not bring any memory savings.
+    The Fisher vector descriptors are not sparse and therefore the dual representation given by~\eqref{eq:dualFinal} does not bring any memory savings.
     However, they have a relatively low-dimension $d\in\{128, 512, 2048\}$ hence it is possible to store directly the (non-sparse) matrix $\mathcal{W}$ containing the learnt classifier parameters $\vec{w}$. In this work we exhaustively compute the classifier scores for all images in the database (given by equation~\eqref{eq:allscores}) using efficient (but exact) matrix-vector multiplication routines. However, this computation can be further sped-up using product quantization indexing as described in~\cite{Jegou12}.     
 
 
@@ -573,8 +574,9 @@ In particular, the method estimates the significance of the score of a test exam
 \section{Experimental setup and implementation details}
 \label{sec:experiments}
 %%%%%%%%%%%%%%%%%%%%%%%
-  In this section we describe the experimental datasets, outline the two types of used image descriptors, and finally give implementation details of the 
+  In this section we describe the experimental datasets, outline the two types of used image descriptors, and finally give implementation details of the classifier learning procedure.
   
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%
   \subsection{Image datasets}
   %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -625,7 +627,7 @@ In particular, the method estimates the significance of the score of a test exam
   \subsection{Bag-of-visual-words model}
   \label{sec:bow_results}
   %%%%%%%%%%%%%%%%%
-    Results for the bag-of-visual-words image representation are shown in figure~\ref{fig:recallBOW} and table~\ref{tab:recall01} (the first three rows). 
+    Results for the bag-of-visual-words image representation are shown in figure~\ref{fig:recallBOW} and table~\ref{tab:recallFV} (the first three rows). 
     Learning per-location classifiers with either calibration method (\emph{p-val} and \emph{w-norm}) clearly improves over the standard bag-of-visual-words baseline (BOW) that does not perform any learning. We further note that the  \emph{p-val} calibration performs slightly better than the \emph{w-norm} calibration for shorter top $K$ shortlists but this effect is reversed for larger $K$. This could be attributed to the fact that the \emph{p-val} calibration uses the negative data to control false positive errors, but has less control over false negatives, as discussed in section~\ref{sec:discussion}. 
 
     In figure~\ref{fig:3qVSw} we visualize the learnt SVM weights on BOW for \emph{p-val}. We visualize the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score.For instance for the left figure notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a). Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place.
@@ -633,17 +635,42 @@ In particular, the method estimates the significance of the score of a test exam
     Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:images_bow}. The query image is show in the left column and the shortlist of the top four retrieved images is shown on the right. For each query, the first row shows images retrieved by the learnt bag-of-visual-words descriptor, while the second row shows images retrieved by the raw bag-of-visual-words descriptor without place specific learning.
 
 
+    %%% TABLE: Results 25k BOW only
+    \begin{table}[t!]
+      \begin{centering}
+        \input{tableResults03.tex}
+        \caption{ 
+          \textbf{Results on Pittsburgh 25k dataset.}
+          The fraction of correctly recognized queries (recall@K) vs. the number of top $K\in\{1,2,5,10,20\}$ retrieved database images for different Fisher vector dimensions $d\in\{128,512,2048\}$ and BOW for different calibration methods. The learnt Fisher vector descriptors by the  \emph{w-norm} method consistently improve over the raw Fisher vector descriptors across the whole range of $K$ and all dimensions.    
+        }
+        \label{tab:recallBOW}
+      \end{centering}
+    \end{table}
+
+    %%% FIGURE: FV recall curves
+    \begin{figure}[t!]
+        \centering
+        \includegraphics[width=1.1\linewidth]{imgs/plotPitt25kBOW}  
+        %\includegraphics[trim=35mm 70mm 40mm 75mm, clip=true, width=\linewidth]{imgs/plotPitt25k}    
+        \caption{
+            % \textbf{TODO: Evaluation of the learnt Fisher vector representation on the Pittsburgh 25k \cite{Gronat13} dataset.} 
+            % The graph shows the fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for the raw Fisher vector baseline (FV) for different dimensions compared to the learnt representation (w-norm). Note the consistent improvements over all lengths of shortlist $K$ for all dimensions.
+            \textbf{Evaluation of the learnt bag-of-visual-words representation on the Pittsburgh 25k \cite{Gronat13} dataset.} The graph shows the fraction of correctly recognized queries (recall@K, y-axis) vs. the number of top $K$ retrieved database images for the raw bag-of-visual-words baseline (BOW) and the learnt representation with two different calibration methods (p-val and w-norm).
+        }
+        \label{fig:recallBOW}
+    \end{figure}
+
    %%%%%%%%%%%%%%%%%
   \subsection{Fisher vectors}
   \label{sec:fisher_restuls}
   %%%%%%%%%%%%%%%%%
 
     Results of the proposed per-location learning method for the Fisher vector descriptor of different dimension $d\in\{128, 512, 2048\}$ 
-    are shown in table~\ref{tab:recall01} and figure~\ref{fig:recall}.
+    are shown in table~\ref{tab:recallFV} and figure~\ref{fig:recall}.
     Similar to bag-of-visual-words, the learnt representation (w-norm) significantly improves the place recognition performance over the baseline raw Fisher vector (FV) without learning. The improvements are consistent across different lengths of shortlist $K$ and for different dimensionality of the Fisher vector representation. 
-    We report results only for the w-norm calibration as we found that the p-val calibration did not perform well together with the learnt Fisher vector representation ( top 1 recall of **.*\%). When examining the results, we believe this may be attributed to the fact that Fisher vectors are low dimensional (d is up to 2048) and not-sparse compared to the extremely high-dimensional (d=100,000) bag-of-visual-words representation, which affects the distribution of the classifier scores on the negative test data. 
+    We report results only for the w-norm calibration as we found that the p-val calibration did not perform well together with the learnt Fisher vector representation ( top 1 recall of 25.3\%). When examining the results, we believe this may be attributed to the fact that Fisher vectors are low dimensional (d is up to 2048) and not-sparse compared to the extremely high-dimensional (d=100,000) bag-of-visual-words representation, which affects the distribution of the classifier scores on the negative test data. 
 
-    %%% TABLE: Results 25k FV and BOW
+    %%% TABLE: Results 25k FV only
     \begin{table}[t!]
       \begin{centering}
         \input{tableResults01.tex}
@@ -651,11 +678,11 @@ In particular, the method estimates the significance of the score of a test exam
           \textbf{Results on Pittsburgh 25k dataset.}
           The fraction of correctly recognized queries (recall@K) vs. the number of top $K\in\{1,2,5,10,20\}$ retrieved database images for different Fisher vector dimensions $d\in\{128,512,2048\}$ and BOW for different calibration methods. The learnt Fisher vector descriptors by the  \emph{w-norm} method consistently improve over the raw Fisher vector descriptors across the whole range of $K$ and all dimensions.    
         }
-        \label{tab:recall01}
+        \label{tab:recallFV}
       \end{centering}
     \end{table}
 
-    Finally, we test the learnt Fisher vector representation on the larger Pittsburgh 55k dataset. As shown in table~\ref{tab:recall02} the proposed per-location learning method consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist. 
+    Finally, we test the learnt Fisher vector representation on the larger Pittsburgh 55k dataset. As shown in table~\ref{tab:recallFV55k} the proposed per-location learning method consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist. 
 
     %%% FIGURE: FV recall curves
     \begin{figure}[t!]
@@ -676,7 +703,7 @@ In particular, the method estimates the significance of the score of a test exam
         \textbf{Examples of improvements and failure cases for \emph{w-norm} method on Fisher vectors.}
         Each example shows a query image (left) together with correct (green) and incorrect (red) matches from the database obtained by \emph{w-norm} method (top) and the raw Fisher vector descriptor baseline (bottom). For each method we show the top 4 matches from the database using 128-dimensional descriptors.        
       }
-      \label{fig:images}
+      \label{fig:images_bow}
     \end{figure*}
 
     Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:images}. The query image is show in the left column and the shortlist of the top four retrieved images is shown on the right. For each query, the first row shows images retrieved by the learnt Fisher vector descriptor for dimension $d=128$, while the second row shows images retrieved by raw Fisher vector of the same dimension.
@@ -689,7 +716,7 @@ In particular, the method estimates the significance of the score of a test exam
         \caption{ 
           \textbf{Results on Pittsburgh 55k dataset.} The fraction of correctly recognized queries (recall@K) vs. the number of top $K\in\{1,2,5,10,20\}$ retrieved database images for different Fisher vector dimensions $d\in\{128,512,2048\}$. The learnt descriptors by the proposed \emph{w-norm} mthod for Fisher vectors consistently improve over the raw Fisher vector descriptors across the whole range of $K$ and all dimensions on 55k Pittsburgh image datasets.   
         }
-        \label{tab:recall02}
+        \label{tab:recallFV55k}
       \end{centering}
     \end{table}
 
@@ -698,7 +725,7 @@ In particular, the method estimates the significance of the score of a test exam
   \subsection{Memory complexity analysis}
   \label{sec:memory_results}
   %%%%%%%%%%%%%%%%
-    Figure~\ref{fig:memory} compares the performance of the proposed per-location learning method for the two different image representations  compared to their memory requirements.  For FV we show recognition performance (y-axis) for the different dimensionality of the representation, which corresponds to different memory footprints (x-axis). For example, the for $d=128$ the memory footprint is about *** MB, whereas for $d=2048$ it is about *** MB. The bag-of-visual-words representation has a fixed dimensionality and hence each bag-of-visual-words method is shown only as a single point on the graph.  For Fisher vectors, the results demonstrate that for a given level of accuracy (y-axis) the proposed method learns a more compact (lower-dimensional) representation (x-axis).  For example, our learnt 128-dimensional descriptor (memory footprint of 24 MB) achieves a similar accuracy (around 65\%) as the 256-dimensional raw Fisher descriptor (memory footprint of 51MB). This corresponds to 50\% memory savings or the same level of recognition performance. Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the FV baseline and our method. The results also demonstrate the benefits of using the compact FV descriptors compared to the bag-of-visual-words baseline achieving significantly better recognition accuracy for a similar memory footprint.
+    Figure~\ref{fig:memory} compares the performance of the proposed per-location learning method for the two different image representations  compared to their memory requirements.  For FV we show recognition performance (y-axis) for the different dimensionality of the representation, which corresponds to different memory footprints (x-axis). For example, the for $d=128$ the memory footprint is about 24~MB, whereas for $d=2048$ it is about 384~MB. The bag-of-visual-words representation has a fixed dimensionality and hence each bag-of-visual-words method is shown only as a single point on the graph.  For Fisher vectors, the results demonstrate that for a given level of accuracy (y-axis) the proposed method learns a more compact (lower-dimensional) representation (x-axis).  For example, our learnt 128-dimensional descriptor (memory footprint of 24 MB) achieves a similar accuracy (around 65\%) as the 256-dimensional raw Fisher descriptor (memory footprint of 51MB). This corresponds to 50\% memory savings or the same level of recognition performance. Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the FV baseline and our method. The results also demonstrate the benefits of using the compact FV descriptors compared to the bag-of-visual-words baseline achieving significantly better recognition accuracy for a similar memory footprint.
     
     %%% FIGURE: Memory efficiency
     \begin{figure}[t!]
@@ -725,11 +752,12 @@ In particular, the method estimates the significance of the score of a test exam
 %%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%
-TODO...
-Place recognition can be cast as learning \newline
-Two calibration methods \newline
-Two descriptors \newline
-Performance demonstrated on two datasets \newline
+We have shown that place recognition can be cast as a classification problem and have used geotags as a readily-available supervision to
+train an ensemble of classifiers, one for each location in the database. As only few positive examples are available for each
+location, we have developed two procedures to calibrate the output of each classifier without the need for additional positive training
+data. We have shown that learning per-location representation improves the place recognition performance over the raw bag-of-visual-words and
+Fisher vector image representations. The developed calibration methods are not specific to place recognition and can be useful for other
+per-exemplar classification tasks, where only a small number of positive examples are available~\cite{Malisiewicz11}.
 
 
 
