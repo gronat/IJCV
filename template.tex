@@ -76,6 +76,7 @@ grestore
 \definecolor{myGrey}{HTML}{AA5555}
 \definecolor{myWhite}{HTML}{FFFFFF}
 \definecolor{maroon}{cmyk}{0,0.87,0.68,0.32}
+\definecolor{petr}{HTML}{5555FF}
 % please place your own definitions here and don't use \def but
 % \newcommand{}{}
 \newcommand{\PP}{\mathbb{P}}
@@ -283,6 +284,8 @@ It is, however, an important problem as automatic, accurate and fast visual plac
 
 In this section we describe a classifier calibration method that exploits the availability of large amounts of negative data, i.e.\ images from other far away locations in the database.
 In particular, the method estimates the significance of the score of a test example compared to the typical score of  the (plentifully available) negative examples. Intuitively, we will use a large dataset of negative examples to calibrate the individual classifiers so that they {\em reject the same number of negative examples} at each level of the calibrated score.   We will expand this idea in detail using the concepts from hypothesis testing. % to propose a calibration method.
+
+
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    \subsection{Calibration \emph{via} significance levels}
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -303,12 +306,15 @@ In particular, the method estimates the significance of the score of a test exam
       \end{equation}
       %
       \noindent
-      where $(s_n)_{1\leq n \leq \Ncal }$ are the SVM scores associated with $\Ncal$ negative examples used for calibration.
+      where $(s_n)_{1\leq n \leq \Ncal }$ are the SVM scores associated with $\Ncal$ negative examples used for calibration. \textcolor{petr}{Notice that positive example is not involved in construction the cumulative density function.}
       $\hat{F}_0(s)$ 
       is the fraction of the negative examples used for calibration (ideally held out negative examples) that have a score below a given value $s$.
       Computing $\hat{F}_0$ exactly would require to store all the SVM scores for all the calibration data for all classifiers, so in practice, we only keep a fraction of the larger scores.
       We also interpolate the empirical cdf between consecutive datapoints so that instead of being a staircase function it is a continuous piecewise linear function such as illustrated in figure~\ref{fig:calib}. Given a query, we first compute its SVM score $s_q$ and then compute the calibrated probability $f(q)=\hat{F}_0(s_q)$.
       We obtain a similar calibrated probability $f_j(q)$ for each of the SVMs associated with each of the target locations, which can now be ranked.
+      \textcolor{petr}{
+      Another example of score calibration is shown in figure~\ref{fig:3qVSw}. Each plot contains respective calibration cdf for particular target image and circles denote calibrated SVM score for three different images. Notice that while figure~\ref{fig:calib} displays only few datapoints of the cdf plots in figure~\ref{fig:3qVSw} show complete cdf consisting of $25k$ datapoints. Notice also that cumulative density functions in figure~\ref{fig:3qVSwfig:3qVSw} are similar but not identical.
+      }
       %
       \begin{figure}[t]
          \vspace{1mm}
@@ -435,7 +441,7 @@ In particular, the method estimates the significance of the score of a test exam
       Finally, we should remark that we are not doing here calibration in the same sense of the word as the calibration based on logistic regression (or isotonic regression), since logistic regression estimates a probability of making a correct prediction by assigning a new data to class $1$, while we are estimating how unlikely it would be for a negative example to have such a high score. The calibration with either methods yields ``universal" scores in the sense that they are comparable from one SVM to another, but the calibrated values obtained from logistic regression are not comparable to the values obtained from our approach.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
-\section{Affine calibration by-normalizing the classification hyperplane}
+\section{Affine calibration by normalizing the classification hyperplane}
 %\section{Calibration by-normalization }
 \label{sec:calibrationRenorm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -468,16 +474,18 @@ In particular, the method estimates the significance of the score of a test exam
     \label{eq:linear2}
 %      \nonumber
 %        f_j(\vec{q}) = (c_j\vec{w}_j)^T \vec{q} + \beta_j
-        f_j(\vec{q}) = \vec{\widetilde{w}}_j^T \vec{q} + c_j,
+        f_j(\vec{q}) = \vec{\widetilde{w}}_j^T \vec{q} + \widetilde{b}_j,
         %\label{eq:affiine3}
      \end{align}
      %
-  where $\vec{\widetilde{w}}_j = \alpha_j\vec{w}_j$ and $c_j=\alpha_j b_j+\beta_j$. 
+  where $\vec{\widetilde{w}}_j = \alpha_j\vec{w}_j$ and $\widetilde{b}_j=\alpha_j b_j+\beta_j$. 
   Note that the calibrated classifier~\eqref{eq:linear2} has the same form as the original classifier~\eqref{eq:linear} and hence this representation does not require any additional storage compared to storing the original classifier. %Compared to the~\cite{
-  The question remains how to set the parameters $\alpha_j$ and $\beta_j$ of the calibration function~\eqref{eq:affine}, which is discussed next.
+  \textcolor{petr}{We have tried to obtain the affine parameters $\alpha_j$ and $\beta_j$ by fitting a line to the tail of cdf, however we did get unsatisfactory results.}
+  Hence, the question remains how to set the parameters $\alpha_j$ and $\beta_j$ of the calibration function~\eqref{eq:affine}, which is discussed next.
 
-  \subsection{Calibration by-normalization}
-   Parameters of the affine calibration function~\eqref{eq:affine} could be learnt from negative training data in a similar manner to for example~\cite{Aubry14}. 
+
+  \subsection{Calibration by normalization}
+  Parameters of the affine calibration function~\eqref{eq:affine} could be learnt from negative training data in a similar manner to for example~\cite{Aubry14}. 
   However, as discussed above, in our case this would require running all $N$ classifiers on all $N$ images, which is prohibitive for large datasets.
   Instead, we have found that a good calibration can be obtained by-normalizing the learnt hyperplane $\vec{w}$. In particular, we set 
   %
@@ -607,6 +615,12 @@ In particular, the method estimates the significance of the score of a test exam
 
       For the p-value calibration, we take the learnt classifier for each database image $j$ and compute its SVM score for all other database images to construct its empirical cumulative density function~\eqref{eq:empiricalCDF}. We keep only the top 1,000 values that, in turn, represent the calibration function. At query time, given the query descriptor $\vec{q}$, we compute the SVM score~\eqref{eq:linear} for each database image $j$, and compute its calibrated SVM score $f_j$~\eqref{eq:empiricalCDF}.
 
+      \subsection{Discussion}
+      \textcolor{petr}{
+      We do not perform our experiments on the San Francisco dataset~\cite{Chen11} because it uses different definition of a ground truth. The ground truth of the San Francisco dataset is based on Geographic Information System (GIS). Each database and query image has associated cartographic ID based on what building is captured on it. As a result, the ground truth for particular query image often contains database images that are spatially far away ($> 200m$) from the query location.  However, our method defines ground truth images as those within a threshold of $20m$ from the query location and defines potential hard negatives images as those above the threshold of $200m$. As a consequence, our method identifies the ground truth images from San Francisco as hard negatives examples and uses them for training which dramatically affects the performance.
+      }
+
+
 %%%%%%%%%%%%%%%%%%%%
 \section{Results}
 \label{sec:results}
@@ -664,7 +678,7 @@ In particular, the method estimates the significance of the score of a test exam
     \vspace*{-2mm}
     \caption{
           {\bf  A visualization of learnt feature weights for two database images. In each panel:} 
-         \emph{first~row:} (Right) Target database image $j$. (Left) Cumulative density function (or calibrated score) learnt for the SVM scores of the corresponding classifier $f_j$;  three query images displayed on the \emph{second row} are represented by their SVM scores and cdf values $F_0(s)$, denoted (a)-(c) on the graph. \emph{Third~row:} A visualization of the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score.
+         \emph{first~row:} (Right) Target database image $j$. (Left) Cumulative density function (or calibrated score) learnt for the SVM scores of the corresponding classifier $f_j$ \textcolor{petr}{(notice that $cdf$s are not identical)};  three query images displayed on the \emph{second row} are represented by their SVM scores and cdf values $F_0(s)$, denoted (a)-(c) on the graph. \emph{Third~row:} A visualization of the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score.
          %
          Notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a).
          {\it Left panel:} Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place.
