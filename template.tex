@@ -507,7 +507,76 @@ In particular, the method estimates the significance of the score of a test exam
   The intuition is that when $\vec{q}$ is $L_2$ normalized, equation~\eqref{eq:linear3} is equivalent to computing the normalized dot-product between vectors $\vec{q}$ and $\vec{w}$.       This was found to work well in image retrieval~\cite{Sivic03} or matching whitened HOG descriptors~\cite{Doersch13}.
 %      but has not yet been used in conjunction with SVMs as done in this work.
   In this work we investigate whether this intuition about descriptor matching can be used as a form of calibration for the learnt place-specific classifier.  
-  Note  that this form of calibration by-normalization is scalable to very large datasets as it (i) requires only $O(N)$ computations offline to pre-compute the calibration parameters for each of the $N$ learnt classifiers (equations~\eqref{eq:rescale1} and~\eqref{eq:rescale2}), and (ii) does not need any additional storage or computation at query time as the calibration parameters can be included in the classifier~\eqref{eq:linear2}.   
+  Note  that this form of calibration by-normalization is scalable to very large datasets as it (i) requires only $O(N)$ computations offline to pre-compute the calibration parameters for each of the $N$ learnt classifiers (equations~\eqref{eq:rescale1} and~\eqref{eq:rescale2}), and (ii) does not need any additional storage or computation at query time as the calibration parameters can be included in the classifier~\eqref{eq:linear2}.
+
+  \subsection{Why calibration by normalization works} %\vspace{-0.2cm} 
+      \textcolor{petr}{
+      In this section, we analyze the exemplar SVM objective~(\ref{eq:obj}) and provide some intuition why {\em re-normalized} weight vector $w_j$ can be interpreted as a new descriptor.  In particular, we show first that when the weight $C_2$ of the negative data in objective~(\ref{eq:obj}) goes to zero the learnt $\Psi_j$ is identical to the original positive training data point $\Phi_j^+$. Second, when $C_2>0$, the learnt vector $\Psi_j$ moves away from the positive vector  $\Phi_j^+$ to increase its separation from the negative data.
+      Details are given next.
+      }
+      %
+      \begin{figure}[t]
+         \begin{center}
+            \subfigure[$C_2>0$ ]{
+               \centering
+               \includegraphics[trim = 4mm 0mm 7mm 3mm, clip=true, width=0.47\linewidth]{imgs/figSVM01tight}
+            }
+            %        $C_2 \rightarrow 0$
+            \subfigure[$C_2 \rightarrow 0$]{
+               \centering
+               \includegraphics[trim = 3mm 0mm 8mm 3mm, clip=true, width=0.47\linewidth]{imgs/figSVM02tight}
+            }
+            \caption{
+               {\bf An illustration of the effect of decreasing parameter $C_2$ in the exemplar support vector machine objective.} 
+               The positive exemplar $\Phi_j^+$ is shown in green. The negative data points are shown in red. All training data is L2 normalized to lie on a hyper-sphere. (a) For $C_2>0$, the normal $w_j$ of the optimal hyper-plane moves away from the direction given by the positive example $\Phi^+$ in a manner that reduces the loss on the negative data.  (b) As the parameter $C_2$ decreases the learnt $w_j$ becomes parallel to the positive training example $\Phi_j^+$ and its magnitude $||w_j||$ goes to 0.
+            }
+            \label{fig:C2effect}
+         \end{center}
+      \end{figure}
+      %
+      \paragraph{Case I: $C_2\rightarrow 0$.}
+         The goal is to show that when the weight  $C_2$ of the negative data in objective~\eqref{eq:obj} goes towards zero, the resulting hyperplane vector $w_j$ is parallel with the vector of positive training descriptor $\Phi_j^+$. When $w_j$ is normalized to have unit L2 norm the two vectors are identical. First, let us decompose $w$ into parallel and orthogonal part with respect to the positive training data point $\Phi^+$ (in the following we omit index $j$ for brevity), i.e. $w=w^{\perp}+w^{||}$, where $(w^{\perp})^T \Phi^+ = 0$. Next, we observe that when the weight of the negative data diminishes ($C_2\rightarrow 0$), any non-zero component $w^{\perp}$ will increase the value of the objective. As a result, for $C_2\rightarrow 0$ the objective is minimized by $w^{||}$, i.e.\ the optimal $w$ is parallel with $\Phi^+$.
+
+         In detail, for $w=w^{\perp}+w^{||}$, the objective~(\ref{eq:obj}) can be written as
+         %
+         \begin{align}
+            \label{eq:decomposedOrig}
+              ||w^{\perp}+w^{||}||^{2} &+
+              C_1 \cdot h
+              \left(
+               (w^{\perp}+w^{||})^T\Phi^+ + b
+              \right) \\ \nonumber
+              &+
+              C_2\sum_{\Phi\in \mathcal N} h
+              \left(
+               -(w^{\perp}+w^{||})^T\Phi-b
+              \right).
+         \end{align}
+         %
+         Note that the orthogonal part $w^{\perp}$ does not change the value of  the second term in~(\ref{eq:decomposedOrig}) because $(w^{\perp}+w^{||})^T\Phi^+=(w^{||})^T\Phi^+$, and hence~(\ref{eq:decomposedOrig}) reduces to
+         %
+         \begin{align} 
+            \label{eq:decomposed} 
+            ||w^{\perp}+w^{||}||^{2} &+
+            C_1 \cdot h
+            \left(
+                w^{||T}\Phi^+ +b_j
+            \right) \\ \nonumber
+            &+
+            C_2\sum_{\Phi\in \mathcal N} h
+            \left(
+                -(w^{\perp}+w^{||})^T\Phi-b
+            \right).
+         \end{align}
+         %
+         In the limit case as $C_2 \rightarrow 0$ any non-zero component $w^{\perp}$
+         will increase the value of the objective~\eqref{eq:decomposed}. This can be seen by noting that the third term vanishes when $C_2 \rightarrow 0$ and hence the objective is dominated by the first two terms. Further, the second term in~\eqref{eq:decomposed} is independent of $w^{\perp}$. Finally, the first term will always increase for any non-zero value of $w^{\perp}$ as $||w^{\perp}+w^{||}||^{2} \geq ||w^{||}||$ for any $w^{\perp}\neq0$.
+
+         As a result, in the limit case when $C_2 \rightarrow 0$ the optimal $w$ is parallel with $\Phi^+$. Note also, that when $C_2$ is exactly equal to zero, $C_2=0$, the optimal $w$ vanishes, i.e. the objective~\eqref{eq:decomposed} is minimized by trivial solution $||w||=0$ and $b_j=-1$. The effect of decreasing the parameter $C_2$ is illustrated in figure~\ref{fig:C2effect}.
+
+
+      \paragraph{Case II: $C_2>0$.}
+         When the weight $C_2$ of the negative data in the objective~\eqref{eq:decomposed} increases the direction of the optimal $w$ will be different from $w^{||}$ and will change to take into account the loss on the negative data points. Explicitly writing the hinge-loss $h(x) = \max(1-x,0)$ in the last term of~\eqref{eq:decomposed}, we see that $w$ will move in the direction that reduces $\sum_{\Phi\in \mathcal N}\max \left(1+w^T \Phi + b ,0 \right)$, i.e.\ that reduces the dot product $w^T \Phi$ on the negative examples that are active (support vectors).
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -585,8 +654,14 @@ In particular, the method estimates the significance of the score of a test exam
       We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles $4^\circ$ and $28^\circ$ to capture both the street-level scene and the building fa\c{c}ades. This results in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate two datasets. The first smaller dataset covers a smaller area and contains $25$k perspective images. The second larger dataset contains $55$k images.
 
       \paragraph{Query set.}
-      As a query set with known ground truth GPS positions, we use 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.         
+      As a query set with known ground truth GPS positions, we use 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.          
       We generate a test query set such that we, first select a panorama at random and, second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize 4,000 query test images.
+
+
+      \subsection{San Francisco dataset}
+      \textcolor{petr}{
+      We do not perform our experiments on the San Francisco dataset~\cite{Chen11} because it uses different definition of a ground truth. The ground truth of the San Francisco dataset is based on Geographic Information System (GIS). Each database and query image has associated cartographic ID based on what building is captured on it. As a result, the ground truth for particular query image often contains database images that are spatially far away ($> 200m$) from the query location.  However, our method defines ground truth images as those within a threshold of $20m$ from the query location and defines potential hard negatives images as those above the threshold of $200m$. As a consequence, our method identifies the ground truth images from San Francisco as hard negatives examples and uses them for training which dramatically affects the performance.
+      }
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%
     \subsection{Image descriptors}
@@ -614,11 +689,6 @@ In particular, the method estimates the significance of the score of a test exam
       For the calibration by re-normalization, we $L_2$ normalize the learned $\vec{w}_j$ using equation~\eqref{eq:linear3} and use this-normalized vector as the new image descriptor $\vec{x}'_j$ for image $j$. At query time we compute the descriptor $\vec{q}$ of the query image and measure its similarity score to the learnt descriptors $\vec{x}'_j$ for each database image by equation~\eqref{eq:class}.
 
       For the p-value calibration, we take the learnt classifier for each database image $j$ and compute its SVM score for all other database images to construct its empirical cumulative density function~\eqref{eq:empiricalCDF}. We keep only the top 1,000 values that, in turn, represent the calibration function. At query time, given the query descriptor $\vec{q}$, we compute the SVM score~\eqref{eq:linear} for each database image $j$, and compute its calibrated SVM score $f_j$~\eqref{eq:empiricalCDF}.
-
-      \subsection{Discussion}
-      \textcolor{petr}{
-      We do not perform our experiments on the San Francisco dataset~\cite{Chen11} because it uses different definition of a ground truth. The ground truth of the San Francisco dataset is based on Geographic Information System (GIS). Each database and query image has associated cartographic ID based on what building is captured on it. As a result, the ground truth for particular query image often contains database images that are spatially far away ($> 200m$) from the query location.  However, our method defines ground truth images as those within a threshold of $20m$ from the query location and defines potential hard negatives images as those above the threshold of $200m$. As a consequence, our method identifies the ground truth images from San Francisco as hard negatives examples and uses them for training which dramatically affects the performance.
-      }
 
 
 %%%%%%%%%%%%%%%%%%%%
