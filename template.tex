@@ -658,9 +658,9 @@ In particular, the method estimates the significance of the score of a test exam
       We generate a test query set such that we, first select a panorama at random and, second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize 4,000 query test images.
 
 
-      \subsection{San Francisco dataset}
+      \paragraph{San Francisco dataset}
       \textcolor{petr}{
-      We do not perform our experiments on the San Francisco dataset~\cite{Chen11} because it uses different definition of a ground truth. The ground truth of the San Francisco dataset is based on Geographic Information System (GIS). Each database and query image has associated cartographic ID based on what building is captured on it. As a result, the ground truth for particular query image often contains database images that are spatially far away ($> 200m$) from the query location.  However, our method defines ground truth images as those within a threshold of $20m$ from the query location and defines potential hard negatives images as those above the threshold of $200m$. As a consequence, our method identifies the ground truth images from San Francisco as hard negatives examples and uses them for training which dramatically affects the performance.
+      The San Francisco dataset~\cite{Chen11} uses different definition of a ground truth and different evaluation metrics. A ground truth of the San Francisco dataset is based on Geographic Information System (GIS). Each database and query image is associated with a cartographic ID based on which building is captured on the image. As a result, the ground truth for particular query image often contains database images that are spatially far away (e.g.$> 200m$) from the query location.  However, our method defines ground truth images as those within a certain threshold of from the query location and defines potential hard negatives images as those spatially far away (details given below). As a consequence, our method identifies the ground truth images from San Francisco as hard negatives examples and uses them for training which dramatically affects the performance. Because of major differences in ground truth definition and evaluation metrics we do not provide results on the San Francisco dataset.
       }
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%
