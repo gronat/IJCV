@@ -77,6 +77,7 @@ grestore
 \definecolor{myWhite}{HTML}{FFFFFF}
 \definecolor{maroon}{cmyk}{0,0.87,0.68,0.32}
 \definecolor{petr}{HTML}{5555FF}
+\definecolor{josef}{HTML}{FF3030}
 % please place your own definitions here and don't use \def but
 % \newcommand{}{}
 \newcommand{\PP}{\mathbb{P}}
@@ -306,15 +307,17 @@ In particular, the method estimates the significance of the score of a test exam
       \end{equation}
       %
       \noindent
-      where $(s_n)_{1\leq n \leq \Ncal }$ are the SVM scores associated with $\Ncal$ negative examples used for calibration. \textcolor{petr}{Notice that positive example is not involved in construction the cumulative density function.}
+      where $(s_n)_{1\leq n \leq \Ncal }$ are the SVM scores associated with $\Ncal$ negative examples used for calibration. Note that no positive examples are involved in the construction of the cumulative density function.
       $\hat{F}_0(s)$ 
       is the fraction of the negative examples used for calibration (ideally held out negative examples) that have a score below a given value $s$.
       Computing $\hat{F}_0$ exactly would require to store all the SVM scores for all the calibration data for all classifiers, so in practice, we only keep a fraction of the larger scores.
       We also interpolate the empirical cdf between consecutive datapoints so that instead of being a staircase function it is a continuous piecewise linear function such as illustrated in figure~\ref{fig:calib}. Given a query, we first compute its SVM score $s_q$ and then compute the calibrated probability $f(q)=\hat{F}_0(s_q)$.
       We obtain a similar calibrated probability $f_j(q)$ for each of the SVMs associated with each of the target locations, which can now be ranked.
-      \textcolor{petr}{
-      Another example of score calibration is shown in figure~\ref{fig:3qVSw}. Each plot contains respective calibration cdf for particular target image and circles denote calibrated SVM score for three different images. Notice that while figure~\ref{fig:calib} displays only few datapoints of the cdf plots in figure~\ref{fig:3qVSw} show complete cdf consisting of $25k$ datapoints. Notice also that cumulative density functions in figure~\ref{fig:3qVSwfig:3qVSw} are similar but not identical.
-      }
+      %\textcolor{petr}{
+      Two other examples of score calibration functions are shown in figure~\ref{fig:3qVSw} in section~\ref{sec:results}. 
+%      Each plot contains its calibration cdf for the particular target image and circles denote calibrated SVM score for three different images. 
+Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, the two plots in figure~\ref{fig:3qVSw} show a complete cdf that contains on the order of $25k$ data points. Note also that the two cumulative density functions in figure~\ref{fig:3qVSw} are similar but not identical.
+      %}
       %
       \begin{figure}[t]
          \vspace{1mm}
@@ -479,15 +482,17 @@ In particular, the method estimates the significance of the score of a test exam
      \end{align}
      %
   where $\vec{\widetilde{w}}_j = \alpha_j\vec{w}_j$ and $\widetilde{b}_j=\alpha_j b_j+\beta_j$. 
-  Note that the calibrated classifier~\eqref{eq:linear2} has the same form as the original classifier~\eqref{eq:linear} and hence this representation does not require any additional storage compared to storing the original classifier. %Compared to the~\cite{
-  \textcolor{petr}{We have tried to obtain the affine parameters $\alpha_j$ and $\beta_j$ by fitting a line to the tail of cdf, however we did get unsatisfactory results.}
-  Hence, the question remains how to set the parameters $\alpha_j$ and $\beta_j$ of the calibration function~\eqref{eq:affine}, which is discussed next.
+  Note that the calibrated classifier~\eqref{eq:linear2} has the same form as the original classifier~\eqref{eq:linear} and hence this representation does not require any additional storage compared to storing the original classifier. %Compared to the~\cite{  
+%  \textcolor{petr}{We have tried to obtain the affine parameters $\alpha_j$ and $\beta_j$ by fitting a line to the tail of cdf, however we did get unsatisfactory results.}
+%  Hence, 
+  The question remains how to set the parameters $\alpha_j$ and $\beta_j$ of the calibration function~\eqref{eq:affine}, which is discussed next.
 
 
   \subsection{Calibration by normalization}
-  Parameters of the affine calibration function~\eqref{eq:affine} could be learnt from negative training data in a similar manner to for example~\cite{Aubry14}. 
-  However, as discussed above, in our case this would require running all $N$ classifiers on all $N$ images, which is prohibitive for large datasets.
-  Instead, we have found that a good calibration can be obtained by-normalizing the learnt hyperplane $\vec{w}$. In particular, we set 
+  Parameters of the affine calibration function~\eqref{eq:affine} could be learnt from negative training data in a similar manner to, for example,~\cite{Aubry14}. 
+  We have tried to estimate the parameters in a similar manner by fitting a line to the tail of cdf, however this procedure did not yield satisfactory results.
+  In addition, as discussed above, in our case this requires running all $N$ classifiers on all $N$ images, which is prohibitive for large datasets.
+  Instead, we have found that a good calibration can be obtained by normalizing the learnt hyperplane $\vec{w}$. In particular, we set 
   %
     \begin{align}
       \label{eq:rescale1}
@@ -507,9 +512,13 @@ In particular, the method estimates the significance of the score of a test exam
   The intuition is that when $\vec{q}$ is $L_2$ normalized, equation~\eqref{eq:linear3} is equivalent to computing the normalized dot-product between vectors $\vec{q}$ and $\vec{w}$.       This was found to work well in image retrieval~\cite{Sivic03} or matching whitened HOG descriptors~\cite{Doersch13}.
 %      but has not yet been used in conjunction with SVMs as done in this work.
   In this work we investigate whether this intuition about descriptor matching can be used as a form of calibration for the learnt place-specific classifier.  
-  Note  that this form of calibration by-normalization is scalable to very large datasets as it (i) requires only $O(N)$ computations offline to pre-compute the calibration parameters for each of the $N$ learnt classifiers (equations~\eqref{eq:rescale1} and~\eqref{eq:rescale2}), and (ii) does not need any additional storage or computation at query time as the calibration parameters can be included in the classifier~\eqref{eq:linear2}.
+  Note  that this form of calibration by normalization is scalable to very large datasets as it (i) requires only $O(N)$ computations offline to pre-compute the calibration parameters for each of the $N$ learnt classifiers (equations~\eqref{eq:rescale1} and~\eqref{eq:rescale2}), and (ii) does not need any additional storage or computation at query time as the calibration parameters can be included in the classifier~\eqref{eq:linear2}. In the next section we examine why this simple calibration by normalization works.
+
 
   \subsection{Why calibration by normalization works} %\vspace{-0.2cm} 
+  \textcolor{josef}{Petre, we need to introduce $\Psi^{+}$ as it is used both in the figure and the subsequent text. Perhaps we need to start 5.3 with re-writing the original objective but for a single positive example?}
+  In this section we develop an intuition why the simple calibration by re-normalization works. For simplicity, we focus on the case of a single positive training example, i.e. when $P^{+} = \Psi^{+}$.  In particular, we first analyze the SVM objective and show that the learnt hyperplane $\vec{w}$ can be interpreted as a new descriptor that replaces the original positive example $\Psi^{+}$ and is re-weighted to increase its separation from the negative data. Second, we note that the learnt $\vec{w}$ is not normalized. However, to measure descriptor similarity by a normalized dot-product, additional normalization is required.     
+      \subsubsection{Analysis of SVM objective.}
       \textcolor{petr}{
       In this section, we analyze the exemplar SVM objective~(\ref{eq:obj}) and provide some intuition why {\em re-normalized} weight vector $w_j$ can be interpreted as a new descriptor.  In particular, we show first that when the weight $C_2$ of the negative data in objective~(\ref{eq:obj}) goes to zero the learnt $\Psi_j$ is identical to the original positive training data point $\Phi_j^+$. Second, when $C_2>0$, the learnt vector $\Psi_j$ moves away from the positive vector  $\Phi_j^+$ to increase its separation from the negative data.
       Details are given next.
@@ -577,6 +586,10 @@ In particular, the method estimates the significance of the score of a test exam
 
       \paragraph{Case II: $C_2>0$.}
          When the weight $C_2$ of the negative data in the objective~\eqref{eq:decomposed} increases the direction of the optimal $w$ will be different from $w^{||}$ and will change to take into account the loss on the negative data points. Explicitly writing the hinge-loss $h(x) = \max(1-x,0)$ in the last term of~\eqref{eq:decomposed}, we see that $w$ will move in the direction that reduces $\sum_{\Phi\in \mathcal N}\max \left(1+w^T \Phi + b ,0 \right)$, i.e.\ that reduces the dot product $w^T \Phi$ on the negative examples that are active (support vectors).
+         
+         
+         
+         \subsubsection{Intepreting normalized $\vec{w}$ as a new descriptor.}
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -651,17 +664,21 @@ In particular, the method estimates the significance of the score of a test exam
   \subsection{Image datasets}
   %%%%%%%%%%%%%%%%%%%%%%%%%%
     \paragraph{Image database.}
-      We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles $4^\circ$ and $28^\circ$ to capture both the street-level scene and the building fa\c{c}ades. This results in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate two datasets. The first smaller dataset covers a smaller area and contains $25$k perspective images. The second larger dataset contains $55$k images.
+      We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles $4^\circ$ and $28^\circ$ to capture both the street-level scene and the building fa\c{c}ades. This results in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate two datasets. The first smaller dataset covers a smaller area and contains $25$k perspective images.  The second larger dataset contains $55$k images.
 
       \paragraph{Query set.}
       As a query set with known ground truth GPS positions, we use 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.          
-      We generate a test query set such that we, first select a panorama at random and, second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize 4,000 query test images.
+      We generate a test query set such that we, first select a panorama at random and, second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize 4,000 query test images. 
 
-
-      \paragraph{San Francisco dataset}
-      \textcolor{petr}{
-      The San Francisco dataset~\cite{Chen11} uses different definition of a ground truth and different evaluation metrics. A ground truth of the San Francisco dataset is based on Geographic Information System (GIS). Each database and query image is associated with a cartographic ID based on which building is captured on the image. As a result, the ground truth for particular query image often contains database images that are spatially far away (e.g.$> 200m$) from the query location.  However, our method defines ground truth images as those within a certain threshold of from the query location and defines potential hard negatives images as those spatially far away (details given below). As a consequence, our method identifies the ground truth images from San Francisco as hard negatives examples and uses them for training which dramatically affects the performance. Because of major differences in ground truth definition and evaluation metrics we do not provide results on the San Francisco dataset.
-      }
+      \paragraph{Relation to other benchmarks.}
+%      While out dataset is smaller than the The San Francisco place recognition benchmark~\cite{Chen11} (about 1M images), it has significantly more query images (4,000k vs. about ***).
+       Our method is not directly applicable to place recognition benchmarks that do not use GPS position as ground truth. For example, the San Francisco dataset~\cite{Chen11} defines ground truth by manually labeling database images that contain buildings depicted in the query. As a result, the ground truth often contains database images that are spatially far away (e.g.$> 200m$) from the location of the query.  Our method defines negative training data based on geographic distance and thus considers many positive images according to the ground truth images negative training data, which dramatically affects the performance.   
+       % making the comparisons meaningless. % , which would renders such benchmark meaningless. 
+       %for each database image based on geographic distance distance Such images  which our method and hence are considered as negatives in our training.     
+      
+%      \textcolor{petr}{
+%      The San Francisco dataset~\cite{Chen11} uses different definition of a ground truth and different evaluation metrics. A ground truth of the San Francisco dataset is based on Geographic Information System (GIS). Each database and query image is associated with a cartographic ID based on which building is captured on the image. As a result, the ground truth for particular query image often contains database images that are spatially far away (e.g.$> 200m$) from the query location.  However, our method defines ground truth images as those within a certain threshold of from the query location and defines potential hard negatives images as those spatially far away (details given below). As a consequence, our method identifies the ground truth images from San Francisco as hard negatives examples and uses them for training which dramatically affects the performance. Because of major differences in ground truth definition and evaluation metrics we do not provide results on the San Francisco dataset.
+%      }
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%
     \subsection{Image descriptors}
@@ -748,9 +765,10 @@ In particular, the method estimates the significance of the score of a test exam
     \vspace*{-2mm}
     \caption{
           {\bf  A visualization of learnt feature weights for two database images. In each panel:} 
-         \emph{first~row:} (Right) Target database image $j$. (Left) Cumulative density function (or calibrated score) learnt for the SVM scores of the corresponding classifier $f_j$ \textcolor{petr}{(notice that $cdf$s are not identical)};  three query images displayed on the \emph{second row} are represented by their SVM scores and cdf values $F_0(s)$, denoted (a)-(c) on the graph. \emph{Third~row:} A visualization of the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score.
+         \emph{first~row:} (Right) Target database image $j$. (Left) Cumulative density function (or calibrated score) learnt for the SVM scores of the corresponding classifier $f_j$;  three query images displayed on the \emph{second row} are represented by their SVM scores and cdf values $F_0(s)$, denoted (a)-(c) on the graph. \emph{Third~row:} A visualization of the contribution of each feature to the SVM score for the corresponding query image. Red circles represent features with negative weights while green circles correspond to features with positive weights. The area of each circle is proportional to the contribution of the corresponding feature to the SVM score.
          %
          Notice that the correctly localized queries (c) contain more green colored features than queries from other places (b) and (a).
+        	 Please note also that the calibration $cdf$s in the left and right panel are similar but not identical. 
          {\it Left panel:} Query (b) gets a high score because the building has orange and white stripes similar to the the sun-blinds of the bakery, which are features that also have large positive weights in the query image (c) of the correct place.
          {\it Right panel:} Query (b) is in fact also an image of the same location with a portion of the left skyscraper in the target image detected in the upper left corner and the side of the rightmost building in the target image detected in the top right corner. Both are clearly detected by the method as indicated by a large quantity of green circles in the corresponding regions.
     }
