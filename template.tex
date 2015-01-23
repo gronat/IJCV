@@ -490,7 +490,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 
   \subsection{Calibration by normalization}
   Parameters of the affine calibration function~\eqref{eq:affine} could be learnt from negative training data in a similar manner to, for example,~\cite{Aubry14}. 
-  We have tried to estimate the parameters in a similar manner by fitting a line to the tail of cdf, however this procedure did not yield satisfactory results.
+  We have tried to estimate the parameters in a similar manner by fitting a line to the tail of the cdf, however this procedure did not yield satisfactory results.
   In addition, as discussed above, in our case this requires running all $N$ classifiers on all $N$ images, which is prohibitive for large datasets.
   Instead, we have found that a good calibration can be obtained by normalizing the learnt hyperplane $\vec{w}$. In particular, we set 
   %
@@ -589,8 +589,12 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
          
          
          
-         \subsubsection{Intepreting normalized $\vec{w}$ as a new descriptor.}
-
+         \subsubsection{The need for normalization of $\vec{w}$} 
+         The argument can go something like this:
+	1. Above we have shown that the learnt w can be interpreted as a new descriptor...
+	2. However, we wish to measure the cosine of angle between the the new descriptor and the query image.
+         This is equivalent to the normalized dot product. Hence normalization of w is needed.
+		 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \section{Memory efficient classifier representation}  
@@ -672,7 +676,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 
       \paragraph{Relation to other benchmarks.}
 %      While out dataset is smaller than the The San Francisco place recognition benchmark~\cite{Chen11} (about 1M images), it has significantly more query images (4,000k vs. about ***).
-       Our method is not directly applicable to place recognition benchmarks that do not use GPS position as ground truth. For example, the San Francisco dataset~\cite{Chen11} defines ground truth by manually labeling database images that contain buildings depicted in the query. As a result, the ground truth often contains database images that are spatially far away (e.g.$> 200m$) from the location of the query.  Our method defines negative training data based on geographic distance and thus considers many positive images according to the ground truth images negative training data, which dramatically affects the performance.   
+       Our method is not directly applicable to place recognition benchmarks that do not use GPS position as ground truth. For example, the San Francisco dataset~\cite{Chen11} defines ground truth by labeling database images that may contain buildings depicted in the query. As a result, the ground truth often contains database images that are spatially far away (e.g.$> 200m$) from the location of the query but may depict the same building visible in the distance in the query.  Our method defines negative training data based on geographic distance and thus considers many positive images according to the ground truth as negative training data, which dramatically affects the performance.   
        % making the comparisons meaningless. % , which would renders such benchmark meaningless. 
        %for each database image based on geographic distance distance Such images  which our method and hence are considered as negatives in our training.     
       
