@@ -504,7 +504,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
   where $\vec{w}_j$ and $b_j$ are the parameters of the learnt SVM hyper-plane for location $j$ and $||\vec{w}||$ is the $L_2$ norm of $\vec{w}$ . Given this choice of $\alpha_j$ and $\beta_j$ the calibrated classification score~\eqref{eq:linear2} reduces to
       %
       \begin{align}
-        f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{w}_j^T\vec{q}.
+        f_j(\vec{q}) = \dfrac{1}{||\vec{w}_j||}\vec{w}_j^T\vec{q} = \vec{\widetilde{w}}_j^T\vec{q}.
             \label{eq:linear3}
      \end{align}
       %
@@ -516,84 +516,97 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 
 
   \subsection{Why calibration by normalization works} %\vspace{-0.2cm} 
-  \textcolor{josef}{Petre, we need to introduce $\Psi^{+}$ as it is used both in the figure and the subsequent text. Perhaps we need to start 5.3 with re-writing the original objective but for a single positive example?}
-  In this section we develop an intuition why the simple calibration by re-normalization works. For simplicity, we focus on the case of a single positive training example, i.e. when $P^{+} = \Psi^{+}$.  In particular, we first analyze the SVM objective and show that the learnt hyperplane $\vec{w}$ can be interpreted as a new descriptor that replaces the original positive example $\Psi^{+}$ and is re-weighted to increase its separation from the negative data. Second, we note that the learnt $\vec{w}$ is not normalized. However, to measure descriptor similarity by a normalized dot-product, additional normalization is required.     
+  % \textcolor{josef}{
+  % Petre, we need to introduce $\Psi^{+}$ as it is used both in the figure and the subsequent text. Perhaps we need to start 5.3 with re-writing the original objective but for a single positive example?
+  % }
+  In this section we develop an intuition why the simple calibration by re-normalization works. In the following we omit index $j$ for brevity. We focus on the case of a single positive training example, i.e. when training set $\mathcal P = \vec{x}^{+}$. The objective function~\eqref{eq:obj} can be then rewritten as follows: 
+    
+    \begin{align}
+      \nonumber
+      \Omega(\vec{w},b)=||\vec{w}||^{2}& +C_1 \cdot h(\vec{w}^T\vec{x^+}+b)   \\
+      \label{eq:objPerEx}
+                         & +C_2\sum_{\vec{x}\in \mathcal N}h(-\vec{w}^T\vec{x}-b).
+    \end{align}
+
+  In particular, we first analyze the SVM objective~\eqref{eq:objPerEx} and show that the learnt hyperplane $\vec{w}$ can be interpreted as a new descriptor that replaces the original positive example $\vec{x}^{+}$ and is re-weighted to increase its separation from the negative data. 
+  Second, since the goal is to measure similarity by an angle and the hyperplane $\vec{w}$ is not normalized additional normalization is required.
+
+  %Second, we note that the learnt $\vec{w}$ is not normalized. However, to measure descriptor similarity by a normalized dot-product,   
+
       \subsubsection{Analysis of SVM objective.}
-      \textcolor{petr}{
-      In this section, we analyze the exemplar SVM objective~(\ref{eq:obj}) and provide some intuition why {\em re-normalized} weight vector $w_j$ can be interpreted as a new descriptor.  In particular, we show first that when the weight $C_2$ of the negative data in objective~(\ref{eq:obj}) goes to zero the learnt $\Psi_j$ is identical to the original positive training data point $\Phi_j^+$. Second, when $C_2>0$, the learnt vector $\Psi_j$ moves away from the positive vector  $\Phi_j^+$ to increase its separation from the negative data.
+      We analyze the exemplar SVM objective~(\ref{eq:objPerEx}) and provide some intuition why {\em re-normalized} weight vector $\vec{w}$ can be interpreted as a new descriptor.  In particular, we show first that when the weight $C_2$ of the negative data in objective~(\ref{eq:objPerEx}) goes to zero the learnt normalized $\vec{\widetilde{w}}$ is identical to the original positive training data point $\vec{x}^+$. Second, when $C_2>0$, the learnt vector $\vec{\widetilde{w}}$ moves away from the positive vector  $\vec{x}^+$ to increase its separation from the negative data.
       Details are given next.
-      }
       %
       \begin{figure}[t]
          \begin{center}
             \subfigure[$C_2>0$ ]{
                \centering
-               \includegraphics[trim = 4mm 0mm 7mm 3mm, clip=true, width=0.47\linewidth]{imgs/figSVM01tight}
+               \includegraphics[trim = 0mm 0mm 0mm 0mm, clip=true, width=0.47\linewidth]{imgs/figSVM01new}
             }
             %        $C_2 \rightarrow 0$
             \subfigure[$C_2 \rightarrow 0$]{
                \centering
-               \includegraphics[trim = 3mm 0mm 8mm 3mm, clip=true, width=0.47\linewidth]{imgs/figSVM02tight}
+               \includegraphics[trim = 0mm 0mm 0mm 0mm, clip=true, width=0.47\linewidth]{imgs/figSVM02new}
             }
             \caption{
                {\bf An illustration of the effect of decreasing parameter $C_2$ in the exemplar support vector machine objective.} 
-               The positive exemplar $\Phi_j^+$ is shown in green. The negative data points are shown in red. All training data is L2 normalized to lie on a hyper-sphere. (a) For $C_2>0$, the normal $w_j$ of the optimal hyper-plane moves away from the direction given by the positive example $\Phi^+$ in a manner that reduces the loss on the negative data.  (b) As the parameter $C_2$ decreases the learnt $w_j$ becomes parallel to the positive training example $\Phi_j^+$ and its magnitude $||w_j||$ goes to 0.
+               The positive exemplar $\vec{x}^+$ is shown in green. The negative data points are shown in red. All training data is L2 normalized to lie on a hyper-sphere. (a) For $C_2>0$, the normal $\vec{w}$ of the optimal hyper-plane moves away from the direction given by the positive example $\vec{x}^+$ in a manner that reduces the loss on the negative data.  (b) As the parameter $C_2$ decreases the learnt $\vec{w}$ becomes parallel to the positive training example $\vec{x}^+$ and its magnitude $||\vec{w}||$ goes to 0.
             }
             \label{fig:C2effect}
          \end{center}
       \end{figure}
       %
       \paragraph{Case I: $C_2\rightarrow 0$.}
-         The goal is to show that when the weight  $C_2$ of the negative data in objective~\eqref{eq:obj} goes towards zero, the resulting hyperplane vector $w_j$ is parallel with the vector of positive training descriptor $\Phi_j^+$. When $w_j$ is normalized to have unit L2 norm the two vectors are identical. First, let us decompose $w$ into parallel and orthogonal part with respect to the positive training data point $\Phi^+$ (in the following we omit index $j$ for brevity), i.e. $w=w^{\perp}+w^{||}$, where $(w^{\perp})^T \Phi^+ = 0$. Next, we observe that when the weight of the negative data diminishes ($C_2\rightarrow 0$), any non-zero component $w^{\perp}$ will increase the value of the objective. As a result, for $C_2\rightarrow 0$ the objective is minimized by $w^{||}$, i.e.\ the optimal $w$ is parallel with $\Phi^+$.
+         The goal is to show that when the weight  $C_2$ of the negative data in objective~\eqref{eq:objPerEx} goes towards zero, the resulting hyperplane vector $\vec{w}$ is parallel with the vector of positive training descriptor $\vec{x}^+$. When $\vec{w}$ is normalized to have unit L2 norm the two vectors are identical. First, let us decompose $\vec{w}$ into parallel and orthogonal part with respect to the positive training data point $\vec{x}^+$, i.e. $w = \vec{w}^{\perp} + \vec{w}^{||}$, where $(\vec{w}^{\perp})^T \vec{x}^+ = 0$. Next, we observe that when the weight of the negative data diminishes ($C_2\rightarrow 0$), any non-zero component $\vec{w}^{\perp}$ will increase the value of the objective. As a result, for $C_2\rightarrow 0$ the objective is minimized by $\vec{w}^{||}$, i.e.\ the optimal $\vec{w}$ is parallel with $\
+        \vec{x}^+$.
 
-         In detail, for $w=w^{\perp}+w^{||}$, the objective~(\ref{eq:obj}) can be written as
+         In detail, for $\vec{w} = \vec{w}^{\perp}+\vec{w}^{||}$, the objective~(\ref{eq:obj}) can be written as
          %
          \begin{align}
             \label{eq:decomposedOrig}
-              ||w^{\perp}+w^{||}||^{2} &+
+              ||\vec{w}^{\perp}+\vec{w}^{||}||^{2} &+
               C_1 \cdot h
               \left(
-               (w^{\perp}+w^{||})^T\Phi^+ + b
+               (\vec{w}^{\perp}+\vec{w}^{||})^T \vec{x}^+ + b
               \right) \\ \nonumber
               &+
-              C_2\sum_{\Phi\in \mathcal N} h
+              C_2\sum_{\vec{x} \in \mathcal N} h
               \left(
-               -(w^{\perp}+w^{||})^T\Phi-b
+               -(\vec{w}^{\perp}+\vec{w}^{||})^T \vec{x} -b
               \right).
          \end{align}
          %
-         Note that the orthogonal part $w^{\perp}$ does not change the value of  the second term in~(\ref{eq:decomposedOrig}) because $(w^{\perp}+w^{||})^T\Phi^+=(w^{||})^T\Phi^+$, and hence~(\ref{eq:decomposedOrig}) reduces to
+         Note that the orthogonal part $\vec{w}^{\perp}$ does not change the value of  the second term in~(\ref{eq:decomposedOrig}) because $(\vec{w}^{\perp}+\vec{w}^{||})^T \vec{x}^+ = (\vec{w}^{||})^T \vec{x}^+$, and hence~(\ref{eq:decomposedOrig}) reduces to
          %
          \begin{align} 
             \label{eq:decomposed} 
-            ||w^{\perp}+w^{||}||^{2} &+
+            ||\vec{w}^{\perp}+\vec{w}^{||}||^{2} &+
             C_1 \cdot h
             \left(
-                w^{||T}\Phi^+ +b_j
+                \vec{w}^{||T} \vec{x}^+ +b_j
             \right) \\ \nonumber
             &+
-            C_2\sum_{\Phi\in \mathcal N} h
+            C_2\sum_{\vec{x} \in \mathcal N} h
             \left(
-                -(w^{\perp}+w^{||})^T\Phi-b
+              -(\vec{w}^{\perp}+\vec{w}^{||})^T \vec{x}-b
             \right).
          \end{align}
          %
-         In the limit case as $C_2 \rightarrow 0$ any non-zero component $w^{\perp}$
-         will increase the value of the objective~\eqref{eq:decomposed}. This can be seen by noting that the third term vanishes when $C_2 \rightarrow 0$ and hence the objective is dominated by the first two terms. Further, the second term in~\eqref{eq:decomposed} is independent of $w^{\perp}$. Finally, the first term will always increase for any non-zero value of $w^{\perp}$ as $||w^{\perp}+w^{||}||^{2} \geq ||w^{||}||$ for any $w^{\perp}\neq0$.
+         In the limit case as $C_2 \rightarrow 0$ any non-zero component $\vec{w}^{\perp}$
+       will increase the value of the objective~\eqref{eq:decomposed}. This can be seen by noting that the third term vanishes when $C_2 \rightarrow 0$ and hence the objective is dominated by the first two terms. Further, the second term in~\eqref{eq:decomposed} is independent of $\vec{w}^{\perp}$. Finally, the first term will always increase for any non-zero value of $w^{\perp}$ as $||\vec{w}^{\perp}+\vec{w}^{||}||^{2} \geq ||\vec{w}^{||}||$ for any $\vec{w}^{\perp}\neq0$.
 
-         As a result, in the limit case when $C_2 \rightarrow 0$ the optimal $w$ is parallel with $\Phi^+$. Note also, that when $C_2$ is exactly equal to zero, $C_2=0$, the optimal $w$ vanishes, i.e. the objective~\eqref{eq:decomposed} is minimized by trivial solution $||w||=0$ and $b_j=-1$. The effect of decreasing the parameter $C_2$ is illustrated in figure~\ref{fig:C2effect}.
+         As a result, in the limit case when $C_2 \rightarrow 0$ the optimal $\vec{w}$ is parallel with $\vec{x}^+$. Note also, that when $C_2$ is exactly equal to zero, $C_2 = 0$, the optimal $\vec{w}$ vanishes, i.e. the objective~\eqref{eq:decomposed} is minimized by trivial solution $||\vec{w}|| = 0$ and $b = -1$. The effect of decreasing the parameter $C_2$ is illustrated in figure~\ref{fig:C2effect}.
 
 
       \paragraph{Case II: $C_2>0$.}
-         When the weight $C_2$ of the negative data in the objective~\eqref{eq:decomposed} increases the direction of the optimal $w$ will be different from $w^{||}$ and will change to take into account the loss on the negative data points. Explicitly writing the hinge-loss $h(x) = \max(1-x,0)$ in the last term of~\eqref{eq:decomposed}, we see that $w$ will move in the direction that reduces $\sum_{\Phi\in \mathcal N}\max \left(1+w^T \Phi + b ,0 \right)$, i.e.\ that reduces the dot product $w^T \Phi$ on the negative examples that are active (support vectors).
+         When the weight $C_2$ of the negative data in the objective~\eqref{eq:decomposed} increases the direction of the optimal $w$ will be different from $\vec{w}^{||}$ and will change to take into account the loss on the negative data points. Explicitly writing the hinge-loss $h(x) = \max(1-x,0)$ in the last term of~\eqref{eq:decomposed}, we see that $\vec{w}$ will move in the direction that reduces $\sum_{\vec{x} \in \mathcal N}\max \left(1+\vec{w}^T x + b ,0 \right)$, i.e.\ that reduces the dot product $\vec{w}^T \vec{x}$ on the negative examples that are active (support vectors).
          
          
          
-         \subsubsection{The need for normalization of $\vec{w}$} 
-         The argument can go something like this:
-	1. Above we have shown that the learnt w can be interpreted as a new descriptor...
-	2. However, we wish to measure the cosine of angle between the the new descriptor and the query image.
-         This is equivalent to the normalized dot product. Hence normalization of w is needed.
+      \subsubsection{The need for normalization of $\vec{w}$} 
+         Above we have shown that the learnt hyperplane $\vec{w}$ declines from the positive example $\vec{x}^+$ in such a way that loss on negative data is decreased. The aim is to use this learnt vector $\vec{w}$ as a new descriptor replacing the original positive data $\vec{x}^+$. However, we wish to measure the cosine of angle between the the new descriptor and the query image. This is equivalent to the normalized dot product, hence the vector $\vec{w}$ need to be normalized.
+
+
 		 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
