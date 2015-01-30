@@ -514,7 +514,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 %      but has not yet been used in conjunction with SVMs as done in this work.
   In this work we investigate whether this intuition about descriptor matching can be used as a form of calibration for the learnt place-specific classifier.  
   Note  that this form of calibration by normalization is scalable to very large datasets as it (i) requires only $O(N)$ computations offline to pre-compute the calibration parameters for each of the $N$ learnt classifiers (equations~\eqref{eq:rescale1} and~\eqref{eq:rescale2}), and (ii) does not need any additional storage or computation at query time as the calibration parameters can be included in the classifier~\eqref{eq:linear2}. 
-  In Appendix we examine the per-exemplar SVM cost and give intuition why calibration by re-normalization works.
+  In Appendix we examine the per-exemplar SVM cost and give an additional intuition why calibration by re-normalization works.
   %In the next section we examine why this simple calibration by normalization works.
 
 
