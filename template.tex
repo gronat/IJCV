@@ -489,6 +489,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 
 
   \subsection{Calibration by normalization}
+  \label{sec:calibration_by_renormalization}
   Parameters of the affine calibration function~\eqref{eq:affine} could be learnt from negative training data in a similar manner to, for example,~\cite{Aubry14}. 
   We have tried to estimate the parameters in a similar manner by fitting a line to the tail of the cdf, however this procedure did not yield satisfactory results.
   In addition, as discussed above, in our case this requires running all $N$ classifiers on all $N$ images, which is prohibitive for large datasets.
@@ -519,23 +520,36 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
   % \textcolor{josef}{
   % Petre, we need to introduce $\Psi^{+}$ as it is used both in the figure and the subsequent text. Perhaps we need to start 5.3 with re-writing the original objective but for a single positive example?
   % }
-  In this section we develop an intuition why the simple calibration by re-normalization works. In the following we omit index $j$ for brevity. We focus on the case of a single positive training example, i.e. when training set $\mathcal P = \vec{x}^{+}$. The objective function~\eqref{eq:obj} can be then rewritten as follows: 
-    
+  In section~\ref{sec:results} we show that the simple calibration by normalization often results in surprisingly good place recognition performance without the need for any additional positive or negative calibration data. In this section, we give a possible explanation why this simple calibration works.  We focus on the case of a single positive training example, i.e. when training set $\mathcal P = \vec{x}^{+}$, which is the typical case for place recognition where only one or at most few positive examples are available for each place.   In particular, we first analyze (in section~\ref{sec:objective_analysis})  the SVM objective and show that the learnt hyperplane $\vec{w}$ can be interpreted as a new descriptor $\vec{x}^{*}$ that replaces the original positive example $\vec{x}^{+}$ and is re-weighted to increase its separation from the negative data. 
+  Second, we show (in section~\ref{sec:renormalization}) that when $\vec{x}^{*}$ is normalized, the dot-product $\vec{q}^T\vec{x}^*$ corresponds to measuring the cosine of the angle between the (normalized) query descriptor $\vec{q}$  and the new descriptor $\vec{x}^{*}$, which was found to work well in the literature for descriptor matching, as discussed in section~\ref{sec:calibration_by_renormalization}. The two steps are given next.  
+  
+%  In this section we develop an intuition why the simple calibration by re-normalization works. In the following we omit index $j$ for brevity. We focus on the case of a single positive training example, i.e. when training set $\mathcal P = \vec{x}^{+}$. The objective function~\eqref{eq:obj} can be then rewritten as follows: 
+%    
+%    \begin{align}
+%      \nonumber
+%      \Omega(\vec{w},b)=||\vec{w}||^{2}& +C_1 \cdot h(\vec{w}^T\vec{x^+}+b)   \\
+%      \label{eq:objPerEx}
+%                         & +C_2\sum_{\vec{x}\in \mathcal N}h(-\vec{w}^T\vec{x}-b).
+%    \end{align}
+%
+%  In particular, we first analyze the SVM objective~\eqref{eq:objPerEx} and show that the learnt hyperplane $\vec{w}$ can be interpreted as a new descriptor that replaces the original positive example $\vec{x}^{+}$ and is re-weighted to increase its separation from the negative data. 
+%  Second, since the goal is to measure similarity by an angle and the hyperplane $\vec{w}$ is not normalized additional normalization is required.
+
+  %Second, we note that the learnt $\vec{w}$ is not normalized. However, to measure descriptor similarity by a normalized dot-product,   
+
+      \subsubsection{Analysis of per-exemplar SVM objective}
+      \label{sec:objective_analysis}
+      For a single positive example $\mathcal P = \vec{x}^{+}$, the per-exemplar SVM objective~\eqref{eq:obj} can be written as  
+%   
     \begin{align}
       \nonumber
       \Omega(\vec{w},b)=||\vec{w}||^{2}& +C_1 \cdot h(\vec{w}^T\vec{x^+}+b)   \\
       \label{eq:objPerEx}
-                         & +C_2\sum_{\vec{x}\in \mathcal N}h(-\vec{w}^T\vec{x}-b).
+                         & +C_2\sum_{\vec{x}\in \mathcal N}h(-\vec{w}^T\vec{x}-b). 
     \end{align}
-
-  In particular, we first analyze the SVM objective~\eqref{eq:objPerEx} and show that the learnt hyperplane $\vec{w}$ can be interpreted as a new descriptor that replaces the original positive example $\vec{x}^{+}$ and is re-weighted to increase its separation from the negative data. 
-  Second, since the goal is to measure similarity by an angle and the hyperplane $\vec{w}$ is not normalized additional normalization is required.
-
-  %Second, we note that the learnt $\vec{w}$ is not normalized. However, to measure descriptor similarity by a normalized dot-product,   
-
-      \subsubsection{Analysis of SVM objective.}
-      We analyze the exemplar SVM objective~(\ref{eq:objPerEx}) and provide some intuition why {\em re-normalized} weight vector $\vec{w}$ can be interpreted as a new descriptor.  In particular, we show first that when the weight $C_2$ of the negative data in objective~(\ref{eq:objPerEx}) goes to zero the learnt normalized $\vec{\widetilde{w}}$ is identical to the original positive training data point $\vec{x}^+$. Second, when $C_2>0$, the learnt vector $\vec{\widetilde{w}}$ moves away from the positive vector  $\vec{x}^+$ to increase its separation from the negative data.
-      Details are given next.
+%    which corresponds to per-exemplar linear SVM classifier~\cite{Malisiewicz11}. 
+      In the following, we analyze the objective~(\ref{eq:objPerEx}) and provide intuition why {\em re-normalized} weight vector $\vec{w}$ can be interpreted as a new descriptor.  In particular, we show first that when the weight $C_2$ of the negative data in objective~(\ref{eq:objPerEx}) goes to zero the learnt normalized $\vec{\widetilde{w}}$ is identical to the original positive training data point $\vec{x}^+$. Second, when $C_2>0$, the learnt vector $\vec{\widetilde{w}}$ moves away from the positive vector  $\vec{x}^+$ to increase its separation from the negative data.
+      The two cases are detailed next.
       %
       \begin{figure}[t]
          \begin{center}
@@ -604,7 +618,8 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
          
          
       \subsubsection{The need for normalization of $\vec{w}$} 
-         Above we have shown that the learnt hyperplane $\vec{w}$ declines from the positive example $\vec{x}^+$ in such a way that loss on negative data is decreased. The aim is to use this learnt vector $\vec{w}$ as a new descriptor replacing the original positive data $\vec{x}^+$. However, we wish to measure the cosine of angle between the the new descriptor and the query image. This is equivalent to the normalized dot product, hence the vector $\vec{w}$ need to be normalized.
+      \label{sec:renormalization}
+         Above we have shown that the learnt hyperplane $\vec{w}$ moves away from the positive example $\vec{x}^+$ in a manner that reduces the loss  on the negative data. The aim is to use this learnt vector $\vec{w}$ as a new descriptor $\vec{x}^*$  replacing the original positive example $\vec{x}^+$. However, we wish to measure the cosine of the angle between the the new descriptor $\vec{x}^*$and the query image $\vec{q}$. This is equivalent to the normalized dot product, hence the vector $\vec{w}$ needs to be normalized.
 
 
 		 
@@ -689,7 +704,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 
       \paragraph{Relation to other benchmarks.}
 %      While out dataset is smaller than the The San Francisco place recognition benchmark~\cite{Chen11} (about 1M images), it has significantly more query images (4,000k vs. about ***).
-       Our method is not directly applicable to place recognition benchmarks that do not use GPS position as ground truth. For example, the San Francisco dataset~\cite{Chen11} defines ground truth by labeling database images that may contain buildings depicted in the query. As a result, the ground truth often contains database images that are spatially far away (e.g.$> 200m$) from the location of the query but may depict the same building visible in the distance in the query.  Our method defines negative training data based on geographic distance and thus considers many positive images according to the ground truth as negative training data, which dramatically affects the performance.   
+       Our method is not directly applicable to place recognition benchmarks that do not use GPS position as ground truth. For example, the San Francisco dataset~\cite{Chen11} defines ground truth by labeling database images that may contain buildings depicted in the query. As a result, the ground truth often contains database images that are spatially far away (e.g.$> 200m$) from the location of the query but may depict the same building visible in the distance.  Our method defines negative training data based on geographic distance and thus considers many positive images according to the ground truth as negative training data, which dramatically affects the performance.   
        % making the comparisons meaningless. % , which would renders such benchmark meaningless. 
        %for each database image based on geographic distance distance Such images  which our method and hence are considered as negatives in our training.     
       
