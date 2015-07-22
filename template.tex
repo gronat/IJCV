@@ -212,17 +212,28 @@ It is, however, an important problem as automatic, accurate and fast visual plac
     In this work, we focus on street-level images such as Google street-view, which have greater coverage, but typically only one or a small number of images are  available for each place.  To address this issue we learn a discriminative re-weighting of the descriptor specific to each image in the database using per-exemplar support vector machine~\cite{Malisiewicz11}.
     
     
-\paragraph{Per-exemplar support vector machines.} 
-    The exemplar support vector machines (e-SVM) has been used in a number of visual recognition tasks including
-    category-level recognition~\cite{Malisiewicz11}, cross-domain retrieval~\cite{Shrivastava11}, scene parsing~\cite{Tighe13}, %image to 3D model alignment~\cite{Aubry13},
-    place recognition~\cite{Gronat13} or as an initialization  for more complex discriminative clustering models~\cite{Doersch12,Singh12}. The main idea is to train a linear support vector machine (SVM) classifier from a single positive example and a large number of negatives. The intuition is that the resulting weight vector will give a higher weight to the discriminative dimensions of the positive training data point and will down weight dimensions that are non-discriminative with respect to the negative training data. A key advantage is that each per-exemplar classifier can be trained independently and hence the learning can be heavily parallelized. 
-    The per-exemplar training brings however also an important drawback. As each classifier is trained independently a
-    careful calibration of the resulting classifier scores is required~\cite{Malisiewicz11}. 
+% \paragraph{Per-exemplar support vector machines.} 
+%     The exemplar support vector machines (e-SVM) has been used in a number of visual recognition tasks including category-level recognition~\cite{Malisiewicz11}, cross-domain retrieval~\cite{Shrivastava11}, scene parsing~\cite{Tighe13}, place recognition~\cite{Gronat13} or as an initialization  for more complex discriminative clustering models~\cite{Doersch12,Singh12}. The main idea is to train a linear support vector machine (SVM) classifier from a single positive example and a large number of negatives. The intuition is that the resulting weight vector will give a higher weight to the discriminative dimensions of the positive training data point and will down weight dimensions that are non-discriminative with respect to the negative training data. A key advantage is that each per-exemplar classifier can be trained independently and hence the learning can be heavily parallelized. 
+%     The per-exemplar training brings however also an important drawback. As each classifier is trained independently a
+%     careful calibration of the resulting classifier scores is required~\cite{Malisiewicz11}. 
 
-\paragraph{PCA whitening and LDA.}
+\paragraph{Per-exemplar support vector machines.} 
+  The exemplar support vector machines (e-SVM) has been used in a number of visual recognition tasks including category-level recognition~\cite{Malisiewicz11}, cross-domain retrieval~\cite{Shrivastava11}, scene parsing~\cite{Tighe13}, place recognition~\cite{Gronat13} or as an initialization  for more complex discriminative clustering models~\cite{Doersch12,Singh12}. The main idea is to train a linear support vector machine (SVM) classifier from a single positive example and a large number of negatives. The intuition is that the resulting weight vector will give a higher weight to the discriminative dimensions of the positive training data point and will down weight dimensions that are non-discriminative with respect to the negative training data. 
+  
   \textcolor{petr}{
-    TODO Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    The e-SVM linear classifier can be learnt beforehand for each class in turn~\cite{Malisiewicz11} or it can be learnt at a query time where the e-SVM weight vector is used as a new query image representation~\cite{Shrivastava11}. A disadvantage of the latter method is that the linear classifier must be trained again and again for every query. This is computationally intensive process that makes the approach impractical. 
+    A key advantage of the former method is that each per-exemplar classifier can be trained independently and hence the learning can be heavily parallelized. The per-exemplar training brings however also an important drawback. As each classifier is trained independently a careful calibration of the resulting classifier scores is required~\cite{Malisiewicz11}. 
   }
+
+\paragraph{Linear Discriminant Analysis.}
+  \textcolor{petr}{
+    The linear discriminant analysis (LDA) has been recently used in~\cite{Aubry14} for image to 3D model alignment. Motivated by~\cite{Shrivastava11} the authors aim on detecting discriminative visual elements for painting alignment using e-SVM. They used a square euclidean loss instead of a hinge loss and drop the regularizer term in the e-SVM objective. It was shown that the optimal solution for this new optimization task can be found in a closed form and is equivalent to LDA. The covariance matrix of the data must be computed which makes this method unfeasible for high-dimensional data such as bag-of-words. Finally, similarly to e-SVM, authors note that calibration of the matching scores is also important.
+  }
+
+% \paragraph{PCA whitening.}{
+%      TODO
+% }
+
 
 \paragraph{Calibrating classifier scores.} 
   Several calibration approaches have been proposed in the literature (see~\cite{gebel2007calibrating} and references therein for a review). The most known consists of fitting a logistic regression to the output of the SVM~\cite{Platt99}.  This approach, however, has a major drawback as it imposes a parametric form (the logistic a.k.a.\ sigmoid function) of the likelihood ratio of the two classes, which typically leads to biased estimates of the calibrated scores. Another important calibration method is the isotonic regression~\cite{zadrozny2002transforming}, which allows for a non-parametric estimate of the output probability.
@@ -231,7 +242,11 @@ It is, however, an important problem as automatic, accurate and fast visual plac
 
 
 \paragraph{Contributions.} 
-  This paper has two main contributions. First, we cast the place recognition problem as a classification task and use the available geo-tags to train a classifier for each location in the database (section~\ref{sec:classifiers}). Second, as only few positive training examples are available for each location, we propose two methods to calibrate all the per-location SVM classifiers without the need for additional positive training data. The first method (section~\ref{sec:calibration}) relies on p-values from statistical hypothesis testing. The second method (section~\ref{sec:calibrationRenorm}) performs an affine calibration by appropriately normalizing the learnt decision hyperplane. 
+  This paper has two main contributions. First, we cast the place recognition problem as a classification task and use the available geo-tags \textcolor{petr}{as a weak form of supervision} to train a classifier for each location in the database (section~\ref{sec:classifiers}). 
+  \textcolor{petr}{
+    These classifiers are subsequently used for ranking at the query time.
+  } 
+  Second, as only few positive training examples are available for each location, we propose two methods to calibrate all the per-location SVM classifiers without the need for additional positive training data. The first method (section~\ref{sec:calibration}) relies on p-values from statistical hypothesis testing. The second method (section~\ref{sec:calibrationRenorm}) performs an affine calibration by appropriately normalizing the learnt decision hyperplane. 
   We also describe a memory efficient classifier representation for the sparse bag-of-visual-word vectors (section~\ref{sec:memory}) and  experimentally demonstrate benefits of the proposed approach (section~\ref{sec:experiments} and~\ref{sec:results}). 
 
 
@@ -641,10 +656,10 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
       In other words, the negative training data consists of the hard negative images, i.e. those that are similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content. 
       The \emph{positive training set} $\mathcal P_j$ consist of the descriptor $\vec{x}_j$ of the target image $j$. 
       
-      We found that for the bag-of-visual-words representation it was useful to further expand~\cite{Chum07b} positive training set by close by images that view the same scene structures. These images can be identified by geometric verification \cite{Philbin07} \textcolor{petr} {as folows:}
+      We found that for the bag-of-visual-words representation it was useful to further expand~\cite{Chum07b} positive training set by close by images that view the same scene structures. These images can be identified by geometric verification \cite{Philbin07} \textcolor{petr} {as follows:}
       \textcolor{petr}{
       We first build a graph where each image in the database represents a node and an edge represents a spatial adjacency in the world. An edge is present if two images are close to each other less than $50m$.
-      Then, we score each edge by a number of geometrically verified matches of two adjacent images \cite{Philbin07}. Finally, we remove edges with score below the threshold of $t_m = 40$. After this procedure, the graph represents a visual overlap between respective images. It is woth noting that the graph contains many isolated nodes. This typically indicates that the viewpoint cahnge between two adjacent panorama is huge. In this manner, for each iamge in the database, we are able to get between 0-5 extra positive examples.
+      Then, we score each edge by a number of geometrically verified matches of two adjacent images \cite{Philbin07}. Finally, we remove edges with score below the threshold of $t_m = 40$. After this procedure, the graph represents a visual overlap between respective images. It is worth noting that the graph contains many isolated nodes. This typically indicates that the viewpoint change between two adjacent panorama is huge. In this manner, for each image in the database, we are able to get between zero to five extra positive examples.
       }
 
       For the support vector machine classifier (SVM) training we use {\tt libsvm} \cite{libsvm}. We use the same $C_1$ and $C_2$ parameters for all per-exemplar classifiers, but find the optimal value of the parameters for each image representation by a cross-validation evaluating performance on a held out query set.
@@ -830,7 +845,10 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
         \label{fig:memory}
     \end{figure}
 
-
+\textcolor{petr}{
+  \subsection{Relation to other baselines.}
+  TODO: PCA whitening, LDA, CNN FC7?
+}
 %%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%
@@ -864,9 +882,9 @@ per-exemplar classification tasks, where only a small number of positive example
     % \textcolor{josef}{
     % Petre, we need to introduce $\Psi^{+}$ as it is used both in the figure and the subsequent text. Perhaps we need to start 5.3 with re-writing the original objective but for a single positive example?
     % }
-    In section~\ref{sec:results} we show that the simple calibration by normalization often results in surprisingly good place recognition performance without the need for any additional positive or negative calibration data. In this section, we give a possible explanation why this simple calibration works.  We focus on the case of a single positive training example, i.e. when training set $\mathcal P = \vec{x}^{+}$, which is the typical case for place recognition where only one 
+    In section~\ref{sec:results} we show that the simple calibration by normalization often results in surprisingly good place recognition performance without the need for any additional positive or negative calibration data. In this \textcolor{petr}{appendix}, we give a possible explanation why this simple calibration works.  We focus on the case of a single positive training example, i.e. when training set $\mathcal P = \vec{x}^{+}$, which is the typical case for place recognition where only one 
     %or at most few 
-    \textcolor{petr}{positive example is available for each place}. 
+    \textcolor{petr}{positive example is available for each place. The analysis holds also for additional positive examples since these have statistics}. 
 
     In particular, we first analyze the SVM objective and show that the learnt hyperplane $\vec{w}$ can be interpreted as a new descriptor $\vec{x}^{*}$ that replaces the original positive example $\vec{x}^{+}$ and is re-weighted to increase its separation from the negative data. 
     Second, we show that when $\vec{x}^{*}$ is normalized, i.e.\  $\vec{x}^{*} = \frac{\vec{w}}{||\vec{w}||}$, the dot-product $\vec{q}^T\vec{x}^*$ corresponds to measuring the cosine of the angle between the (normalized) query descriptor $\vec{q}$  and the new descriptor $\vec{x}^{*}$, which was found to work well in the literature for descriptor matching, as discussed in section~\ref{sec:calibration_by_renormalization}. The two steps are given next.  
