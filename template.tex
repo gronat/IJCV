@@ -206,7 +206,7 @@ It is, however, an important problem as automatic, accurate and fast visual plac
     One of the pioneer work in a large-scale visual place recognition is the paper published by Hayes~et~Efros~\cite{Hays2008}. First, multiple features, such as GIST, color, lines, textons, are extracted from the images. At the query time a distance in each feature space is measured and aggregated, finally the nearest neighbour database image is selected w.r.t. the accumulated distances and its geo-location is retrieved.
     More recently,
     }
-    the visual localization problem is typically treated as large-scale instance-level retrieval~\cite{Cummins09,Chen11,Gronat13,Knopp2010,Schindler07,Torii2013,Zamir10}, where images are represented using local invariant features~\cite{Lowe04} encoded and aggregated into the bag-of-visual-words~\cite{Csurka04,Sivic03} or Fisher vector~\cite{Jegou12} representations. 
+    the visual localization problem is typically treated as large-scale instance-level retrieval~\cite{Cummins09,Chen11,Knopp2010,Schindler07,Torii2013,Zamir10}, where images are represented using local invariant features~\cite{Lowe04} encoded and aggregated into the bag-of-visual-words~\cite{Csurka04,Sivic03} or Fisher vector~\cite{Jegou12} representations. 
     The image database can be further augmented by 3D point clouds~\cite{Klinger13}, automatically
     reconstructed by large-scale structure from motion
     (SfM)~\cite{Agarwal-ICCV-2009,Klinger13}, which enables accurate prediction of query image camera position~\cite{Li12,Sattler12}.
@@ -627,7 +627,12 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 
       \paragraph{Relation to other benchmarks.}
 %      While out dataset is smaller than the The San Francisco place recognition benchmark~\cite{Chen11} (about 1M images), it has significantly more query images (4,000k vs. about ***).
-       Our method is not directly applicable to place recognition benchmarks that do not use GPS position as ground truth. For example, the San Francisco dataset~\cite{Chen11} defines ground truth by labeling database images that may contain buildings depicted in the query. As a result, the ground truth often contains database images that are spatially far away (e.g.$> 200m$) from the location of the query but may depict the same building visible in the distance.  Our method defines negative training data based on geographic distance and thus considers many positive images according to the ground truth as negative training data, which dramatically affects the performance.   
+      \textcolor{petr}{
+        Our method is not directly comparable to place recognition benchmarks that do not use GPS position as ground truth.
+        Fore example, the San Francisco dataset~\cite{Chen11} defines “the ground truth” based on automatic labelling of the buildings captured by a camera based on GIS (Geographic Information System). Rather than by GPS coordinates, the ground truth is defined by cartographical ID of the building that is captured within the image. This appears to be very inaccurate method providing very contrived “ground truth”. Our analysis shows that about $25\%$ of the query images are associated to a place that is further than $200m$ away from the actual query image position. In extreme cases, the distance is above $1300m$. Our method includes far-away images into negative training sets which dramatically affect the measured performance. It is worth noting that some ground truth images have no visual overlap with the query image all. Building may be captured from the other side than query or the actual building captured on the query is fully occluded by another building in ground truth image.
+      }
+        % For example, the San Francisco dataset~\cite{Chen11} defines a ground truth using geographic information system. As a result, the ground truth often contains database images that are spatially far away (e.g.$> 200m$) from the location of the query but may depict the same building visible in the distance.  Our method defines negative training data based on geographic distance and thus considers many positive images according to the ground truth as negative training data, which dramatically affects the performance.
+
        % making the comparisons meaningless. % , which would renders such benchmark meaningless. 
        %for each database image based on geographic distance distance Such images  which our method and hence are considered as negatives in our training.     
       
@@ -835,7 +840,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
     %%% FIGURE: Memory efficiency
     \begin{figure}[t!]
         \centering
-        \includegraphics[width=1.1\linewidth]{imgs/FVmemory02}    
+        \includegraphics[width=1.1\linewidth]{imgs/FVmemory03}    
         \caption{
             \textbf{The recognition performance vs. the memory requirements for the Pittsburgh 25k dataset.} 
             The fraction of correctly localized queries at the top 10 retrieved images (y-axis) vs. the memory footprint (x-axis) for the different representations. For Fisher vectors, the learnt descriptor (FV \emph{w-renorm}) clearly outperforms the raw Fisher vector descriptor (FV) for all dimensions corresponding to different memory footprints (x-axis). 
