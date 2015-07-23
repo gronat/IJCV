@@ -202,8 +202,11 @@ It is, however, an important problem as automatic, accurate and fast visual plac
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \paragraph{Large-scale visual place recognition.}
-    The visual localization problem is typically treated as large-scale instance-level retrieval~\cite{Cummins09,Chen11,Gronat13,Knopp2010,Schindler07,Torii2013,Zamir10}, where images are represented using local invariant
-    features~\cite{Lowe04} encoded and aggregated into the bag-of-visual-words~\cite{Csurka04,Sivic03} or Fisher vector~\cite{Jegou12} representations. 
+    \textcolor{petr}{
+    One of the pioneer work in a large-scale visual place recognition is the paper published by Hayes~et~Efros~\cite{Hays2008}. First, multiple features, such as GIST, color, lines, textons, are extracted from the images. At the query time a distance in each feature space is measured and aggregated, finally the nearest neighbour database image is selected w.r.t. the accumulated distances and its geo-location is retrieved.
+    More recently,
+    }
+    the visual localization problem is typically treated as large-scale instance-level retrieval~\cite{Cummins09,Chen11,Gronat13,Knopp2010,Schindler07,Torii2013,Zamir10}, where images are represented using local invariant features~\cite{Lowe04} encoded and aggregated into the bag-of-visual-words~\cite{Csurka04,Sivic03} or Fisher vector~\cite{Jegou12} representations. 
     The image database can be further augmented by 3D point clouds~\cite{Klinger13}, automatically
     reconstructed by large-scale structure from motion
     (SfM)~\cite{Agarwal-ICCV-2009,Klinger13}, which enables accurate prediction of query image camera position~\cite{Li12,Sattler12}.
@@ -227,13 +230,9 @@ It is, however, an important problem as automatic, accurate and fast visual plac
 
 \paragraph{Linear Discriminant Analysis.}
   \textcolor{petr}{
-    The linear discriminant analysis (LDA) has been recently used in~\cite{Aubry14} for image to 3D model alignment. Motivated by~\cite{Shrivastava11} the authors aim on detecting discriminative visual elements for painting alignment using e-SVM. They used a square euclidean loss instead of a hinge loss and drop the regularizer term in the e-SVM objective. It was shown that the optimal solution for this new optimization task can be found in a closed form and is equivalent to LDA. The covariance matrix of the data must be computed which makes this method unfeasible for high-dimensional data such as bag-of-words. Finally, similarly to e-SVM, authors note that calibration of the matching scores is also important.
+    The linear discriminant analysis (LDA) has been recently used in~\cite{Aubry13} for image to 3D model alignment. Motivated by~\cite{Shrivastava11} the authors aim on detecting discriminative visual elements for painting alignment using e-SVM. They used a square euclidean loss instead of a hinge loss and drop the regularizer term in the e-SVM objective. It was shown~\cite{Hariharan12} that the optimal solution of this new optimization task can be found in a closed form and is equivalent to LDA. As a covariance matrix must be computed, this method is unfeasible for high-dimensional data such as bag-of-words. Similarly to e-SVM, authors note that calibration of the matching scores is also important. It is interesting to note that the LDA score (see \cite{Aubry13} eq. 11) can be interpreted as a dot product of a query and database vector in whitened space where the whitening transformation is learnt from available database data. The PCA whitening has been used in~\cite{JegouChum12} 
+    for dimensionality reduction of bag-of-words and VLAD~\cite{Jegou2012HAL} descriptors for image retrieval. It was shown that the PCA whitening dimensionality reduction is especially beneficial for combining multiple dictionaries.
   }
-
-% \paragraph{PCA whitening.}{
-%      TODO
-% }
-
 
 \paragraph{Calibrating classifier scores.} 
   Several calibration approaches have been proposed in the literature (see~\cite{gebel2007calibrating} and references therein for a review). The most known consists of fitting a logistic regression to the output of the SVM~\cite{Platt99}.  This approach, however, has a major drawback as it imposes a parametric form (the logistic a.k.a.\ sigmoid function) of the likelihood ratio of the two classes, which typically leads to biased estimates of the calibrated scores. Another important calibration method is the isotonic regression~\cite{zadrozny2002transforming}, which allows for a non-parametric estimate of the output probability.
