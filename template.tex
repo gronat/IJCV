@@ -788,7 +788,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
     Results of the proposed per-location learning method for the Fisher vector image representation for different dimensions $d\in\{128, 512, 2048\}$ 
     are shown in table~\ref{tab:recallFV} and figure~\ref{fig:recall}.
     Similar to bag-of-visual-words, the learnt representation (w-norm) significantly improves the place recognition performance over the baseline Fisher vector (FV) matching without learning. The improvements are consistent across different lengths of shortlist $K$ and for different dimensionality of the Fisher vector representation. 
-    We report results only for the w-norm calibration as we found that the p-val calibration did not perform well for the learnt Fisher vector classifiers (top 1 recall of 25.3\% compared to baseline performance of 33.6\% for dimension 128). When examining the results, we believe this may be attributed to the fact that Fisher vectors are low dimensional compared to the extremely high-dimensional (d=100,000) bag-of-visual-words representation, which affects the distribution of the classifier scores on the negative test data. 
+    We report results only for the w-norm calibration as we found that the p-val calibration did not perform well for the learnt Fisher vector classifiers (top 1 recall of $25.3\%$ compared to baseline performance of $33.6\%$ for dimension 128). When examining the results, we believe this may be attributed to the fact that Fisher vectors are low dimensional compared to the extremely high-dimensional (d=100,000) bag-of-visual-words representation, which affects the distribution of the classifier scores on the negative test data. 
     Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:images}. 
 %    The query image is show in the left column and the shortlist of the top four retrieved images is shown on the right. For each query, the first row shows images retrieved by the learnt Fisher vector descriptor for dimension $d=128$, while the second row shows images retrieved by raw Fisher vector of the same dimension.
     
@@ -849,10 +849,17 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
         \label{fig:memory}
     \end{figure}
 
-\textcolor{petr}{
-  \subsection{Relation to other baselines.}
-  We have compared out method to several other baselines namely LDA and PCA whitening.
-}
+  \subsection{\textcolor{petr}{Relation to other baselines.}}
+    \textcolor{petr}{
+      We have compared out method to several different baselines. We have re-implemented a method of~\cite{Aubry13} and a method of~\cite{JegouChum12} and applied these two methods for $25k$ Pittsburgh dataset. In the following paragraph we briefly discuss the results.
+      \newline
+      Following~\cite{Aubry13} we applied the Linear Discriminant Analysis (LDA) to the place recognition problem. We have used all available data to learn the covariance matrix and finally used calibrated LDA score by zero vector (see~\cite{Aubry13} eq.~11). The LDA was applied to FV128, we observed a performance drop w.r.t. FV baseline ($33.6\%$ to $31.9\%$ for recall@1). The results suggest that for the place recognition task it is important to train classifiers on hard negative examples which are specific for each place.
+      \newline
+      Next, we have implemented the PCA compression followed by whitening as suggested by~\cite{JegouChum12}. We applied the PCA whitening for both bag-of-word and Fisher vectors. Following~\cite{JegouChum12}, for bag-of-words image representation we have used the PCA whitening compression to a target dimension of 4096. We have observed a dramatical performance drop ($28.7\%$ to $26.1\%$ for recall@1). The main motivation of~\cite{JegouChum12} was to utilize the PCA whitening compression for multiple visual word dictionaries. The PCA whitening on single dictionary has been studied for relatively small dictionaries (up to $32k$) but the effect on larger dictionaries is not clear. As the mAP curve in Figure 3 in~\cite{JegouChum12} suggests a performance drop for larger dictionaries may occur.
+      \newline
+      Finally, we have tried the PCA whitening on Fisher vectors of dimensions 128, 512 and 2048 and did not observe any improvement on performance over the baseline. For for the highest dimension we observed significant performance drop ($49.6\%$ to $41.3\%$). This can be explained such that whitening compression did amplify a low-energy noise contained in dimensions. This phenomena was also reported in~\cite{JegouChum12}.
+    }
+
 %%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%
