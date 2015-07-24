@@ -206,17 +206,28 @@ It is, however, an important problem as automatic, accurate and fast visual plac
 \label{sec:related}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\paragraph{Large-scale visual place recognition.}
-    \textcolor{petr}{
-    One of the pioneer work in a large-scale visual place recognition is the paper published by Hayes~et~Efros~\cite{Hays2008}. First, multiple features, such as GIST, color, lines, textons, are extracted from the images. At the query time a distance in each feature space is measured and aggregated, finally the nearest neighbour database image is selected w.r.t. the accumulated distances and its geo-location is retrieved.
-    More recently,
-    }
-    the visual localization problem is typically treated as large-scale instance-level retrieval~\cite{Cummins09,Chen11,Knopp2010,Schindler07,Torii2013,Zamir10}, where images are represented using local invariant features~\cite{Lowe04} encoded and aggregated into the bag-of-visual-words~\cite{Csurka04,Sivic03} or Fisher vector~\cite{Jegou12} representations. 
+%\paragraph{Large-scale visual place recognition.}
+                       
+                       
+%    \textcolor{petr}{
+%    One of the pioneer work in a large-scale visual place recognition is the paper published by Hayes~et~Efros~\cite{Hays2008}. First, multiple features, such as GIST, color, lines, textons, are extracted from the images. At the query time a distance in each feature space is measured and aggregated, finally the nearest neighbour database image is selected w.r.t. the accumulated distances and its geo-location is retrieved.
+%    More recently,
+%    }
+    
+    % Other work to mention:
+	%  
+    	% Localization on the scale of continents
+	% Landmark classification
+	% 
+		\textcolor{petr}{
+	The task of geo-localizing a given input query photograph has recently received considerable attention.  
+	  The output can be a coarse geo-localization on the level of continents and cities~\cite{Doersch12,Hays2008,Kalogerakis09} or a name of the depicted landmark~\cite{Li09}.  In this work we focus on visually recognizing the ``same place" by finding an image in geo-tagged database that depicts the same building facade or street-corner as shown in the query.}  	  
+    This {\em visual place recognition} problem is typically treated as large-scale instance-level retrieval~\cite{Cummins09,Chen11,Knopp2010,Schindler07,Torii2013,Zamir10}, where images are represented using local invariant features~\cite{Lowe04} encoded and aggregated into the bag-of-visual-words~\cite{Csurka04,Sivic03} or Fisher vector~\cite{Jegou12} representations. 
     The image database can be further augmented by 3D point clouds~\cite{Klinger13}, automatically
     reconstructed by large-scale structure from motion
     (SfM)~\cite{Agarwal-ICCV-2009,Klinger13}, which enables accurate prediction of query image camera position~\cite{Li12,Sattler12}.
     In contrast, in this work we investigate learning a discriminative place-specific image representation. A similar idea has been recently explored in~\cite{Cao13} 
-    who learn a graph-based discriminative representation for landmark image collections where typically many images are available for each place.
+    who learn a graph-based discriminative representation for landmark image collections where typically many images are available for each landmark.
     In this work, we focus on street-level images such as Google street-view, which have greater coverage, but typically only one or a small number of images are  available for each place.  To address this issue we learn a discriminative re-weighting of the descriptor specific to each image in the database using per-exemplar support vector machine~\cite{Malisiewicz11}.
     
     
@@ -226,27 +237,42 @@ It is, however, an important problem as automatic, accurate and fast visual plac
 %     careful calibration of the resulting classifier scores is required~\cite{Malisiewicz11}. 
 
 \paragraph{Per-exemplar support vector machines.} 
-  The exemplar support vector machines (e-SVM) has been used in a number of visual recognition tasks including category-level recognition~\cite{Malisiewicz11}, cross-domain retrieval~\cite{Shrivastava11}, scene parsing~\cite{Tighe13}, place recognition~\cite{Gronat13} or as an initialization  for more complex discriminative clustering models~\cite{Doersch12,Singh12}. The main idea is to train a linear support vector machine (SVM) classifier from a single positive example and a large number of negatives. The intuition is that the resulting weight vector will give a higher weight to the discriminative dimensions of the positive training data point and will down weight dimensions that are non-discriminative with respect to the negative training data. 
+  The exemplar support vector machines (e-SVM) has been used in a number of visual recognition tasks including category-level recognition~\cite{Malisiewicz11}, cross-domain retrieval~\cite{Shrivastava11}, scene parsing~\cite{Tighe13} or as an initialization  for more complex discriminative clustering models~\cite{Doersch12,Singh12}. The main idea is to train a linear support vector machine (SVM) classifier from a single positive example and a large number of negatives. The intuition is that the resulting weight vector will give a higher weight to the discriminative dimensions of the positive training data point and will down weight dimensions that are non-discriminative with respect to the negative training data. 
   
   \textcolor{petr}{
-    The e-SVM linear classifier can be learnt beforehand for each class in turn~\cite{Malisiewicz11} or it can be learnt at a query time where the e-SVM weight vector is used as a new query image representation~\cite{Shrivastava11}. A disadvantage of the latter method is that the linear classifier must be trained again and again for every query. This is computationally intensive process that makes the approach impractical. 
-    A key advantage of the former method is that each per-exemplar classifier can be trained independently and hence the learning can be heavily parallelized. The per-exemplar training brings however also an important drawback. As each classifier is trained independently a careful calibration of the resulting classifier scores is required~\cite{Malisiewicz11}. 
-  }
-
-\paragraph{Linear Discriminant Analysis.}
-  \textcolor{petr}{
-    The linear discriminant analysis (LDA) has been recently used in~\cite{Aubry13} for image to 3D model alignment. Motivated by~\cite{Shrivastava11} the authors aim on detecting discriminative visual elements for painting alignment using e-SVM. They used a square euclidean loss instead of a hinge loss and drop the regularizer term in the e-SVM objective. It was shown~\cite{Hariharan12} that the optimal solution of this new optimization task can be found in a closed form and is equivalent to LDA. As a covariance matrix must be computed, this method is unfeasible for high-dimensional data such as bag-of-words. Similarly to e-SVM, authors note that calibration of the matching scores is also important. It is interesting to note that the LDA score (see \cite{Aubry13} eq. 11) can be interpreted as a dot product of a query and database vector in whitened space where the whitening transformation is learnt from available database data. The PCA whitening has been used in~\cite{JegouChum12} 
-    for dimensionality reduction of bag-of-words and VLAD~\cite{Jegou2012HAL} descriptors for image retrieval. It was shown that the PCA whitening dimensionality reduction is especially beneficial for combining multiple dictionaries.
-  }
-
-\paragraph{Calibrating classifier scores.} 
+    The exemplar support vector machine can be learnt at query time where the weight vector is used as a new query image representation~\cite{Shrivastava11}. However, this requires training a new classifier afresh for each query that is computationally very demanding. In this work, similar to~\cite{Malisiewicz11} who learn per-exemplar object category representation, we learn per-exemplar classifiers for each place in the database off-line.  A key advantage is that each per-exemplar classifier is trained independently and hence the learning can be heavily parallelized. The per-exemplar training brings, however, also an important drawback. As each classifier is trained independently a careful calibration of the resulting classifier scores is required~\cite{Malisiewicz11}.
+    }
+    
+    \paragraph{Calibrating classifier scores.} 
   Several calibration approaches have been proposed in the literature (see~\cite{gebel2007calibrating} and references therein for a review). The most known consists of fitting a logistic regression to the output of the SVM~\cite{Platt99}.  This approach, however, has a major drawback as it imposes a parametric form (the logistic a.k.a.\ sigmoid function) of the likelihood ratio of the two classes, which typically leads to biased estimates of the calibrated scores. Another important calibration method is the isotonic regression~\cite{zadrozny2002transforming}, which allows for a non-parametric estimate of the output probability.
   Unfortunately, the fact that we have only a single positive example (or only very few of them, and which are all used for training) essentially prevents us from using any of these methods. 
   To address these issues, we develop two classifier calibration methods that do not need additional labelled positive examples. Related to ours is also the recent work of Scheirer et al.~\cite{Scheirer12} who develop a classifier calibration method for face attribute similarity search. Their method (discussed in more detail in section~\ref{sec:calibration}) also does not require labelled positive examples but, in contrast to us, uses a parametric model (the Weibull distribution) for the scores of negative examples.    
 
+%     beforehand for each class in turn~\cite{Malisiewicz11} or it can be learnt at a query time where the e-SVM weight vector is used as a new query image representation~\cite{Shrivastava11}. A disadvantage of the latter method is that the linear classifier must be trained again and again for every query. This is computationally intensive process that makes the approach impractical. 
+%    A key advantage of the former method is that each per-exemplar classifier can be trained independently and hence the learning can be heavily parallelized. The per-exemplar training brings however also an important drawback. As each classifier is trained independently a careful calibration of the resulting classifier scores is required~\cite{Malisiewicz11}. 
+%    The e-SVM linear classifier can be learnt beforehand for each class in turn~\cite{Malisiewicz11} or it can be learnt at a query time where the e-SVM weight vector is used as a new query image representation~\cite{Shrivastava11}. A disadvantage of the latter method is that the linear classifier must be trained again and again for every query. This is computationally intensive process that makes the approach impractical. 
+%    A key advantage of the former method is that each per-exemplar classifier can be trained independently and hence the learning can be heavily parallelized. The per-exemplar training brings however also an important drawback. As each classifier is trained independently a careful calibration of the resulting classifier %scores is required~\cite{Malisiewicz11}. 
+  
+
+\paragraph{Linear discriminant analysis and whitening.}
+  \textcolor{petr}{
+ Our work is also related to linear discriminative transformations of feature space that have shown good performance in object recognition~\cite{Gharbi12,Hariharan12} and 2D-3D alignment across depiction style~\cite{Aubry13}. While conceptually, the idea of finding a discriminative projection of the original feature space is similar to our work, the main difference is in the used loss function. 
+% Apart from the target application, the main difference is in the used loss function. 
+  While we, similarly to~\cite{Malisiewicz11,Shrivastava11}, use the hinge loss~\cite{Bishop06} to train the new discriminative representation of each place,~\cite{Aubry13,Gharbi12,Hariharan12} use the Euclidean loss. The advantage of using the Euclidean loss is that the discriminative linear projection can be computed in closed form. The resulting projection is tightly related to Linear Discriminant Analysis and whitening the feature space~\cite{Aubry13,Gharbi12,Hariharan12}. Whitened representations have shown promise 
+%  for dimensionality reduction of bag-of-words and VLAD~\cite{Jegou2012HAL} descriptors 
+  for image retrieval~\cite{JegouChum12} or matching HOG~\cite{Dalal05} descriptors~\cite{Doersch13}, however, we have found they do not perform well for place recognition.
+  }
+%  However, as we show in the experimental results they do not perform well for place recognition. 
+    
+ 
+%    The linear discriminant analysis (LDA) has been recently used in~\cite{Aubry13} for image to 3D model alignment. Motivated by~\cite{Shrivastava11} the authors aim on detecting discriminative visual elements for painting alignment using e-SVM. They used a square euclidean loss instead of a hinge loss and drop the regularizer term in the e-SVM objective. It was shown~\cite{Hariharan12} that the optimal solution of this new optimization task can be found in a closed form and is equivalent to LDA. As a covariance matrix must be computed, this method is unfeasible for high-dimensional data such as bag-of-words. Similarly to e-SVM, authors note that calibration of the matching scores is also important. It is interesting to note that the LDA score (see \cite{Aubry13} eq. 11) can be interpreted as a dot product of a query and database vector in whitened space where the whitening transformation is learnt from available database data. The PCA whitening has been used in~\cite{JegouChum12} 
+%    for dimensionality reduction of bag-of-words and VLAD~\cite{Jegou2012HAL} descriptors for image retrieval. It was shown that the PCA whitening dimensionality reduction is especially beneficial for combining multiple dictionaries.
+  
+
+
 
 \paragraph{Contributions.} 
-  This paper has two main contributions. First, we cast the place recognition problem as a classification task and use the available geo-tags \textcolor{petr}{as a weak form of supervision} to train a classifier for each location in the database (section~\ref{sec:classifiers}). 
+  This paper has two main contributions. \textcolor{petr}{First, we cast the place recognition problem as a classification task where we use the available geo-tags as a weak form of supervision to train a classifier for each location in the database (section~\ref{sec:classifiers})}. 
   \textcolor{petr}{
     These classifiers are subsequently used for ranking at the query time.
   } 
@@ -840,7 +866,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
   Ideally, we wish to learn a more compact representation, that still improves the recognition accuracy. However, usually there is a trade-off between the discriminative power of the representation and its size, where having a more compact representation reduces the recognition accuracy~\cite{Jegou12}. We observe a similar behavior but our learnt representation results in a higher recognition accuracy for a given size, or alternatively, significantly reduces the size of the representation for a given accuracy.   
    The results are summarized in figure~\ref{fig:memory}.
 %    Figure~\ref{fig:memory} compares the performance of the proposed per-location learning method for the two different image representations  compared to their memory requirements. 
-     The figure shows the recognition performance (y-axis) for the different dimensionality of the Fisher vector representation, which corresponds to different memory footprints (x-axis). For example, for $d=128$ the memory footprint is about 24~MB, whereas for $d=2048$ the memory footprint is about 384~MB. Note that the x-axis is in log-scale. The bag-of-visual-words representation has a fixed dimensionality (and fixed memory footprint) and hence each bag-of-visual-words method is shown only as a single point on the graph.  For Fisher vectors, the results demonstrate that for a given level of accuracy (y-axis) the proposed method learns a more compact (lower-dimensional) representation (x-axis). For example, \textcolor{petr}{it can be observed from figure \ref{fig:memory}}, our learnt 128-dimensional descriptor (memory footprint of 24 MB) achieves a similar accuracy (around 65\%) as the 256-dimensional raw Fisher descriptor (memory footprint of 51MB). This corresponds to 50\% memory savings for the same level of recognition performance. Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the FV baseline and our method. The results also demonstrate the benefits of using the compact FV descriptors compared to the bag-of-visual-words baseline achieving significantly better recognition accuracy for a similar memory footprint.
+     The figure shows the recognition performance (y-axis) for the different dimensionality of the Fisher vector representation, which corresponds to different memory footprints (x-axis). For example, for $d=128$ the memory footprint is about 24~MB, whereas for $d=2048$ the memory footprint is about 384~MB. Note that the x-axis is in log-scale. The bag-of-visual-words representation has a fixed dimensionality (and fixed memory footprint) and hence each bag-of-visual-words method is shown only as a single point on the graph.  For Fisher vectors, the results demonstrate that for a given level of accuracy (y-axis) the proposed method learns a more compact (lower-dimensional) representation (x-axis). For example, our learnt 128-dimensional descriptor (memory footprint of 24 MB) achieves a similar accuracy (around 65\%) as the 256-dimensional raw Fisher descriptor (memory footprint of 51MB, \textcolor{petr}{interpolated from figure~\ref{fig:memory}}). This corresponds to 50\% memory savings for the same level of recognition performance. Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the FV baseline and our method. The results also demonstrate the benefits of using the compact FV descriptors compared to the bag-of-visual-words baseline achieving significantly better recognition accuracy for a similar memory footprint.
     
     %%% FIGURE: Memory efficiency
     \begin{figure}[t!]
