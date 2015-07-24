@@ -184,9 +184,14 @@ It is, however, an important problem as automatic, accurate and fast visual plac
    Examples include: (i) building an explicit 3D reconstruction of the scene~\cite{Irschara2009,Li10,Li12}; (ii) constructing an image graph~\cite{Cao13,Philbin10c,Turcot09}, where images are nodes and edges connect close-by images on the map~\cite{Torii11}, or (iii) using the geotagged data as a form of supervision to select local features that characterize a certain location~\cite{Knopp2010,Schindler07} or re-rank retrieved images~\cite{Zamir10}.
 
   In this work, we also take advantage of geotags as an available form of supervision and investigate whether the place recognition problem can be cast as a classification task.
-  Visual classifiers were investigated for landmark~\cite{Li09} recognition in consumer photo collections, where many photographs are available for each landmark.
-  In this work we wish to recognize individual locations from street-level imagery where only a few (1-5) photographs are available for each place. 
-  Therefore, we train a classifier {\em for each location on the map} in a similar manner to per-exemplar classification in object recognition~\cite{Malisiewicz11}. 
+ \textcolor{petr}{
+    Learning visual classifiers has been investigated for landmark recognition~\cite{Li09} where consumer photographs were clustered into landmark classes based on geo-tags. 
+  In this work we wish to recognize individual street locations rather than landmarks, and as a consequence have only a few (1-5) photographs available for each place.  In particular, we train a classifier {\em for each location on the map} in a similar manner to per-exemplar classification in object recognition~\cite{Malisiewicz11}. 
+}
+
+%  Visual classifiers were investigated for landmark~\cite{Li09} recognition in consumer photo collections, where many photographs are available for each landmark.
+%  In this work we wish to recognize individual locations from street-level imagery where only a few (1-5) photographs are available for each place. 
+%  Therefore, we train a classifier {\em for each location on the map} in a similar manner to per-exemplar classification in object recognition~\cite{Malisiewicz11}. 
 
   This is beneficial as  each classifier can learn which features are discriminative for a particular place. % and down-weight features occurring at other places.
    The classifiers are learnt offline. At query time, the query photograph is localized by transferring the GPS tag of the best scoring location classifier.
