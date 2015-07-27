@@ -157,7 +157,9 @@ Second, as only a few positive training examples are available for each location
 two methods to calibrate all the per-location SVM classifiers without the need for additional positive training data.
 The first method relies on p-values from statistical hypothesis testing and uses only the available negative training data. The second method performs an affine calibration by appropriately normalizing the learnt classifier hyperplane and does not need any additional labelled training data.
 We test the proposed place recognition method with the bag-of-visual-words and Fisher vector image representations suitable for large scale indexing. 
-Experiments are performed on two databases of 25,000 and 55,000 geotagged street view images of Pittsburgh and demonstrate improved place recognition accuracy of the proposed approach over the previous work.
+ \textcolor{petr}{Experiments are performed on three datasets: 25,000 and 55,000 geotagged street view images of Pittsburgh, and the new challenging 24/7 Tokyo benchmark containing **** images with varying illumination conditions. The results show improved place recognition accuracy of
+the learnt image representation over direct matching of raw image descriptors.}   
+%Experiments are performed on two databases of 25,000 and 55,000 geotagged street view images of Pittsburgh and demonstrate improved place recognition accuracy of the proposed approach over the previous work.
 % Add SF: as well as the San Francisco dataset containing 1M geotagged images
 %\textcolor{myGrey}{
 %Second, as only few positive training examples are available for each location, we propose a new approach to calibrate all the per-location SVM classifiers using \emph{only} the negative examples. The calibration we propose relies on a significance measure essentially equivalent to the p-values classically used in statistical hypothesis testing. Experiments are performed on a database of 25,000 geotagged street view images of Pittsburgh and demonstrate improved place recognition accuracy of the proposed approach over the previous work.
@@ -256,9 +258,9 @@ It is, however, an important problem as automatic, accurate and fast visual plac
 
 \paragraph{Linear discriminant analysis and whitening.}
   \textcolor{petr}{
- Our work is also related to linear discriminative transformations of feature space that have shown good performance in object recognition~\cite{Gharbi12,Hariharan12} and 2D-3D alignment across depiction style~\cite{Aubry13}. While conceptually, the idea of finding a discriminative projection of the original feature space is similar to our work, the main difference is in the used loss function. 
+ Our work is also related to linear discriminative transformations of feature space that have shown good performance in object recognition~\cite{Gharbi12,Hariharan12} and 2D-3D alignment across depiction style~\cite{Aubry13}. While conceptually the idea of finding a discriminative projection of the original feature space is similar to our work, the main difference is in the used loss function. 
 % Apart from the target application, the main difference is in the used loss function. 
-  While we, similarly to~\cite{Malisiewicz11,Shrivastava11}, use the hinge loss~\cite{Bishop06} to train the new discriminative representation of each place,~\cite{Aubry13,Gharbi12,Hariharan12} use the Euclidean loss. The advantage of using the Euclidean loss is that the discriminative linear projection can be computed in closed form. The resulting projection is tightly related to Linear Discriminant Analysis and whitening the feature space~\cite{Aubry13,Gharbi12,Hariharan12}. Whitened representations have shown promise 
+  While we, similarly to~\cite{Malisiewicz11,Shrivastava11}, use the hinge loss~\cite{scholkopf2002learning} to train the new discriminative representation of each place,~\cite{Aubry13,Gharbi12,Hariharan12} use the Euclidean loss. The advantage of using the Euclidean loss is that the discriminative linear projection can be computed in closed form. The resulting projection is tightly related to Linear Discriminant Analysis and whitening the feature space~\cite{Aubry13,Gharbi12,Hariharan12}. Such whitened representations have shown promise 
 %  for dimensionality reduction of bag-of-words and VLAD~\cite{Jegou2012HAL} descriptors 
   for image retrieval~\cite{JegouChum12} or matching HOG~\cite{Dalal05} descriptors~\cite{Doersch13}, however, we have found they do not perform well for place recognition.
   }
@@ -274,10 +276,11 @@ It is, however, an important problem as automatic, accurate and fast visual plac
 \paragraph{Contributions.} 
   This paper has two main contributions. \textcolor{petr}{First, we cast the place recognition problem as a classification task where we use the available geo-tags as a weak form of supervision to train a classifier for each location in the database (section~\ref{sec:classifiers})}. 
   \textcolor{petr}{
-    These classifiers are subsequently used for ranking at the query time.
+    These classifiers are subsequently used for ranking the database images at query time.
   } 
   Second, as only few positive training examples are available for each location, we propose two methods to calibrate all the per-location SVM classifiers without the need for additional positive training data. The first method (section~\ref{sec:calibration}) relies on p-values from statistical hypothesis testing. The second method (section~\ref{sec:calibrationRenorm}) performs an affine calibration by appropriately normalizing the learnt decision hyperplane. 
-  We also describe a memory efficient classifier representation for the sparse bag-of-visual-word vectors (section~\ref{sec:memory}) and  experimentally demonstrate benefits of the proposed approach (section~\ref{sec:experiments} and~\ref{sec:results}). 
+  We also describe a memory efficient classifier representation for the sparse bag-of-visual-word vectors (section~\ref{sec:memory}) and  experimentally demonstrate benefits of the proposed approach (section~\ref{sec:experiments} and~\ref{sec:results}).  
+%  This paper is an extended version of~\cite{Gronat13}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -600,7 +603,12 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
       %
   where $\mathcal{W}$ is $d\times N$ matrix storing all the learnt $\vec{w}_j$ classifiers as columns, $\vec{b}$ is a $1\times N$ vector storing all the learnt bias values $b_j$, 
   $\vec{q}$ is the input query descriptor, $\vec{s}$ is a $1\times N$ vector of output scores for all classifiers in the database, $N$ is the number of images in the database  and $d$ is the dimensionality of the image representation. 
-  As discussed in detail in section~\ref{sec:experiments} we investigate two different image representations:  (i) the bag-of-visual-word vectors~\cite{Sivic03} and (ii) the compact Fisher vectors~\cite{Jegou12}. The learnt classifiers for these two image descriptors have different statistics and require different methods for storing and indexing. Next, we discuss the classifier representations for the two types of image representations.
+  As discussed in detail in section~\ref{sec:experiments} we investigate two different image representations:   (i) the compact Fisher vectors~\cite{Jegou12} and (ii) the bag-of-visual-word vectors~\cite{Sivic03}. The learnt classifiers for these two image descriptors have different statistics and require different methods for storing and indexing. Next, we discuss the classifier representations for the two types of image representations.
+ 
+  \paragraph{Fisher vectors:}    
+%    The Fisher vector descriptors are not sparse and therefore the dual representation given by~\eqref{eq:dualFinal} does not bring any memory savings.
+    The Fisher vector descriptors are not sparse, but have a relatively low-dimension $d\in\{128, 512, 2048\}$ hence it is possible to store directly the (non-sparse) matrix $\mathcal{W}$ containing the learnt classifier parameters $\vec{w}$. In this work we exhaustively compute the classifier scores for all images in the database (given by equation~\eqref{eq:allscores}) using efficient (but exact) matrix-vector multiplication routines. However, this computation can be further sped-up using product quantization indexing as described in~\cite{Jegou11}.     
+
  
   \paragraph{Bag-of-visual-words:}
     In the bag-of-visual-words representation, each image is represented by a high dimensional vector $\vec{x}$, where the dimensionality $d$ is typically $100,000$, but the vector is very sparse with only about 2,000 non-zero entries. 
@@ -633,10 +641,6 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
     Note that sparsity can be imposed directly on the learnt classifiers $\vec{w}$ by appropriate regularization~\cite{scholkopf2002learning}. However, we found this approach did not yield competitive results.
 
 
-  \paragraph{Fisher vectors:}    
-    The Fisher vector descriptors are not sparse and therefore the dual representation given by~\eqref{eq:dualFinal} does not bring any memory savings.
-    However, they have a relatively low-dimension $d\in\{128, 512, 2048\}$ hence it is possible to store directly the (non-sparse) matrix $\mathcal{W}$ containing the learnt classifier parameters $\vec{w}$. In this work we exhaustively compute the classifier scores for all images in the database (given by equation~\eqref{eq:allscores}) using efficient (but exact) matrix-vector multiplication routines. However, this computation can be further sped-up using product quantization indexing as described in~\cite{Jegou12}.     
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -656,12 +660,12 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
       As a query set with known ground truth GPS positions, we use 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.          
       We generate a test query set such that we first select a panorama at random, and second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize 4,000 query test images. 
 
-      \paragraph{Relation to other benchmarks.}
-%      While out dataset is smaller than the The San Francisco place recognition benchmark~\cite{Chen11} (about 1M images), it has significantly more query images (4,000k vs. about ***).
-      \textcolor{petr}{
-        Our method is not directly comparable to place recognition benchmarks that do not use GPS position as ground truth.
-        Fore example, the San Francisco dataset~\cite{Chen11} defines “the ground truth” based on automatic labelling of the buildings captured by a camera based on GIS (Geographic Information System). Rather than by GPS coordinates, the ground truth is defined by cartographical ID of the building that is captured within the image. This appears to be very inaccurate method providing very contrived “ground truth”. Our analysis shows that about $25\%$ of the query images are associated to a place that is further than $200m$ away from the actual query image position. In extreme cases, the distance is above $1300m$. Our method includes far-away images into negative training sets which dramatically affect the measured performance. It is worth noting that some ground truth images have no visual overlap with the query image all. Building may be captured from the other side than query or the actual building captured on the query is fully occluded by another building in ground truth image.
-      }
+%      \paragraph{Relation to other benchmarks.}
+%%      While out dataset is smaller than the The San Francisco place recognition benchmark~\cite{Chen11} (about 1M images), it has significantly more query images (4,000k vs. about ***).
+%      \textcolor{petr}{
+%        Our method is not directly comparable to place recognition benchmarks that do not use GPS position as ground truth.
+%        Fore example, the San Francisco dataset~\cite{Chen11} defines “the ground truth” based on automatic labelling of the buildings captured by a camera based on GIS (Geographic Information System). Rather than by GPS coordinates, the ground truth is defined by cartographical ID of the building that is captured within the image. This appears to be very inaccurate method providing very contrived “ground truth”. Our analysis shows that about $25\%$ of the query images are associated to a place that is further than $200m$ away from the actual query image position. In extreme cases, the distance is above $1300m$. Our method includes far-away images into negative training sets which dramatically affect the measured performance. It is worth noting that some ground truth images have no visual overlap with the query image all. Building may be captured from the other side than query or the actual building captured on the query is fully occluded by another building in ground truth image.
+%      }
         % For example, the San Francisco dataset~\cite{Chen11} defines a ground truth using geographic information system. As a result, the ground truth often contains database images that are spatially far away (e.g.$> 200m$) from the location of the query but may depict the same building visible in the distance.  Our method defines negative training data based on geographic distance and thus considers many positive images according to the ground truth as negative training data, which dramatically affects the performance.
 
        % making the comparisons meaningless. % , which would renders such benchmark meaningless. 
@@ -691,10 +695,11 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
       In other words, the negative training data consists of the hard negative images, i.e. those that are similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content. 
       The \emph{positive training set} $\mathcal P_j$ consist of the descriptor $\vec{x}_j$ of the target image $j$. 
       
-      We found that for the bag-of-visual-words representation it was useful to further expand~\cite{Chum07b} positive training set by close by images that view the same scene structures. These images can be identified by geometric verification \cite{Philbin07} \textcolor{petr} {as follows:}
+      We found that for the bag-of-visual-words representation it was useful to further expand~\cite{Chum07b} positive training set by close by images that view the same scene structures. These images can be identified by geometric verification \cite{Philbin07} \textcolor{petr} {as follows.}
       \textcolor{petr}{
-      We first build a graph where each image in the database represents a node and an edge represents a spatial adjacency in the world. An edge is present if two images are close to each other less than $50m$.
-      Then, we score each edge by a number of geometrically verified matches of two adjacent images \cite{Philbin07}. Finally, we remove edges with score below the threshold of $t_m = 40$. After this procedure, the graph represents a visual overlap between respective images. It is worth noting that the graph contains many isolated nodes. This typically indicates that the viewpoint change between two adjacent panorama is huge. In this manner, for each image in the database, we are able to get between zero to five extra positive examples.
+      We first build a graph where each image in the database represents a node and an edge represents a spatial adjacency in the world. An edge is present if the positions of the two images are within $50m$ of each other.
+      Then, we score each edge by the number of geometrically verified matches~\cite{Philbin07}. Finally, we remove edges with score below a threshold of $t_m = 40$ matches. %The graph represents visual overlap between images. 
+      It is worth noting that the graph contains many isolated nodes. This typically indicates that the viewpoint change between two adjacent panoramas is large. For each image in the database, we include between zero and five extra positive examples that are directly connected in the graph.
       }
 
       For the support vector machine classifier (SVM) training we use {\tt libsvm} \cite{libsvm}. We use the same $C_1$ and $C_2$ parameters for all per-exemplar classifiers, but find the optimal value of the parameters for each image representation by a cross-validation evaluating performance on a held out query set.
@@ -708,7 +713,8 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 \section{Results}
 \label{sec:results}
 %%%%%%%%%%%%%%%%%%%%
-  We evaluate the proposed per-location classifier learning approach on two different image descriptors: the bag-of-visual-words model (section~\ref{sec:bow_results} ) and Fisher vectors (section~\ref{sec:fisher_restuls}).  Finally, we compare the recognition accuracy of the two learnt representations relative to their compactness measured by their memory footprint (section~\ref{sec:memory_results}).
+  We evaluate the proposed per-location classifier learning approach on two different image descriptors: the bag-of-visual-words model (section~\ref{sec:bow_results} ) and Fisher vectors (section~\ref{sec:fisher_restuls}).  We also compare the recognition accuracy of the two learnt representations relative to their compactness measured by their memory footprint (section~\ref{sec:memory_results}).
+ \textcolor{petr}{Finally, we also compare results to linear discriminant analysis (LDA) and whitening baselines (section~\ref{sec:LDA}).} 
 %  Finally, we also evaluate the dependence of the recognition accuracy on the memory requirements (section~\ref{sec:memory_results}).
   % and finally report qualitative results  (section~\ref{sec:qualitative_results}).   
   Since the ground truth GPS position for each query image is available, for each method we measure performance using the percentage of correctly recognized queries (Recall) similarly to, e.g.,~\cite{Chen11,Knopp2010,Sattler-BMVC12}. We deem the query as correctly localized if at least one of the top $K$ retrieved database images is within $20$ meters from the ground truth position of the query. 
@@ -880,16 +886,25 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
         \label{fig:memory}
     \end{figure}
 
-  \subsection{\textcolor{petr}{Relation to other baselines.}}
+%  \subsection{\textcolor{petr}{Relation to other baselines.}}
+    \subsection{\textcolor{petr}{Comparison to linear discriminant analysis (LDA) and whitening baselines}}
+\label{sec:LDA}
     \textcolor{petr}{
-      We have compared out method to several different baselines. We have re-implemented a method of~\cite{Aubry13} and a method of~\cite{JegouChum12} and applied these two methods for $25k$ Pittsburgh dataset. In the following paragraph we briefly discuss the results.
-      \newline
-      Following~\cite{Aubry13} we applied the Linear Discriminant Analysis (LDA) to the place recognition problem. We have used all available data to learn the covariance matrix and finally used calibrated LDA score by zero vector (see~\cite{Aubry13} eq.~11). The LDA was applied to FV128, we observed a performance drop w.r.t. FV baseline ($33.6\%$ to $31.9\%$ for recall@1). The results suggest that for the place recognition task it is important to train classifiers on hard negative examples which are specific for each place.
-      \newline
-      Next, we have implemented the PCA compression followed by whitening as suggested by~\cite{JegouChum12}. We applied the PCA whitening for both bag-of-word and Fisher vectors. Following~\cite{JegouChum12}, for bag-of-words image representation we have used the PCA whitening compression to a target dimension of 4096. We have observed a dramatical performance drop ($28.7\%$ to $26.1\%$ for recall@1). The main motivation of~\cite{JegouChum12} was to utilize the PCA whitening compression for multiple visual word dictionaries. The PCA whitening on single dictionary has been studied for relatively small dictionaries (up to $32k$) but the effect on larger dictionaries is not clear. As the mAP curve in Figure 3 in~\cite{JegouChum12} suggests a performance drop for larger dictionaries may occur.
-      \newline
-      Finally, we have tried the PCA whitening on Fisher vectors of dimensions 128, 512 and 2048 and did not observe any improvement on performance over the baseline. For for the highest dimension we observed significant performance drop ($49.6\%$ to $41.3\%$). This can be explained such that whitening compression did amplify a low-energy noise contained in dimensions. This phenomena was also reported in~\cite{JegouChum12}.
-    }
+      We have compared our method to the linear discriminant analysis (LDA)~\cite{Aubry13,Hariharan12,Gharbi12} and whitening~\cite{JegouChum12} baselines. Results are reported on the Pittsburgh $25k$ dataset. The LDA baseline finds a discriminative linear projection of the feature space by minimizing an Euclidean loss rather than hinge loss used in our work. In detail, following~\cite{Aubry13} we have used all available database to learn the covariance matrix and used calibrated LDA score (see~\cite{Aubry13} eq.~11) to obtain a classifier for each database image.  
+  We have applied the LDA method to the 128-dimensional Fisher vector descriptor and observed a similar performance to the raw FV baseline 
+  ($31.9\%$ for recall@1) but that is significantly worse than our method (recall@1 of 38.3\%). We believe the better performance of our method can be attributed to (i) the use of hinge-loss and (ii) training using the top scoring hard negative examples that are specific for each place.  
+      Next, we compare results to PCA compression followed by whitening as suggested in~\cite{JegouChum12}. For bag-of-visual-words, we follow~\cite{JegouChum12} and compare performance to PCA whitening to a target dimension of 4096. We have observed performance drop compared to the raw bag-of-visual-words baseline ($28.7\%$ to $26.1\%$ for recall@1). We believe, this may be attributed to the large dictionary size used in our work (100k), whereas~\cite{JegouChum12} report improved results for single dictionary whitening only for dictionaries of up to 32k visual words.
+      Finally,  we have also applied PCA whitening on Fisher vector descriptors of dimensions 128, 512 and 2048, but have not observed significant improvements over the baseline raw descriptors. In fact, for the highest dimension (2048) we have observed a performance drop ($49.6\%$ to $41.3\%$), which could be attributed to amplification of low-energy noise as also reported in~\cite{JegouChum12}. 
+      }
+%      for bag-of-visual-words image representation we have used PCA whitening compression to a target dimension of 4096. We have observed a dramatical performance drop ($28.7\%$ to $26.1\%$ for recall@1). The main motivation of~\cite{JegouChum12} was to utilize the PCA whitening compression for multiple visual word dictionaries. The PCA whitening on single dictionary has been studied for relatively small dictionaries (up to $32k$) but the effect on larger dictionaries is not clear. As the mAP curve in Figure 3 in~\cite{JegouChum12} suggests a performance drop for larger dictionaries may occur.
+%      and whitening baselines that find a linear projection of the . We have re-implemented a method of~\cite{Aubry13} and a method of~\cite{JegouChum12} and applied these two methods for $25k$ Pittsburgh dataset. In the following paragraph we briefly discuss the results.
+%      \newline
+%      Following~\cite{Aubry13} we applied the Linear Discriminant Analysis (LDA) to the place recognition problem. We have used all available data to learn the covariance matrix and finally used calibrated LDA score by zero vector (see~\cite{Aubry13} eq.~11). The LDA was applied to FV128, we observed a performance drop w.r.t. FV baseline ($33.6\%$ to $31.9\%$ for recall@1). The results suggest that for the place recognition task it is important to train classifiers on hard negative examples which are specific for each place.
+%      \newline
+%      Next, we have implemented the PCA compression followed by whitening as suggested by~\cite{JegouChum12}. We applied the PCA whitening for both bag-of-word and Fisher vectors. Following~\cite{JegouChum12}, for bag-of-words image representation we have used the PCA whitening compression to a target dimension of 4096. We have observed a dramatical performance drop ($28.7\%$ to $26.1\%$ for recall@1). The main motivation of~\cite{JegouChum12} was to utilize the PCA whitening compression for multiple visual word dictionaries. The PCA whitening on single dictionary has been studied for relatively small dictionaries (up to $32k$) but the effect on larger dictionaries is not clear. As the mAP curve in Figure 3 in~\cite{JegouChum12} suggests a performance drop for larger dictionaries may occur.
+%      \newline
+%      Finally, we have tried the PCA whitening on Fisher vectors of dimensions 128, 512 and 2048 and did not observe any improvement on performance over the baseline. For for the highest dimension we observed significant performance drop ($49.6\%$ to $41.3\%$). This can be explained such that whitening compression did amplify a low-energy noise contained in dimensions. This phenomena was also reported in~\cite{JegouChum12}.
+%}
 
 %%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
@@ -926,7 +941,7 @@ per-exemplar classification tasks, where only a small number of positive example
     % }
     In section~\ref{sec:results} we show that the simple calibration by normalization often results in surprisingly good place recognition performance without the need for any additional positive or negative calibration data. In this \textcolor{petr}{appendix}, we give a possible explanation why this simple calibration works.  We focus on the case of a single positive training example, i.e. when training set $\mathcal P = \vec{x}^{+}$, which is the typical case for place recognition where only one 
     %or at most few 
-    \textcolor{petr}{positive example is available for each place. The analysis holds also for additional positive examples since these have statistics}. 
+    \textcolor{petr}{positive example is available for each place. The analysis holds also for the case of multiple expanded positive examples as in our case the positive examples are coming from the same database of street-view images, and hence have very similar statistics (illumination, capturing conditions, the same camera, etc.)}. 
 
     In particular, we first analyze the SVM objective and show that the learnt hyperplane $\vec{w}$ can be interpreted as a new descriptor $\vec{x}^{*}$ that replaces the original positive example $\vec{x}^{+}$ and is re-weighted to increase its separation from the negative data. 
     Second, we show that when $\vec{x}^{*}$ is normalized, i.e.\  $\vec{x}^{*} = \frac{\vec{w}}{||\vec{w}||}$, the dot-product $\vec{q}^T\vec{x}^*$ corresponds to measuring the cosine of the angle between the (normalized) query descriptor $\vec{q}$  and the new descriptor $\vec{x}^{*}$, which was found to work well in the literature for descriptor matching, as discussed in section~\ref{sec:calibration_by_renormalization}. The two steps are given next.  
