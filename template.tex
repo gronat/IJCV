@@ -125,30 +125,42 @@ placed here. General acknowledgments should be placed at the end of the article.
 % The correct dates will be entered by the editor
 %\maketitle
 %***********************************************************
-% *** THIS puts a figure between title and abstract ***
-\twocolumn
-[{%
-    \renewcommand\twocolumn[1][]{#1}%
-    \maketitle
-    \begin{center}
-        \centering
-        \vspace*{-2mm}
-        \includegraphics[width=.85\textwidth]{imgs/titleTeX.jpg}
-        \vspace*{-2mm}
-        \captionof{figure}
-        {
-        \textcolor{petr}{TODO: Figure too big (R1)}
-          The goal of this work is to localize a query photograph (left) by finding other images of the same place in a large geotagged image database (right). 
-          We cast the problem as a classification task and learn a classifier for each location in the database. 
-          We develop two procedures
-          to calibrate the outputs of the large number of per-location classifiers without the need for additional labelled training data.                     
-%          We develop a non-parametric \textcolor{myGrey}{(can we asy tis for FV w-norm norm?)} procedure to calibrate the outputs of the large number of per-location classifiers without the need for additional positive training data.  
-        }
-    \end{center}%
-}]
+% % *** THIS puts a figure between title and abstract ***
+% \twocolumn
+% [{%
+%     \renewcommand\twocolumn[1][]{#1}%
+%     \maketitle
+%     \begin{center}
+%         \centering
+%         \vspace*{-2mm}
+%         \includegraphics[width=.85\textwidth]{imgs/titleTeX.jpg}
+%         \vspace*{-2mm}
+%         \captionof{figure}
+%         {
+%         \textcolor{petr}{TODO: Figure too big (R1)}
+%           The goal of this work is to localize a query photograph (left) by finding other images of the same place in a large geotagged image database (right). 
+%           We cast the problem as a classification task and learn a classifier for each location in the database. 
+%           We develop two procedures
+%           to calibrate the outputs of the large number of per-location classifiers without the need for additional labelled training data.                     
+% %          We develop a non-parametric \textcolor{myGrey}{(can we asy tis for FV w-norm norm?)} procedure to calibrate the outputs of the large number of per-location classifiers without the need for additional positive training data.  
+%         }
+%     \end{center}%
+% }]
 % ******************************************************
 
-%\maketitle
+\maketitle
+
+\begin{figure}[th]
+  \textbf{
+    \hspace{0.05\linewidth} Calibrated e-SVMs classifiers \hspace{0.15\linewidth} Retrieved locations \hspace{0.05\linewidth}
+  }
+  \includegraphics[width=1.0\linewidth]{imgs/titleVertical.pdf}
+  \textbf{\textcolor{white}{\quad\quad}Query image}
+  \caption{
+          The goal of this work is to localize a query photograph (left bottom) by finding other images of the same place in a large geotagged image database (right column). We cast the problem as a classification task and learn a classifier for each location in the database. 
+          We develop two procedures to calibrate the outputs of the large number of per-location classifiers without the need for additional labeled training data.
+        }
+\end{figure}
 
 \begin{abstract}
 The aim of this work is to localize a query photograph by finding other images depicting the same place in a large geotagged image database. 
@@ -157,7 +169,7 @@ Second, as only a few positive training examples are available for each location
 two methods to calibrate all the per-location SVM classifiers without the need for additional positive training data.
 The first method relies on p-values from statistical hypothesis testing and uses only the available negative training data. The second method performs an affine calibration by appropriately normalizing the learnt classifier hyperplane and does not need any additional labelled training data.
 We test the proposed place recognition method with the bag-of-visual-words and Fisher vector image representations suitable for large scale indexing. 
- \textcolor{petr}{Experiments are performed on three datasets: 25,000 and 55,000 geotagged street view images of Pittsburgh, and the new challenging 24/7 Tokyo benchmark containing **** images with varying illumination conditions. The results show improved place recognition accuracy of
+ \textcolor{petr}{Experiments are performed on three datasets: 25,000 and 55,000 geotagged street view images of Pittsburgh, and the new challenging 24/7 Tokyo benchmark containing $76,000$ images with varying illumination conditions. The results show improved place recognition accuracy of
 the learnt image representation over direct matching of raw image descriptors.}   
 %Experiments are performed on two databases of 25,000 and 55,000 geotagged street view images of Pittsburgh and demonstrate improved place recognition accuracy of the proposed approach over the previous work.
 % Add SF: as well as the San Francisco dataset containing 1M geotagged images
@@ -168,6 +180,8 @@ the learnt image representation over direct matching of raw image descriptors.}
 % \PACS{PACS code1 \and PACS code2 \and more}
 % \subclass{MSC code1 \and MSC code2 \and more}
 \end{abstract}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -201,6 +215,7 @@ It is, however, an important problem as automatic, accurate and fast visual plac
   While learning classifiers for each place may be appealing, calibrating outputs of the individual classifiers is a critical issue. In object recognition~\cite{Malisiewicz11}, it is addressed in a separate calibration stage on a held-out set of training data.
   This is not possible in the place recognition set-up as only a small number, typically one to five, of positive training images are available for each location (e.g. street-view images viewing the same building facade). To address this issue, we propose two calibration methods. 
   The first method relies on p-values from statistical hypothesis testing and uses only the available negative training data. The second method performs a simple affine calibration by appropriately normalizing the learnt classifiers and does not need any additional labelled calibration examples.   
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -638,7 +653,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
     where each column corresponds to vector $\vec{\alpha}$ from \eqref{eq:dual}. 
     %Using this representation, the memory footprint is significantly reduced. 
     Instead of storing all (non-sparse) weight vectors $\mathcal{W}$, which has memory complexity $O(dN)$ where $d$~(= 100,000) is the dimensionality of the image representation and $N$ is the size of the database, we store two sparse matrices $\mathcal{X}$ and $\mathcal{A}$, which has memory complexity $O(mN+kN)$ where $m$~(=2,000) is the number on non-zero elements in the original bag-of-visual-word descriptors, and $k$ is the typical number of support vectors. In our case $k$ is about the size of the training data which is around 500. As a result, the storage requirements are significantly reduced. For example, for a database of 1M images the dual representation requires only about 10 GB of storage compared to 400GB for directly storing classifiers $\mathcal{W}$.  
-    Note that sparsity can be imposed directly on the learnt classifiers $\vec{w}$ by appropriate regularization~\cite{scholkopf2002learning}. However, we found this approach did not yield competitive results.
+    Note that sparsity can be imposed directly on the learnt classifiers $\vec{w}$ by appropriate regularization~\cite{scholkopf2002learning}. However, we found this approach did not yield competitive results \textcolor{petr}{in terms of accuracy}.
 
 
 
@@ -799,11 +814,12 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
       %%% TABLE: Results 25k FV only
     \begin{table}[tbp]
       \begin{centering}
-        \input{tableResults01.tex}
+        \input{tableResultsFVmerge.tex}
         \caption{ 
-          \textbf{Evaluation of the learnt Fisher vector representation on the Pittsburgh 25k \cite{Gronat13} dataset.}
-           The table shows the fraction of correctly recognized queries (recall@K) for the different values of $K\in\{1,2,5,10,20\}$ retrieved database images. 
-	   The learnt Fisher vector representation (FV \emph{w-norm}) consistently improves over the standard Fisher vector matching baseline (FV) for all dimensions $d\in\{128,512,2048\}$.
+          \textcolor{petr}{ TODO:
+            \textbf{Evaluation of the learnt Fisher vector representation on the Pittsburgh 25k \cite{Gronat13} dataset.}
+            The table shows the fraction of correctly recognized queries (recall@K) for the different values of $K\in\{1,2,5,10,20\}$ retrieved database images. The learnt Fisher vector representation (FV \emph{w-norm}) consistently improves over the standard Fisher vector matching baseline (FV) for all dimensions $d\in\{128,512,2048\}$.
+          }
         }
         \label{tab:recallFV}
       \end{centering}
@@ -837,31 +853,14 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
     %%% FIGURE: Visualization for FV  
     \begin{figure*}[tbp]
       \input{myFigureWnorm.tex}
-            \caption{
+      \caption{
           \textbf{Examples of correctly and incorrectly localized queries for the learnt Fisher vector representation.}
           Each example shows a query image (left) together with correct (green) and incorrect (red) matches from the database obtained by the learnt Fisher vector representation \emph{w-norm} method (top) and the standard Fisher vector baseline (bottom) for dimension 128. Note that the proposed method is able to recognize the place depicted in the query image despite changes in viewpoint, illumination and partial occlusion by other objects (trees, lamps) and buildings. 
-          Note that the baseline methods often finds images depicting the same buildings but in a distance whereas our learnt representation often finds a closer view better matching the content of the query.  
-%          Note also that bag-of-visual-words baseline is often confused by repeating patterns on facades and walls. 
-%        \textbf{Examples of improvements and failure cases for \emph{w-norm} method on Fisher vectors.}
-%        Each example shows a query image (left) together with correct (green) and incorrect (red) matches from the database obtained by \emph{w-norm} method (top) and the raw Fisher vector descriptor baseline (bottom). For each method we show the top 4 matches from the database using 128-dimensional descriptors.        
-%      
-}
+          Note that the baseline methods often finds images depicting the same buildings but in a distance whereas our learnt representation often finds a closer view better matching the content of the query.        
+      }
       \label{fig:images_bow}
     \end{figure*}
     
-    %%% TABLE: results on Pittsburgh 55k
-    \begin{table}[bh]
-      \begin{centering}
-        \input{tableResults02.tex}
-                \caption{ 
-          \textbf{Evaluation of the learnt Fisher vector representation on the Pittsburgh 55k dataset.}
-           The table shows the fraction of correctly recognized queries (recall@K) for the different values of $K\in\{1,2,5,10,20\}$ retrieved database images. 
-	   The learnt Fisher vector representation (FV w-norm) consistently improves over the standard Fisher vector matching baseline (FV) for all dimensions $d\in\{128,512,2048\}$.
-        }
-        \label{tab:recallFV55k}
-      \end{centering}
-    \end{table}
-
  
   %%%%%%%%%%%%%%%%
 %    \subsection{Memory complexity analysis}
@@ -905,6 +904,16 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 %      \newline
 %      Finally, we have tried the PCA whitening on Fisher vectors of dimensions 128, 512 and 2048 and did not observe any improvement on performance over the baseline. For for the highest dimension we observed significant performance drop ($49.6\%$ to $41.3\%$). This can be explained such that whitening compression did amplify a low-energy noise contained in dimensions. This phenomena was also reported in~\cite{JegouChum12}.
 %}
+
+\subsection{\textcolor{petr}{Failure cases}}
+\textcolor{petr}{
+  
+}
+
+\subsection{\textcolor{petr}{Scalability and time complexity}}
+\textcolor{petr}{
+  
+}
 
 %%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
