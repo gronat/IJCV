@@ -680,7 +680,7 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 
     \paragraph{24/7 Tokyo dataset.}
     \textcolor{petr}{
-      Similarly to Pittsburgh dataset, the 24/7 Tokyo dataset, available at project page of~\cite{Torii2015}, consists of a set of perspective images extracted from Google Streetview. It's $76k$ views covers roughly an area of $1.6 \times 1.6 \; {\rm km}^2$ of the city of Tokyo. The challenging query set has been collected by several appliances such as Apple-iPhone5s and Sony-Xperia smartphones. The query images have been captured at $125$ locations at different time of a day including night. The query set consist of $315$ query images.
+      Similarly to the dataset above the 24/7 Tokyo dataset, available at project page of~\cite{Torii2015}, consists of a set of perspective images extracted from Google Streetview. It's $76k$ views covers roughly an area of $1.6 \times 1.6 \; {\rm km}^2$ of the city of Tokyo. The challenging query set has been collected by several appliances such as Apple-iPhone5s and Sony-Xperia smartphones. The query images have been captured at $125$ locations at different time of a day including night. The query set consist of $315$ query images.
     }
 
 
@@ -923,7 +923,12 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 
 \subsection{\textcolor{petr}{Scalability and time complexity}}
 \textcolor{petr}{
-  todo
+  Our method requires to collect hard negative examples for each location in the database which are consequently used to train e-SVM classifiers. While training the e-SVM classifiers is linear in database size $O(N)$ the hard negative collection has a quadratic complexity $O(N^2)$. This appears to be a bottleneck for scalability. We believe scaling-up towards place recognition in a country level can be achieved with standard compression technique such as Product Quantization (PQ)~\cite{Jegou11} combined with kd-trees~\cite{Flann2014}.
+}
+
+
+\textcolor{petr}{
+    At query time the calibrated e-SVM score~\eqref{eq:linear} must be computed. In case of w-norm method the calibration can be explicitly stored in a weight matrix. For p-val calibration method, each e-SVM score must be calibrated using $K$ stored values of the non-parametric CDF model. This requires to search for two closest values an interpolate between them \eqref{eq:empiricalCDF} which yields complexity of $O(N\log{K})$. Since $K$ is a constant both methods have linear time complexity at query time with different constant.
 }
 
 %%%%%%%%%%%%%%%%%%%%%
