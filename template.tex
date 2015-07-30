@@ -656,8 +656,6 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
     Note that sparsity can be imposed directly on the learnt classifiers $\vec{w}$ by appropriate regularization~\cite{scholkopf2002learning}. However, we found this approach did not yield competitive results \textcolor{petr}{in terms of accuracy}.
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Experimental setup and implementation details}
 \label{sec:experiments}
@@ -669,15 +667,22 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
   \subsection{Image datasets}
   %%%%%%%%%%%%%%%%%%%%%%%%%%
   \textcolor{petr}{
-    The experiments are performed on two different datasets, the Pittsburgh dataset [] and Tokyo 24/7 dataset [].
-
+    The experiments are performed on two different challenging datasets, namely on the Pittsburgh dataset~\cite{Gronat13} contain and the Tokyo 24/7 dataset~\cite{Torii2015}. The details for each are provided next.
   }
-    \paragraph{Image database.}
-      We performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles $4^\circ$ and $28^\circ$ to capture both the street-level scene and the building fa\c{c}ades. This results in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate two datasets. The first smaller dataset covers a smaller area and contains $25$k perspective images.  The second larger dataset contains $55$k images.
+    \paragraph{Pittsburgh dataset.}
+      \textcolor{petr}{
+      First, we performed experiments on a database of Google Streetview images from the Internet. We downloaded panoramas from Pittsburgh (U.S.) covering roughly an area of $1.3 \times 1.2 \; {\rm km}^2$. Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles $4^\circ$ and $28^\circ$ to capture both the street-level scene and the building fa\c{c}ades. This results in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate two datasets. The first smaller dataset covers a smaller area and contains $25$k perspective images.  The second larger dataset contains $55$k images.
+    }
+    \textcolor{petr}{
+      As a query set with known ground truth GPS positions, we use 8999 panoramas from the Google Streetview research dataset~\cite{GoogleResearch}, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.          
+      We generate a test query set such that we first select a panorama at random, and second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize 4,000 query test images. The Pittsburgh dataset is available at~\cite{GronatProjectPage}.
+    }
 
-      \paragraph{Query set.}
-      As a query set with known ground truth GPS positions, we use 8999 panoramas from the Google Streetview research dataset, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.          
-      We generate a test query set such that we first select a panorama at random, and second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize 4,000 query test images. 
+    \paragraph{24/7 Tokyo dataset.}
+    \textcolor{petr}{
+      Similarly to Pittsburgh dataset, the 24/7 Tokyo dataset, available at project page of~\cite{Torii2015}, consists of a set of perspective images extracted from Google Streetview. It's $76k$ views covers roughly an area of $1.6 \times 1.6 \; {\rm km}^2$ of the city of Tokyo. The challenging query set has been collected by several appliances such as Apple-iPhone5s and Sony-Xperia smartphones. The query images have been captured at $125$ locations at different time of a day including night. The query set consist of $315$ query images.
+    }
+
 
 %      \paragraph{Relation to other benchmarks.}
 %%      While out dataset is smaller than the The San Francisco place recognition benchmark~\cite{Chen11} (about 1M images), it has significantly more query images (4,000k vs. about ***).
@@ -704,7 +709,9 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
         
       \paragraph{Fisher vectors.}
         Following~\cite{Jegou12} we project the extracted 128-dimensional rootSIFT~\cite{Arandjelovic12} descriptors to 64 dimensions using PCA. The projection matrix is learnt on a set of descriptors from 5,000 randomly selected database images. This has also the effect of decorrelating the rootSIFT descriptor. The 64-dimensional descriptors are then aggregated into Fisher vectors using a Gaussian mixture model with $N=256$ components, which results in a $2\times256\times64 = 32,768$-dimensional descriptor for each image.  
-        The Gaussian mixture model is learnt from descriptors extracted from 5,000 randomly sampled database images. The  high-dimensional Fisher vector descriptors are then projected down to dimension $d\in\{128,512, 2048\}$ using PCA learnt from all available images in the database. The resulting low dimensional Fisher vectors are then normalized to have unit L2-norm, which we found to be important in practice.
+        The Gaussian mixture model is learnt from descriptors extracted from 5,000 randomly sampled database images. The  high-dimensional Fisher vector descriptors are then projected down to dimension
+        %$d\in\{128,512, 2048\}$ 
+        using PCA learnt from all available images in the database. The resulting low dimensional Fisher vectors are then normalized to have unit L2-norm, which we found to be important in practice.
       
     %%%%%%%%%%%%%%%%%%%%%%%%%%
     \subsection{Parameters of per-location classifier learning}
@@ -820,9 +827,9 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
       \begin{centering}
         \input{tableResultsFVmerge.tex}
         \caption{ 
-          \textcolor{petr}{ TODO:
-            \textbf{Evaluation of the learnt Fisher vector representation on the Pittsburgh 25k \cite{Gronat13} dataset.}
-            The table shows the fraction of correctly recognized queries (recall@K) for the different values of $K\in\{1,2,5,10,20\}$ retrieved database images. The learnt Fisher vector representation (FV \emph{w-norm}) consistently improves over the standard Fisher vector matching baseline (FV) for all dimensions $d\in\{128,512,2048\}$.
+          \textcolor{petr}{
+            \textbf{Evaluation of the learnt Fisher vector representation on the Pittsburgh~\cite{Gronat13} and 24/7~Tokyo dataset~\cite{Torii2015}.}
+            The table shows the fraction of correctly recognized queries (recall@K) for the different values of $K\in\{1,2,5,10,20\}$ retrieved database images. The learnt Fisher vector representation (FV \emph{w-norm}) consistently improves over the standard Fisher vector matching baseline (FV) for all target dimensions.
           }
         }
         \label{tab:recallFV}
@@ -842,14 +849,14 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
         \label{fig:recall}
     \end{figure}
 
-    Results of the proposed per-location learning method for the Fisher vector image representation for different dimensions $d\in\{128, 512, 2048\}$ 
-    are shown in table~\ref{tab:recallFV} and figure~\ref{fig:recall}.
+    Results \textcolor{petr}{on Pirrsburght 25k} dataset of the proposed per-location learning method for the Fisher vector image representation for different dimensions are shown in table~\ref{tab:recallFV} and figure~\ref{fig:recall}.
     Similar to bag-of-visual-words, the learnt representation (w-norm) significantly improves the place recognition performance over the baseline Fisher vector (FV) matching without learning. The improvements are consistent across different lengths of shortlist $K$ and for different dimensionality of the Fisher vector representation. 
+    %
     We report results only for the w-norm calibration as we found that the p-val calibration did not perform well for the learnt Fisher vector classifiers (top 1 recall of $25.3\%$ compared to baseline performance of $33.6\%$ for dimension 128). When examining the results, we believe this may be attributed to the fact that Fisher vectors are low dimensional compared to the extremely high-dimensional (d=100,000) bag-of-visual-words representation, which affects the distribution of the classifier scores on the negative test data. 
     Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:images}. 
 %    The query image is show in the left column and the shortlist of the top four retrieved images is shown on the right. For each query, the first row shows images retrieved by the learnt Fisher vector descriptor for dimension $d=128$, while the second row shows images retrieved by raw Fisher vector of the same dimension.
     
-        Finally, we test the learnt Fisher vector representation on the larger Pittsburgh 55k dataset. As shown in table~\ref{tab:recallFV55k} the proposed per-location learning method still consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist. 
+    Finally, we test the learnt Fisher vector representation on the larger \textcolor{petr}{Pittsburgh 55k and the 24/7 Tokyo datasets}. As shown in table~\ref{tab:recallFV} the proposed per-location learning method still consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist. 
 
 \noindent
         Next, we compare the performance of the two learnt representations relative to their memory footprints.  
@@ -911,12 +918,12 @@ Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, t
 
 \subsection{\textcolor{petr}{Failure cases}}
 \textcolor{petr}{
-  
+ todo 
 }
 
 \subsection{\textcolor{petr}{Scalability and time complexity}}
 \textcolor{petr}{
-  
+  todo
 }
 
 %%%%%%%%%%%%%%%%%%%%%
