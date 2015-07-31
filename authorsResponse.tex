@@ -1,0 +1,303 @@
+
+
+\documentclass[a4paper,12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{titling}
+\usepackage{color}
+\setlength{\droptitle}{-10em}
+
+\title{Author’s response}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2cm}
+We would like to thank the reviewers for their valuable comments and helpful suggestions on further improving the manuscript. We have carefully revised the manuscript and addressed the issues highlighted. The changes in the new manuscript are summarized on this page. Detailed responses to the reviewers can be found on later pages.
+
+\section*{Changes Summary}
+\subsection*{Major changes:}
+\begin{itemize}
+\itemsep0em
+	\item We have rewritten section Introduction. Now, it should be more clear….
+	\item We have rewritten section Related work. This section now contains additional references and discuss relation of our method to LDA and PCA whitening. The contributions of presented work are more concretly specified.
+	\item The section Experimental setup and implementation details contains a new paragraph describing how additional positive examples can be obtained.
+	\item The paragraph Relation to other benchmarks in section Experimental setup and implementation details has been re-witten so that it now clearly explains problems with a ground truth which is not based on GPS coordinates.
+	\item We have applied our method to recent 24/7 Tokyo [cite] dataset and report the results in section Results. This dataset is briefly described in section Experimental setup and implementation details.
+	We have re-implemented the method of [Knopp et al.] and report the results in section Results in Tbale 1.
+	\item We have compared our method to other baselines, namely LDA and PCA whitening, and discuss the results at the end of section Results.
+\end{itemize}
+
+\subsection*{Minor changes:}
+\begin{itemize}
+\itemsep0em
+	\item We have corrected BOW data points in Figure 9.
+	\item The teaser Figure 1 has been resized to single column version.
+	\item Appendix...
+	\item Minor comments of R1...
+	\item Failure modes...
+\end{itemize}
+
+For the reviewer’s convenience we attached a colored difference PDF between the previous paper version and this revision. This PDF was created using latexdiff utility. Note that not all of the changes are marked, for example, latexdiff does not highlight the changes made in the verbatim and lstlisting environments. In the following we show the reviewer comments in black and our responses in blue.
+
+\section*{Reply to Reviewer \#1:} 
+
+This paper considers the problem of image geolocation, with a specific focus on street-level imagery (e.g. from Google Street View). Given a large collection of images each with a GPS tag, the paper proposes to build an exemplar SVM-type model for each individual training image, using other images (specifically, geospatially distant images that are visually similar) as negatives. But this introduces a number of problems, like that a huge number of SVM weight vectors need to be kept around, and that the outputs of all the SVMs need to be calibrated on some meaningful scale. The paper proposes ways of handling both of these problems, using a relatively straightforward but intuitive and effective statistical significance test for the calibration problem, and using a trick based on storing sparse support vectors instead of SVM weights for the former problem. Results are presented on StreetView images of Pittsburgh, using both bag of interest points and Fisher Vectors as features.
+
+This manuscript is based on a CVPR 2013 paper by the same authors, but with substantial additional content, including much better results (mostly due to using Fisher Vectors), additional techniques to reduce memory use and computation time, and additional explanations, analysis, and discussion. I think the additional material here is clearly enough to warrant a journal version.
+
+This is a good paper that should be accepted. The topic is interesting, the explanations are very clear, and the quality of writing is high. The techniques are intuitive and clean, if not particularly earth shattering. The experimental results are convincing. I really enjoyed reading the paper, more so than most any other manuscript I've reviewed recently.
+
+I have a couple of relatively minor high-level complaints, most of which could be fixed relatively easily.
+
+\subsubsection*{1.1}
+First, the intro states that one of the two novelties of the paper is \"to cast the place recognition problem as a classification task and use the available geo-tags to train a classifier for each location in the database\". But this isn't really a novelty, right? Others like [20] also build per-place classifiers using geotags. It would be good to be more precise -- there are plenty of contributions in this paper, but I think this one might be stated a little too generally.
+
+{\color{blue}
+\subsubsection*{Answer:}
+Thank you for pointing this out. To clarify this issue, we have extended the \"Introduction\" and \"Related work\" sections in order to provide wider context and more clearly distinguish our work from others. We also modified the “Contribution” paragraph such that contribution of this work is defined more precisely.
+
+In detail, Li et al., ICCV 2009 [20] addresses the problem of landmark classification, where geo-tags are used for data collection and definition of landmarks clusters. However, their task is very different from the place recognition where the goal is to localize the query image anywhere on the map, not just into pre-defined set of landmarks. Hence, we must deal with the lack of the training data and relatively uniformly distributed imagery across the region of interest. Previous works did not tackle the place recognition problem as a classification task with single (very small number of) examples in the positive class. This formulation, which is new, leads to a non-trivial technical problem of classifier calibration, we are solving in our work. We believe that our formulation has not been used for place recognition before.
+}
+\subsubsection*{1.2}
+Second, it's a little disappointing that the paper doesn't compare to results from other authors, especially since location estimation is by no means a new problem. The CVPR 2013 paper upon which this article is based [15], for example, does report a comparison to another author on the same dataset -- is there are a reason those results were dropped here? It seems like it would be a good thing to leave in.
+     Anyway, the authors go out of their way on Page 8 lines 29-41 to argue for why they are not testing on other datasets, saying that their \"method is not directly to place recognition benchmarks that do not use GPS position as ground truth.\" I'm a bit confused here what argument the authors are trying to make.
+Many (nearly all?) datasets do have GPS ground truth, e.g. [42], [20], [5], right? The domains are different, of course; for instance the Hays \& Efros IM2GPS paper (which probably should be cited here, by the way) certainly had GPS ground truth. Perhaps the difference is that there it is hopeless to build per-location ground truth because they are trying to geolocate on a world-wide scale? But then other techniques like [20], which studies place recognition as a classification task with a discrete set of places, should pose no problem. Also, work in 3D reconstruction has also produced datasets with fine-grained location data, e.g. the Photo Tourism work of Snavely et al or the SFM with MRFs paper of Crandall et al (with the latter reporting quantitative camera position errors wrt ground truth).
+{\color{blue}
+\subsubsection*{Answer:}
+We have added the comparison with (Knopp et al., ECCV 2010 [27]) in Table 1. Please note the results are slightly different to the CVPR 2013 version of our work as we have now a slightly different query set. The different query set was the main reason to omit the original comparison, but we have now re-run our implementation of (Knopp et al.) on the new query set and reported the result.
+
+The note that “the method is not directly to place recognition benchmarks that do not use GPS position as ground truth” was targeted to the San Francisco landmark dataset [4] for which the ground truth, rather than by GPS, is defined based on cartographical id from Geographical Information System. This definition introduces several problems, details are explained below in the comment (2.4). We have now removed the paragraph describing the San Francisco benchmark from the result section.
+
+We agree that it is important to compare to other results and existing baselines. We have added an evaluation on the challenging 24/7 Tokyo data set that has appeared at CVPR 2015 and uses an evaluation based on GPS position. 
+
+We have also added citation to IM2GPS of Hays \& Efros. 
+}
+
+\subsubsection*{1.3}
+To be clear, I don't think an evaluation on another dataset is necessarily needed, because the current results are sufficiently convincing, at least for Street View imagery. But it's less good to try to argue for why one can't compare to existing baselines when that doesn't really seem true, especially because if anything, this argument paints the proposed approach in an unnecessarily bad light: if it's really true that this approach is not applicable to any existing benchmark, that implies that the paper may be trying to solve a problem that is unrealistically specific to a particular new task that the authors invented.
+
+\subsubsection*{Answer:}
+We have removed the paragraph “Relation to other benchmarks” from the text and added evaluation on the 24/7 Toky benchmark (please see above).
+
+\subsubsection*{1.4}
+Finally, as a very minor point, there are a few typos and grammar issues here and there that should be cleaned up in a final draft -- a few examples are below.
+---
+More detailed comments:
+Page 1
+done - Ln 48: only few -> only a few
+done - Not a big deal, but Fig 1 takes up a huge amount of space, isn't very attractive, and doesn't really say very much. I wonder if a smaller, 1-column version wouldn't do?
+todo - minor style thing: probably change \"street-view\" to Street View, at least when referring specifically to the Google imagery.
+Page 2
+done - ln 32, machine -> machines
+Page 3:
+done - ln 3, \"at the same time\": maybe just remove this phrase -- I
+was confused at first, thinking that you were talking about timestamps on photos.
+done - ln 20, \"each linear SVM classifier learns a score sj\": This is a little confusing; actually what is learned is the weight wj and bias bj, in order to accurately predict scores sj, right?
+done - ln 55 -- not sure what the \"(2)\" here is referring to -- is it referring to equation (2) or to some numeric value in the figure?
+Page 5:
+do not like it - ln 32 (4) -> in equation (4)
+done - ln 38 calibrate -> calibrated
+done - ln 51 much -> many
+we will leave it there - I'm not sure that Algorithm 1 and 2 are really needed, given how straightforward the procedure is and how clearly it is explained in the text. On the other hand,
+I guess it doesn't hurt if there is enough space, and perhaps authors already received feedback from someone that it is helpful for clarity.
+Page 7:
+done - ln 21-22 \"Using this representation, the memory footprint is sig- nificantly reduced.\" redundant with line 32, \"As a result, the storage requirements are significantly reduced\"
+done - ln 37-38: \"However, we found this approach did not yield competitive results.\" Does this refer to uncompetitive sparsity (i.e. memory requirements) or uncompetitive accuracies of the resulting classifiers?
+
+\subsubsection*{Answer:}
+We thank Reviewer 1 for all the comments. We have modified the text accordingly.
+
+\subsubsection*{1.5}
+- Minor organizational suggestion: I think it might make sense to discuss how the Fisher vectors are stored first, since that is trivial (just storing the weight matrices). Then next discuss how this is not practical for bag-of-words and then talk about the proposed workaround of storing support vectors instead. The current organization is fine but sort of anti-climatic, since the way Fisher vectors are handled is just the trivial obvious thing to do.
+
+\subsubsection*{Answer:}
+We have re-organized section 6 according to the suggestion. 
+
+\subsubsection*{1.6}
+Page 8:
+done - ln 24 \"we, first\" -> we first
+done - same sentence, random and, second, we -> random, and second, we - ln 17 then-normalized -> then normalized
+done - ln 50 this-normalized -> this normalized
+ Page 9:
+done - I'd suggest combining Tables 2 and 3 together, unless for some reason the numbers aren't comparable?
+\subsubsection*{Answer:}
+We have merged Table 2 and Table 3 together and added new results on Tokyo 24/7 dtataset.
+
+Page 10:
+todo - Ln 40: not perform -> not perform well
+ Page 13:
+
+\subsubsection*{1.7a}
+- Fig 9: This curve is a little confusing and potentially misleading I think. the discussion and plot suggests that BOW has a fixed memory footprint whereas FV footprint is variable, but of course the \# of words could be adjusted to change the space requirements, just like \# of dimensions are adjusted for FVs. It seems that for some reason the authors did not think it was interesting or necessary to try other vocabulary sizes, which may very well be true, but it's misleading to imply that BOW has a fixed memory requirement in general.
+
+\subsubsection*{Answer:}
+The memory footprint of the BOW representation is equal to the sum of (i) the memory footprint of the vocabulary and (ii) the memory footprint of the database. The memory footprint of the vocabulary is in practical situations negligible when compared to the memory footprint of the database. The memory footprint of the database depends on the number of features per image (assuming each feature is quantized to a different visual word, that is almost true for large vocabularies).  Hence, for practical situations (1M images with 2k features per image and 200k vocabulary size), the memory footprint of BOW is constant as a function of the size of vocabulary and linear as a function of the number of images in the database.
+
+\subsubsection*{1.7b}
+Second, the FV curves seem to have 4 discrete points connected by lines, but I thought the FV descriptors were only tested at 3 dimensionalities (128, 512, 2048) [according to Pg 9 ln 59 and Pg 8 ln 9]? (Although pg 12 mentions 256-dimensional FVs so maybe these were tested too?)
+
+
+\subsubsection*{Answer:}
+We have evaluated our experiments for 16k-dimensional FV on 25k Pittsburgh dataset, the results are now included in the submitted manuscript in Table 2. The value of 256 in discussion on Page 12 was interpolated from the graph in Figure 9. The text was modified to clarify this.
+
+\subsubsection*{1.7c}
+Third, section 5 marketed the w-norm technique as being much more memory efficient than the p-val technique, but then from this figure it looks like there's not much difference? Even given the log scale on the x-axis, it looks like may a factor of ~20% or something.
+
+\subsubsection*{Answer:}
+The p-val method requires to store the non-parametric calibration functions which, in our experimental setup, corresponds to 40% overhead w.r.t. the w-norm method (950MB vs 1350MB). As discussed in Section 5, the w-norm method is much more efficient compared to the p-val in terms of time complexity,  not in terms of memory complexity. We have also noticed small inaccuracies in Figure 9 in BOW datapoints. The submitted manuscript contains a corrected plot.
+
+\subsubsection*{1.7d}
+Since one of the key arguments is that the new techniques are more computationally efficient, it seems like a figure like Fig 9 that shows recall versus running time would also be useful. In many applications, runtime may matter much more than memory consumption.
+
+\subsubsection*{Answer:}
+The actual computation times depend on details of implementations and hardware used. To provide general characterization of computational requirements of the methods, we analyze the dependence of online phase of the image based localization on the size of image database in Section 8 - Scalability and time complexity.
+
+\section*{Reply to Reviewer \#2:} 
+The article proposes an approach to visual place recognition, focusing on street images crawled from Google Streetview. The article casts this problem as one of exemplar classification: for each possible image in the dataset, annotated with geo-tag information, an exemplar linear classifier is learned. At test time, the query image is classified using these classifiers, and the localization information of the image with the largest score is propagated to the query image. As multiple classifiers need to compete, calibration of the scores is of high importance.
+
+A preliminary version of this paper appeared in CVPR13. This article extends the conference article in several aspects, high lighting:
+- a new form of calibration based on l2 normalization
+- a memory-efficient classifier representation for BOW features
+- experiments with Fisher vector descriptors
+- Additional details, related work, pseudo-code, etc.
+The technical additions with respect to the conference paper are not large, but overall I consider the additional material sufficient in terms of novelty.
+
+The main strength of the paper is to recast the problem of visual place recognition, which is usually addressed as a large-scale instance-level retrieval, into a classification one, and to provide calibration schemes to make this.
+
+However, the paper has several issues that should be addressed:
+\subsubsection*{2.1}
+- Related work on visual place recognition: I found the related work on visual place recognition to be quite lackluster, in particular, in terms of the differences between the proposed approach and previous works. The article argues that one main difference is that previous works (including the previous version of this work [15], which may be a mistake?) focus on retrieval, while this work casts the problem as discriminative classification. Yet both views are tightly related, see next point.
+
+\subsubsection*{Answer:}  Thank you for pointing out the erroneous reference [15]. It was a typo and is removed in the revised submission. We have also significantly extended the related work section. Please see below the detailed answers.
+
+\subsubsection*{2.2(a)}
+- Retrieval vs classification: The distinction between retrieval and classification is not very clear to me in this context. After all, after computing the exemplar SVM, one can use the vector weights as an embedding of the dataset image that leads to a new vectorial representation (done eg in (Shrivastava et al.. SIGGRAPH Asia, 2011) [A], and consider the task as one of retrieving the dataset image nearest to the query in the embedded space. This is in fact consistent with the accuracy measures used during the experimental evaluation.
+
+\subsubsection*{Answer:}
+We agree with the reviewer that many classification schemes can be viewed as a transformation of feature space followed by a nonlinear function, e.g. thresholding, to make the final decision. We also agree that retrieval, which uses the ordering in  one-dimensional space after the transformation, can be seen as what is done in our paper. However, when comparing our approach to [A], we find the following principal difference. In [A], a linear classifier is trained at query time (online), again and again for every query. This is computationally intensive process and is one of the main limitations of [A] (Please see section 5 “Limitations and Future Work” of [A]). In our case, we train a classifier for every database image beforehand in the off-line stage and hence make the on-line computation much faster. On the other hand, we need to be able to compare outcomes of different classifiers (feature transformations) to be able to compare different database images to the query. That calls for a classifier calibration, which we formulate and address in this work. We have added this discussion into the paragraph “Per-exemplar support vector machines.” in the related work section.
+
+\subsubsection*{2.2.(b)}
+Furthermore, in the case of learning the exemplar classifier using a squared Euclidean loss instead of a hinge loss, it is easy to show that the closed-form solution is equivalent to projecting the feature vectors with PCA and performing whitening, which, as shown for example by Jégou and Chum, ECCV 2012 [B], leads to much improved results in image retrieval. This paper also addresses the issue of normalization, and also suggests to l2 normalize the projected data.
+
+\subsubsection*{Answer:}
+We agree with the reviewer that when using a squared Euclidean loss instead of hinge loss and neglecting SVM regularization, a per-exemplar linear classifier can be obtained by computing w and b by linear discriminant analysis (LDA) in closed form (details are, for example, in (Aubry et al., Transactions on Graphics, 2014 [3]). However, we are using a hinge loss as well as regularization and therefore this type of closed form solution cannot be used in our case.   (Jegou and Chum, [B]) show the benefit of PCA whitening for relatively small BOW dimensions (up to 32k), combining multiple small BOW dictionaries and VLAD image representations. We have implemented linear discriminative analysis and PCA whitening and report the results in a new section “8.4 Comparison to linear discriminant analysis and whitening baselines”.
+
+\subsubsection*{2.2.(c)}
+As one of the main distinctions between this work and previous ones is that it is cast as a classification one, this duality between the tasks should be discussed in more depth.
+
+\subsubsection*{Answer:}
+We have revised the related work section to discuss this issue in more depth. In detail, the related work now discusses the relation of e-SVM, LDA and PCA whitening.
+
+\subsubsection*{2.3}
+- Analysis of per-exemplar SVM and normalization of the weights. The appendix provides an analysis on why the exemplar SVM and the normalization of w are meaningful. The analysis focuses on the case of a true exemplar classifier, where only one positive sample is available. However, during the experimental evaluation, several positive samples per exemplar are in fact used (see page 8, l 35-40, right column). Does the analysis still hold in this case? Additionally, more details about how exactly those additional positive samples are mined would be necessary.
+
+\subsubsection*{Answer:}
+The analysis of the per-exemplar SVM shown in Appendix holds also for expanded positive examples as these extra positives have similar statistics to the original positive image (illumination, capturing conditions, the same camera, etc.). The aim of the analysis is to give an intuition what is the effect of regularization for per-exemplar SVM and why L2 re-normalization works. We have now modified the text in the first paragraph in the Appendix to clarify this. Finally, we have added one paragraph explaining how additional positives affect the situation and why is the analysis still valid.
+Finally, we have added one paragraph in Section 7.3 explaining how additional positiveexamples can be obtained.
+\subsubsection*{2.4}
+- Experimental evaluation. The method is tested on two datasets which, if I understand correctly, are in-house. Is this correct? Are there no public datasets where this method could be tested? Similarly, there is no comparison with any other work as far as I can see. No other method on visual place recognition could be fairly tested with this setup?
+
+\subsubsection*{Answer:}
+We understand the call for comparison to other techniques on publicly available data sets. Therefore, we have added a new comparison to the revised manuscript. We evaluate our method on the challenging 24/7 Tokyo dataset (Torii et al., CVPR 2015 [****]) with queries spanning very different illumination conditions.  The results included in Table 2 show that proposed w-norm calibration method improves the place recognition results over the Fisher vector baselines accross several target dimensions.
+
+However, we would like to point out that the Pittsburgh research dataset that we use as a query set is not \"in house\". The dataset is public, provided by Google on request for research purposes, please see e.g.  [i]. It has also been used by other researchers, e.g. [ii, iii], to test image based localization. The database images used in our work were obtained from Google street-view website. Our exact set of images is available upon email request at: http://www.di.ens.fr/willow/research/perlocation/
+
+ [i] Google company, \"ICMLA 2011 StreetView Recognition Challenge\", http://www.icmla-conference.org/icmla11/challenge.htm”.
+ [ii] Le Barz, C., Thome, N., Cord, M., Herbin, S., \& Sanfourche, M., \"Global Robot Geo-localization Combining Image Retrieval and HMM-based Filtering.\" 6th Workshop on Planning, Perception and Navigation for Intelligent Vehicles. 2014.
+ [iii] Le Barz, C., Thome, N., Cord, M., Herbin, S., \& Sanfourche, M., \"Exemplar based metric learning for robust visual localization\".
+
+We have also performed experiments on the San Francisco dataset [7]. However, the ground truth of San Francisco Dataset is not based on GPS but on estimated visibility and it is difficult to compare results of our approach with [7] on this data.
+
+In detail, the San Francisco dataset [7] defines ground truth based on automatic labelling of buildings visible in each image using a GIS (Geographic Information System), rather than by GPS coordinates. In our analysis, this appears to be quite inaccurate providing a contrived \"ground truth\". Our analysis shows that about 25\% of query images are associated to a place that is further than 200m away from the actual query image position. In extreme cases, the distance is above 1300m. 
+
+%See for instance:
+
+%  Query image         Database image
+
+% 0680.jpg            PCI_sp_11895_37.789516_-122.397865_944089252_10_671122123_313.163_46.7335.jpg
+% 0666.jpg         PCI_sp_13572_37.788961_-122.403157_937861238_22_719558806_52.1819_1.75367.jpg
+% 0293.jpg         PCI_sp_6814_37.788771_-122.400791_944083402_6_671122101_27.8257_22.6376.jpg
+
+% Query image:
+% Ground truth image:
+
+
+
+
+
+
+
+Our method includes automatically mined far-away images into negative training sets. However, such images are often in the positive set using the San Francisco ground truth, which dramatically affects the measured performance. We considered creating a new GPS based ground truth for San Francisco data, but  have finally decided not to as results with such as newly defined ground truth would not be comparable to any previous work. Instead, we have compared on the newly released 24/7 Tokyo dataset (Torii et al., CVPR 2015), which presents a new challenging benchmark across large changes in illumination and contains accurate positional ground truth for all queries.   
+
+
+\subsubsection*{2.5}
+- Bow vs Fisher vectors. It seems that FV clearly outperform the bag of word representations in terms of accuracy. Is there, in the context of place recognition, any advantage of the sparse bow over representations such as fisher vectors or CNN activation features? As it stands, there is currently a section on compression of bow features that does not truly have any relevance.
+
+\subsubsection*{Answer:} We agree with the reviewer that the Fisher vector descriptors outperform the bag-of-visual-words representation. However, we kept the bag-of-visual-words representation in the paper as we compare results (as requested by R1) with Knopp et al. ECCV 2010 [24] who is also based on the bag-of-visual-words model.
+
+
+\subsubsection*{2.6}
+- Complementary of calibration methods. Are the two proposed calibration methods (l2 normalization of the weights and p-value) complementary? could the p-value calibration method be applied after the l2 normalization?
+
+\subsubsection*{Answer:}
+Since e-SVM (with proper regularization) followed by L2 normalization yields a new image representation, one could hypothetically construct the p-val calibration functions from these new representations. However, the main drawback of the p-val method is the lack scalability. The main motivation behind developing calibration by re-normalization was to develop a scalable method providing comparable results, and combining the two methods would not be scalable.
+
+\subsubsection*{2.7}
+- Comparison with standard data whitening. What are the results of applying PCA whitening + L2 norm instead of using an exemplar with a squared hinge loss? This would be interesting to see, as both representations are related.
+
+\subsubsection*{Answer:}
+We have implemented and compare with linear discriminative analysis and PCA whitening and report the results in a new section “8.4 Comparison to linear discriminant analysis and whitening baselines”. 
+
+
+\section*{Reply to Reviewer \#3:} 
+ The paper proposes an approach for visual place recognition using per-location exemplar-SVMs. It is an extension of the authors' previous CVPR 2013 paper.
+
+The authors cast the place recognition problem as a classification task and train per-location exemplar-SVMs, one for each unique location. When training an exemplar-SVM for a location, the positive is the image at that location, and the negatives are images that are geographically at least 200m away. When presented with a new test image, each exemplar-SVM is used to compute a score on the test image, and the one that produces the highest score is used to predict the test image's location. Since the exemplar-SVMs outputs are not directly comparable, the authors propose two ways to calibrate the classifiers. The first uses the Neyman-Pearson framework for hypothesis testing; the main idea is to calibrate the classifiers so that each classifier rejects the same number of negative examples at the same level of the calibrated score. The second simply normalizes the classifier to have unit L2-norm. The authors also present a memory-efficient classifier representation for bag-of-words features that decomposes the W matrix (where each column is a learned exemplar-SVM weight vector) into the product of a sparse matrix of the original bag-of-words descriptors and a sparse matrix of the coefficients (since each exemplar-SVM weight vector can be represented as a linear combination of the support vectors, i.e., bag-of-words descriptors). The authors apply their approach to 25k and 55k Google Streetview images of Pittsburgh, covering roughly an area of $1.3x1.2 km^2$. Results demonstrate that the proposed calibrations lead to significant improvement in location prediction compared to uncalibrated classifiers as well as the base features (SURF bag-of-words and SIFT fisher vectors).
+
+[major comments]
+
+Overall, the proposed approach is technically sound, and the writing is generally clear. I have a few suggestions that I think could improve the paper:
+
+\subsubsection*{3.1}
+- I would like to see more discussion and justification as to why exemplar-SVMs are needed for visual place recognition. The main drawback of exemplar-SVMs is that they are computationally expensive for training as the number of classifiers scale linearly in the number of positive images. The authors have shown results on a relatively small dataset (25k and 55k images). I'm worried that this approach will not scale to larger regions (e.g., country-scale or world-scale); the authors in the intro state that \"Google street-view of France alone contains more than 60 million panoramic images\".
+Could the authors comment on scalability to such large datasets?
+
+\subsubsection*{Answer:}
+The exemplar-SVMs used in our work are linear SVMs. Hence the complexity of training for one database image is O(M), where M is the number of training examples. We use constant M(=500) and therefore the time complexity of training all classifiers is linear w.r.t. the database size. When scaling up to the country-scale the bottleneck could be collecting the top hard negatives for each database image. However, even this could be done efficiently using approximate nearest neighbour search:
+Jegou et al., Product Quantization for Nearest Neighbor Search, Pattern Analysis and Machine Intelligence, IEEE Transactions on  (Volume:33 ,  Issue: 1 ), 2010. We have addressed scalability and time complexisty in Section 8 - scalability and time complexity. 
+
+
+\subsubsection*{3.2}
+- Related to the above, I would like to see an experiment where the authors try using features computed with deep convolutional neural networks (pre-trained on ImageNet or MIT Places database). This could be done either with or without SVM training (i.e., if without, just taking L2 distance between the fc7 features). I think this would be a simple but interesting experiment to try, and it would be good to include discussion on what is observed.
+
+TODO:
+Shell we do CNN or argue in order not to do it?
+\subsubsection*{Answer:}
+intersting possibility which is… future work but beyond the scope of the paper…. TODO
+
+\subsubsection*{3.3}
+- It would be good to show and discuss qualitative examples (similar to Figs 6 and 8) in which the baseline feature representations outperform the proposed approach. This would help the reader better understand the failure modes.
+
+TODO: Petre needs to be addressed.
+
+Find failure case and try to say something about it. This will be super hard for FV
+\subsubsection*{Answer:}
+
+\subsubsection*{3.4}
+- p.10, L43-49: \"When examining the results, ...\" Could the authors please elaborate on this sentence? I am still unclear as to why the p-value calibration did not perform well for Fisher vectors.
+“We report results only for the w-norm calibration as we found p-val calibration did not perform for the learnt Fisher vector classifiers (top 1 recall of 25.3\% compared to baseline performance of 33.6\%). When examining the results, we believe this may be attributed to the fact that Fisher vectors are low dimensional compared to the extremely high-dimensional (d=100,000) BOW representation, which affects the distribution of the classifier scores on the negative test data.”
+
+\subsubsection*{Answer:}
+TODO: Petre needs to be addressed. Please, add few sentences on this here and in the paper. The answer here should say: We have added a clarification of this issue in section xx.xx.  
+
+[minor comments]
+- The figure and table placements could be improved. Some of the figures appear a few pages after they are referred to in text.
+- p.9, L28: remove space after \"section 8.1\"
+- p.9, L45: table 2 -> table 1
+- p.9, L52: figure 8 -> figure 6 - p.10, L50: figure 6 -> figure 8
+
+
+
+
+\end{document}

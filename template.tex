@@ -152,10 +152,10 @@ placed here. General acknowledgments should be placed at the end of the article.
 
 \begin{figure}[th]
   \textbf{
-    \hspace{0.05\linewidth} Calibrated e-SVMs classifiers \hspace{0.15\linewidth} Retrieved locations \hspace{0.05\linewidth}
+    \hspace{0.15\linewidth}Query image\hspace{0.3\linewidth} Retrieved locations \hspace{0.05\linewidth}
   }
   \includegraphics[width=1.0\linewidth]{imgs/titleVertical.pdf}
-  \textbf{\textcolor{white}{\quad\quad}Query image}
+  \textbf{\textcolor{white}{\quad\quad}Calibrated e-SVMs classifiers}
   \caption{
           The goal of this work is to localize a query photograph (left bottom) by finding other images of the same place in a large geotagged image database (right column). We cast the problem as a classification task and learn a classifier for each location in the database. 
           We develop two procedures to calibrate the outputs of the large number of per-location classifiers without the need for additional labeled training data.
@@ -783,10 +783,10 @@ The dataset is available upon request at~\cite{Torii15project}.
         \label{fig:recallBOW}
     \end{figure}
 
-    Results for the bag-of-visual-words image representation are shown in table~\ref{tab:recallFV}. %  and figure~\ref{fig:recallBOW}. 
+    Results for the bag-of-visual-words image representation are shown in table~\ref{tab:recallBOW}. %  and figure~\ref{fig:recallBOW}. 
     Learning per-location classifiers with either calibration method (\emph{p-val} and \emph{w-norm}) clearly improves over the standard bag-of-visual-words baseline (BOW) that does not perform any learning. In addition, both calibration methods significantly improve over the learnt SVM classifiers without any calibration (BOW SVM no calib) underscoring the importance of calibration for the independently learnt per-location classifiers.  
  \textcolor{petr}{
-    In table~\ref{tab:recallFV}, we also compare performance to our implementation of the confuser suppression approach (Conf. supp.) of~\cite{Knopp2010} that, in each database image, detects and removes features that frequently appear at other far-away locations (using parameters $t=3.5$ and $w=70$). The results show an improvement by our method, specially at recall@1.
+    In table~\ref{tab:recallBOW}, we also compare performance to our implementation of the confuser suppression approach (Conf. supp.) of~\cite{Knopp2010} that, in each database image, detects and removes features that frequently appear at other far-away locations (using parameters $t=3.5$ and $w=70$). The results show an improvement by our method, specially at recall@1.
     } 
     Inspecting the detailed plots in figure~\ref{fig:recallBOW} we further note that the  \emph{p-val} calibration performs slightly better than the \emph{w-norm} calibration for shorter top $K$ shortlists but this effect is reversed for larger $K$. This could be attributed to the fact that the \emph{p-val} calibration uses the negative data to control false positive errors, but has less control over false negatives, as discussed in section~\ref{sec:discussion}. 
 
@@ -946,7 +946,11 @@ However, we believe that scaling-up towards place recognition in entire cities i
 %}
 
 \textcolor{petr}{
-    At query time our method needs to compute the calibrated e-SVM score~\eqref{eq:linear} of the query for each image in the database. In the case of w-norm method the calibration weights can be included in the classifier weight matrix, as discussed in section~\ref{sec:memory}. For the p-val calibration method, each e-SVM score must be calibrated using $K$ stored values of the non-parametric CDF model. This requires a search for the two closest values and subsequent interpolation, which yields complexity of $O(N\log{K})$. Since $K$ is only a constant both methods have a linear time complexity at query time. Again, the query time can be sped-up using sub-linear approximate nearest neighbor search~\cite{Flann2014} on compressed descriptors~\cite{Jegou11}.    
+    At query time our method needs to compute the calibrated e-SVM score~\eqref{eq:linear} of the query for each image in the database. In the case of w-norm method the calibration weights can be included in the classifier weight matrix, as discussed in section~\ref{sec:memory}. For the p-val calibration method, each e-SVM score must be calibrated using $K$ stored values of the non-parametric CDF model. This requires a search for the two closest values and subsequent interpolation, which yields complexity of $O(N\log{K})$. Since $K$ is only a constant both methods have a linear time complexity at query time. The actual running time per query is $340ms$ for the bag-of-visual-words representation with p-val calibration and $3ms$ for the FV128 descriptor with w-norm calibration. Both timings are on the 25k Pittsburgh dataset on a desktop with ***.    
+%   Again, the query time can be sped-up using sub-linear approximate nearest neighbor search~\cite{Flann2014} on compressed descriptors~\cite{Jegou11}.    
+%=======
+%    At query time the calibrated e-SVM score~\eqref{eq:linear} must be computed. In case of w-norm method the calibration can be explicitly stored in a weight matrix. For p-val calibration method, each e-SVM score must be calibrated using $K$ stored values of the non-parametric CDF model. This requires to search for two closest values an interpolate between them \eqref{eq:empiricalCDF} which yields complexity of $O(N\log{K})$. Since $K$ is a constant both methods have linear time complexity at query time with different constant. The actual running time per query on bag-of-words is $340ms$ for p-val calibration and $3ms$ for w-norm method.
+%>>>>>>> e8ac2ebdb38bb1a9fd90abfcbb4514b92c182702
 }
 
 %%%%%%%%%%%%%%%%%%%%%
