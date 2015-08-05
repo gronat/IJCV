@@ -865,12 +865,12 @@ The dataset is available upon request at~\cite{Torii15project}.
     % When examining the results, we believe this may be attributed to the fact that Fisher vectors are low dimensional compared to the extremely high-dimensional (d=100,000) bag-of-visual-words representation, which affects the distribution of the classifier scores on the negative test data.  
     %
     \textcolor{petr}{
-      When examining the results, we believe this may be attributed to the different distribution of the Fisher vector descriptors and lack of data points that represent the extreme values of the cdf.
+      When examining the results, we believe this may be attributed to the different distribution of the Fisher vector descriptors and lack of available data points that represent the extreme values of the cdf.
     }
 
      \textcolor{petr}{
-    Note that the proposed per-location learning method consistently improves performance over the raw Fisher vector descriptors on the larger Pittsburgh 55k dataset and the challenging 24/7 Tokyo dataset (76k images).}
-   Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:images}. 
+    Notice that the proposed per-location learning method consistently improves performance over the raw Fisher vector descriptors on the larger Pittsburgh 55k dataset and the challenging 24/7 Tokyo dataset (76k images).} 
+    Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:images}. 
 %    The query image is show in the left column and the shortlist of the top four retrieved images is shown on the right. For each query, the first row shows images retrieved by the learnt Fisher vector descriptor for dimension $d=128$, while the second row shows images retrieved by raw Fisher vector of the same dimension.    
 %    Finally, we test the learnt Fisher vector representation on the larger \textcolor{petr}{Pittsburgh 55k and the 24/7 Tokyo datasets}. As shown in table~\ref{tab:recallFV} the proposed per-location learning method still consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist. 
 \noindent
