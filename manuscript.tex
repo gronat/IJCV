@@ -144,7 +144,7 @@ placed here. General acknowledgments should be placed at the end of the article.
   Second, as only a few positive training examples are available for each location, we propose 
   two methods to calibrate all the per-location SVM classifiers without the need for additional positive training data.
   The first method relies on p-values from statistical hypothesis testing and uses only the available negative training data. The second method performs an affine calibration by appropriately normalizing the learnt classifier hyperplane and does not need any additional labelled training data. We test the proposed place recognition method with the bag-of-visual-words and Fisher vector image representations suitable for large scale indexing. 
-  \textcolor{petr}{  
+  {  
     Experiments are performed on three datasets: 25,000 and 55,000 geotagged street view images of Pittsburgh, and the
     % new challenging 
     24/7 Tokyo benchmark containing $76,000$ images with varying illumination conditions. The results show improved place recognition accuracy of the learnt image representation over direct matching of raw image descriptors.
@@ -173,7 +173,7 @@ placed here. General acknowledgments should be placed at the end of the article.
   Examples include: (i) building an explicit 3D reconstruction of the scene~\cite{Irschara2009,Li10,Li12}; (ii) constructing an image graph~\cite{Cao13,Philbin10c,Turcot09}, where images are nodes and edges connect close-by images on the map~\cite{Torii11}, or (iii) using the geotagged data as a form of supervision to select local features that characterize a certain location~\cite{Knopp2010,Schindler07} or re-rank retrieved images~\cite{Zamir10}.
 
   In this work, we also take advantage of geotags as an available form of supervision and investigate whether the place recognition problem can be cast as a classification task.
-  \textcolor{petr}{
+  {
     Learning visual classifiers has been investigated for landmark recognition~\cite{Li09} where consumer photographs were clustered into landmark classes based on geo-tags. 
     In this work we wish to recognize individual street locations rather than a small number of landmarks, and as a consequence have only a few (1-5) photographs available for each place.  In particular, we train a classifier {\em for each location on the map} in a similar manner to per-exemplar classification in object recognition~\cite{Malisiewicz11}. 
   }
@@ -193,7 +193,7 @@ placed here. General acknowledgments should be placed at the end of the article.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-	\textcolor{petr}{
+	{
 	   The task of geo-localizing a given input query photograph has recently received considerable attention. The output can be a coarse geo-localization on the level of continents and cities~\cite{Doersch12,Hays2008,Kalogerakis09} or a name of the depicted landmark~\cite{Li09}.  In this work we focus on visually recognizing the ``same place" by finding an image in geo-tagged database that depicts the same building facade or street-corner as shown in the query~\cite{Chen11,Cummins09,Knopp2010,Schindler07,Torii2013,Zamir10}.
   }
 
@@ -205,7 +205,7 @@ placed here. General acknowledgments should be placed at the end of the article.
   \paragraph{Per-exemplar support vector machines.} 
     The exemplar support vector machines (e-SVM) has been used in a number of visual recognition tasks including category-level recognition~\cite{Malisiewicz11}, cross-domain retrieval~\cite{Shrivastava11}, scene parsing~\cite{Tighe13} or as an initialization  for more complex discriminative clustering models~\cite{Doersch12,Singh12}. The main idea is to train a linear support vector machine (SVM) classifier from a single positive example and a large number of negatives. The intuition is that the resulting weight vector will give a higher weight to the discriminative dimensions of the positive training data point and will down weight dimensions that are non-discriminative with respect to the negative training data. 
     
-    \textcolor{petr}{
+    {
       The exemplar support vector machine can be learnt at query time where the weight vector is used as a new query image representation~\cite{Shrivastava11}. However, this requires training a new classifier afresh for each query that is computationally very demanding. In this work, similar to~\cite{Malisiewicz11} who learn per-exemplar object category representation, we learn per-exemplar classifiers for each place in the database off-line.  A key advantage is that each per-exemplar classifier is trained independently and hence the learning can be heavily parallelized. The per-exemplar training brings, however, also an important drawback. As each classifier is trained independently a careful calibration of the resulting classifier scores is required~\cite{Malisiewicz11}.
       }
       
@@ -216,14 +216,14 @@ placed here. General acknowledgments should be placed at the end of the article.
   
 
   \paragraph{Linear discriminant analysis and whitening.}
-    \textcolor{petr}{
+    {
       Our work is also related to linear discriminative transformations of feature space that have shown good performance in object recognition~\cite{Gharbi12,Hariharan12} and 2D-3D alignment~\cite{Aubry13,Aubry14}. While conceptually the idea of finding a discriminative projection of the original feature space is similar to our work, the main difference is in the used loss function. 
       While we use hinge loss~\cite{scholkopf2002learning} to train the new discriminative representation of each place,~\cite{Aubry13,Gharbi12,Hariharan12} use the Euclidean loss. The advantage of using the Euclidean loss is that the discriminative projection can be computed in closed form. The resulting projection is tightly related to Linear Discriminant Analysis and whitening the feature space~\cite{Aubry13,Gharbi12,Hariharan12}. Such whitened representations have shown promise for image retrieval~\cite{JegouChum12} or matching HOG~\cite{Dalal05} descriptors~\cite{Doersch13}, however, we have found they do not perform well for place recognition.
     }
 
 \paragraph{Contributions.} 
   This paper has two main contributions. 
-  \textcolor{petr}{
+  {
     First, we cast the place recognition problem as a classification task where we use the available geo-tags as a weak form of supervision to train a classifier for each location in the database (section~\ref{sec:classifiers}).
     These classifiers are subsequently used for ranking the database images at query time.
   } 
@@ -252,7 +252,7 @@ placed here. General acknowledgments should be placed at the end of the article.
    \subsection{Learning per-location SVM classifiers }
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       Each linear SVM classifier %learns 
-      \textcolor{petr}{generates} a score $s_j$ of the form 
+      {generates} a score $s_j$ of the form 
       %
       \begin{align}
         s_j(\vec{q})=\vec{q}^T \vec{w}_j+b_j
@@ -278,7 +278,7 @@ placed here. General acknowledgments should be placed at the end of the article.
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \subsection{The need for calibrating classifier scores}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    Since the classification scores $s_j$ are learned independently for each location $j$, they cannot be directly used for place recognition as in eq.~\eqref{eq:class}. As illustrated in figure~\ref{fig:calib}, for a given query $\vec{q}$, a classifier from an incorrect location (b) can have a higher score \textcolor{petr}{(eq.~\eqref{eq:linear})} than the classifier from the target location (a). Indeed, the SVM score is a signed distance from the discriminating hyperplane and is a priori not comparable between different classifiers. This issue is addressed by calibrating scores of the learnt classifiers. The goal of the calibration is to convert the output of each classifier into a probability (or in general a ``universal" score), which can be meaningfully compared across classifiers. In the following two sections we develop two classifier calibration methods that do not need additional labelled positive examples.
+    Since the classification scores $s_j$ are learned independently for each location $j$, they cannot be directly used for place recognition as in eq.~\eqref{eq:class}. As illustrated in figure~\ref{fig:calib}, for a given query $\vec{q}$, a classifier from an incorrect location (b) can have a higher score {(eq.~\eqref{eq:linear})} than the classifier from the target location (a). Indeed, the SVM score is a signed distance from the discriminating hyperplane and is a priori not comparable between different classifiers. This issue is addressed by calibrating scores of the learnt classifiers. The goal of the calibration is to convert the output of each classifier into a probability (or in general a ``universal" score), which can be meaningfully compared across classifiers. In the following two sections we develop two classifier calibration methods that do not need additional labelled positive examples.
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%  
 \section{Non-parametric calibration of the  SVM-scores from negative examples only}
@@ -316,7 +316,7 @@ In particular, the method estimates the significance of the score of a test exam
       Computing $\hat{F}_0$ exactly would require to store all the SVM scores for all the calibration data for all classifiers, so in practice, we only keep a fraction of the larger scores.
       We also interpolate the empirical cdf between consecutive datapoints so that instead of being a staircase function it is a continuous piecewise linear function such as illustrated in figure~\ref{fig:calib}. Given a query, we first compute its SVM score $s_q$ and then compute the calibrated probability $f(q)=\hat{F}_0(s_q)$.
       We obtain a similar calibrated probability $f_j(q)$ for each of the SVMs associated with each of the target locations, which can now be ranked.
-      %\textcolor{petr}{
+      %{
       Two other examples of score calibration functions are shown in figure~\ref{fig:3qVSw} in section~\ref{sec:results}. 
 %      Each plot contains its calibration cdf for the particular target image and circles denote calibrated SVM score for three different images. 
       Note that while figure~\ref{fig:calib} illustrates only few points on the cdf, the two plots in figure~\ref{fig:3qVSw} show a complete cdf that contains on the order of $25k$ data points. Note also that the two cumulative density functions in figure~\ref{fig:3qVSw} are similar but not identical.
@@ -572,7 +572,7 @@ In particular, the method estimates the significance of the score of a test exam
     where each column corresponds to vector $\vec{\alpha}$ from \eqref{eq:dual}. 
     %Using this representation, the memory footprint is significantly reduced. 
     Instead of storing all (non-sparse) weight vectors $\mathcal{W}$, which has memory complexity $O(dN)$ where $d$~(= 100,000) is the dimensionality of the image representation and $N$ is the size of the database, we store two sparse matrices $\mathcal{X}$ and $\mathcal{A}$, which has memory complexity $O(mN+kN)$ where $m$~(=2,000) is the number on non-zero elements in the original bag-of-visual-word descriptors, and $k$ is the typical number of support vectors. In our case $k$ is about the size of the training data which is around 500. As a result, the storage requirements are significantly reduced. For example, for a database of 1M images the dual representation requires only about 10 GB of storage compared to 400GB for directly storing classifiers $\mathcal{W}$.  
-    Note that sparsity can be imposed directly on the learnt classifiers $\vec{w}$ by appropriate regularization~\cite{scholkopf2002learning}. However, we found this approach did not yield competitive results \textcolor{petr}{in terms of accuracy}.
+    Note that sparsity can be imposed directly on the learnt classifiers $\vec{w}$ by appropriate regularization~\cite{scholkopf2002learning}. However, we found this approach did not yield competitive results {in terms of accuracy}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -585,21 +585,21 @@ In particular, the method estimates the significance of the score of a test exam
   %%%%%%%%%%%%%%%%%%%%%%%%%%
   \subsection{Image datasets}
   %%%%%%%%%%%%%%%%%%%%%%%%%%
-    \textcolor{petr}{
+    {
       Experiments are performed on two datasets, the Pittsburgh place recognition dataset~\cite{Gronat13} and the Tokyo 24/7 dataset~\cite{Torii2015}. 
       %The details are provided next.
     }
     \paragraph{Pittsburgh dataset.}
-      \textcolor{petr}{
+      {
         The first dataset contains Google Street View panoramas downloaded from the Internet covering an area of $1.3 \times 1.2 \; {\rm km}^2$ of the city of Pittsburgh (U.S.). Similar to~\cite{Chen11}, we generate for each panorama 12 overlapping perspective views corresponding to two different elevation angles $4^\circ$ and $28^\circ$ to capture both the street-level scene and the building fa\c{c}ades. This results in a total of 24 perspective views each with $90^\circ$ FOV and resolution of $960 \times 720$ pixels. In this manner we generate two versions of this dataset. The first version covers a smaller area and contains $25$k perspective images.  The second larger dataset contains $55$k images.
       }
-      \textcolor{petr}{
+      {
         As a query set with known ground truth GPS positions, we use 8999 panoramas from the Google Street View research dataset~\cite{GoogleResearch}, which cover approximately the same area, but were captured at a different time, and typically depict the same places from different viewpoints and under different illumination conditions.          
         We generate a test query set such that we first select a panorama at random, and second, we generate a perspective image with a random orientation and random elevation pitch. This way we synthesize 4,000 query test images. Both the query and database images are available upon request at~\cite{GronatProjectPage}.
       }
 
     \paragraph{24/7 Tokyo dataset.}
-      \textcolor{petr}{
+      {
         The 24/7 Tokyo dataset~\cite{Torii2015} contains Google Street View panoramas downloaded from the Internet covering an area of $1.6 \times 1.6 \; {\rm km}^2$ of the city of Tokyo. The dataset contains 76k perspective views. The query set contains 315 query images from 105 distinct locations captured by different types of camera phones. This dataset is very challenging as each location is captured at three different times: during day, at sunset and during night. 
         The dataset is available upon request at~\cite{Torii15project}.
         %has been collected by several appliances such as Apple-iPhone5s and Sony-Xperia smartphones. The query images have been captured at $125$ locations at different time of a day including night. The query set consist of $315$ query images.
@@ -628,8 +628,8 @@ In particular, the method estimates the significance of the score of a test exam
       In other words, the negative training data consists of the hard negative images, i.e. those that are similar to image $j$ but are far away from its geographical position, hence, cannot have the same visual content. 
       The \emph{positive training set} $\mathcal P_j$ consist of the descriptor $\vec{x}_j$ of the target image $j$. 
       
-      We found that for the bag-of-visual-words representation it was useful to further expand~\cite{Chum07b} positive training set by close by images that view the same scene structures. These images can be identified by geometric verification \cite{Philbin07} \textcolor{petr} {as follows.}
-      \textcolor{petr}{
+      We found that for the bag-of-visual-words representation it was useful to further expand~\cite{Chum07b} positive training set by close by images that view the same scene structures. These images can be identified by geometric verification \cite{Philbin07}  {as follows.}
+      {
         We first build a graph where each image in the database represents a node and an edge represents a spatial adjacency in the world. An edge is present if the positions of the two images are within $50m$ of each other.
         Then, we score each edge by the number of geometrically verified matches~\cite{Philbin07}. Finally, we remove edges with score below a threshold of $t_m = 40$ matches. %The graph represents visual overlap between images. 
         It is worth noting that the graph contains many isolated nodes. This typically indicates that the viewpoint change between two adjacent panoramas is large. For each image in the database, we include between zero and five extra positive examples that are directly connected in the graph.
@@ -647,7 +647,7 @@ In particular, the method estimates the significance of the score of a test exam
 \label{sec:results}
 %%%%%%%%%%%%%%%%%%%%
   We evaluate the proposed per-location classifier learning approach on two different image descriptors: the bag-of-visual-words model (section~\ref{sec:bow_results}) and Fisher vectors (section~\ref{sec:fisher_restuls}).  We also compare the recognition accuracy of the two learnt representations relative to their compactness measured by their memory footprint (section~\ref{sec:memory_results}).
-  \textcolor{petr}{  
+  {  
     Finally, we compare results to linear discriminant analysis (LDA) and whitening baselines (section~\ref{sec:LDA}), outline the main failure modes (section~\ref{sec:failures}) and discuss the scalability of our method (section~\ref{sec:scalability}).  
   } 
 %  Finally, we also evaluate the dependence of the recognition accuracy on the memory requirements (section~\ref{sec:memory_results}).
@@ -662,7 +662,7 @@ In particular, the method estimates the significance of the score of a test exam
 %
     Results for the bag-of-visual-words image representation are shown in table~\ref{tab:recallBOW}. %  and figure~\ref{fig:recallBOW}. 
     Learning per-location classifiers with either calibration method (\emph{p-val} and \emph{w-norm}) clearly improves over the standard bag-of-visual-words baseline (BOW) that does not perform any learning. In addition, both calibration methods significantly improve over the learnt SVM classifiers without any calibration (BOW SVM no calib) underscoring the importance of calibration for the independently learnt per-location classifiers.  
-    \textcolor{petr}{
+    {
       In table~\ref{tab:recallBOW}, we also compare performance to our implementation of the confuser suppression approach (Conf. supp.) of~\cite{Knopp2010} that, in each database image, detects and removes features that frequently appear at other far-away locations (using parameters $t=3.5$ and $w=70$). The results show an improvement by our method, specially at recall@1.
     }
 
@@ -708,7 +708,7 @@ In particular, the method estimates the significance of the score of a test exam
       \begin{centering}
         \input{tableResultsFVmerge.tex}
         \caption{ 
-          \textcolor{petr}{
+          {
             \textbf{Evaluation of the learnt Fisher vector representation on the Pittsburgh~\cite{Gronat13} and 24/7~Tokyo~\cite{Torii2015} datasets.}
             The table shows the fraction of correctly recognized queries (recall@K) for the different values of $K\in\{1,2,5,10,20\}$ retrieved database images. The learnt Fisher vector representation (FV \emph{w-norm}) consistently improves over the standard Fisher vector matching baseline (FV) for all target dimensions.
           }
@@ -722,7 +722,7 @@ In particular, the method estimates the significance of the score of a test exam
     Similar to bag-of-visual-words, the learnt representation (w-norm) significantly improves the place recognition performance over the baseline Fisher vector (FV) matching without learning. The improvements are consistent across different lengths of shortlist $K$ and for different dimensionality of the Fisher vector representation. 
     %
     We report results only for the w-norm calibration as we found that the p-val calibration did not perform well for the learnt Fisher vector classifiers (top 1 recall of $25.3\%$ compared to baseline performance of $33.6\%$ for dimension 128). 
-    \textcolor{petr}{
+    {
       When examining the results we have observed that for bag-of-visual-words the cdf estimated on the database well represents the scores of (unseen) negative query images at test time. However, this is not the case for Fisher vectors where estimated cdf on the database does not represent well the scores of negative query images at test time. The scores of (unseen) negative query images often fall outside of the estimated cdf or at the very tail that is only sparsely sampled.  As a result the estimated query image p-values for Fisher vectors are often over-confident  and incorrect.
     }
     %%% PLOT:                           FV recall curves              %%%
@@ -751,12 +751,12 @@ In particular, the method estimates the significance of the score of a test exam
         \label{fig:memory}
     \end{figure}
 %
-  \textcolor{petr}{
+  {
     Notice that the proposed per-location learning method consistently improves performance over the raw Fisher vector descriptors on the larger Pittsburgh 55k dataset and the challenging 24/7 Tokyo dataset (76k images).
   } 
   Examples of correctly and incorrectly localized queries are shown in figure~\ref{fig:images}. 
   %    The query image is show in the left column and the shortlist of the top four retrieved images is shown on the right. For each query, the first row shows images retrieved by the learnt Fisher vector descriptor for dimension $d=128$, while the second row shows images retrieved by raw Fisher vector of the same dimension.    
-  %    Finally, we test the learnt Fisher vector representation on the larger \textcolor{petr}{Pittsburgh 55k and the 24/7 Tokyo datasets}. As shown in table~\ref{tab:recallFV} the proposed per-location learning method still consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist. 
+  %    Finally, we test the learnt Fisher vector representation on the larger {Pittsburgh 55k and the 24/7 Tokyo datasets}. As shown in table~\ref{tab:recallFV} the proposed per-location learning method still consistently improves the performance over the raw Fisher vector descriptors across the different descriptor dimensions and lengths of the shortlist. 
   \noindent
   Next, we compare the performance of the two learnt representations relative to their memory footprints.  
 %   
@@ -769,7 +769,7 @@ In particular, the method estimates the significance of the score of a test exam
       Ideally, we wish to learn a more compact representation, that still improves the recognition accuracy. However, usually there is a trade-off between the discriminative power of the representation and its size, where having a more compact representation reduces the recognition accuracy~\cite{Jegou12}. We observe a similar behavior but our learnt representation results in a higher recognition accuracy for a given size, or alternatively, significantly reduces the size of the representation for a given accuracy.   
       The results are summarized in figure~\ref{fig:memory}.
       % Figure~\ref{fig:memory} compares the performance of the proposed per-location learning method for the two different image representations  compared to their memory requirements. 
-      The figure shows the recognition performance (y-axis) for the different dimensionality of the Fisher vector representation, which corresponds to different memory footprints (x-axis). For example, for $d=128$ the memory footprint is about 24~MB, whereas for $d=2048$ the memory footprint is about 384~MB. Note that the x-axis is in log-scale. The bag-of-visual-words representation has a fixed dimensionality (and fixed memory footprint) and hence each bag-of-visual-words method is shown only as a single point on the graph.  For Fisher vectors, the results demonstrate that for a given level of accuracy (y-axis) the proposed method learns a more compact (lower-dimensional) representation (x-axis). For example, our learnt 128-dimensional descriptor (memory footprint of 24 MB) achieves a similar accuracy (around 65\%) as the 256-dimensional raw Fisher descriptor (memory footprint of 51MB, \textcolor{petr}{interpolated from figure~\ref{fig:memory}}). This corresponds to 50\% memory savings for the same level of recognition performance. Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the FV baseline and our method. The results also demonstrate the benefits of using the compact FV descriptors compared to the bag-of-visual-words baseline achieving significantly better recognition accuracy for a similar memory footprint.
+      The figure shows the recognition performance (y-axis) for the different dimensionality of the Fisher vector representation, which corresponds to different memory footprints (x-axis). For example, for $d=128$ the memory footprint is about 24~MB, whereas for $d=2048$ the memory footprint is about 384~MB. Note that the x-axis is in log-scale. The bag-of-visual-words representation has a fixed dimensionality (and fixed memory footprint) and hence each bag-of-visual-words method is shown only as a single point on the graph.  For Fisher vectors, the results demonstrate that for a given level of accuracy (y-axis) the proposed method learns a more compact (lower-dimensional) representation (x-axis). For example, our learnt 128-dimensional descriptor (memory footprint of 24 MB) achieves a similar accuracy (around 65\%) as the 256-dimensional raw Fisher descriptor (memory footprint of 51MB, {interpolated from figure~\ref{fig:memory}}). This corresponds to 50\% memory savings for the same level of recognition performance. Note that similar to~\cite{Jegou12}, we observe decrease in performance at high-dimensions for both the FV baseline and our method. The results also demonstrate the benefits of using the compact FV descriptors compared to the bag-of-visual-words baseline achieving significantly better recognition accuracy for a similar memory footprint.
 
       %%% FIGURE:                         Visualization of removed visual words   %%%
   \begin{figure*}[]
@@ -790,10 +790,10 @@ In particular, the method estimates the significance of the score of a test exam
       \setcounter{figure}{7}
   \end{figure*}
 
-%  \subsection{\textcolor{petr}{Relation to other baselines.}}
-  \subsection{\textcolor{petr}{Comparison to linear discriminant analysis (LDA) and whitening baselines}}
+%  \subsection{{Relation to other baselines.}}
+  \subsection{{Comparison to linear discriminant analysis (LDA) and whitening baselines}}
   \label{sec:LDA}
-    \textcolor{petr}{
+    {
       We have compared our method to the linear discriminant analysis (LDA)~\cite{Aubry13,Hariharan12,Gharbi12} and whitening~\cite{JegouChum12} baselines. Results are reported on the Pittsburgh $25k$ dataset. The LDA baseline finds a discriminative linear projection of the feature space by minimizing an Euclidean loss rather than hinge loss used in our work. In detail, following~\cite{Aubry13} we have used all available database to learn the covariance matrix and used calibrated LDA score (see~\cite{Aubry13} eq.~11) to obtain a classifier for each database image.  
       We have applied the LDA method on the 128-dimensional Fisher vector descriptor but have obtained significantly worse performance ($31.9\%$ for recall@1) than our method (recall@1 of 38.3\%).
       % but did not observed any improvement with respect to the raw FV descriptor baseline ($31.9\%$ for recall@1) but that is significantly worse than our method (recall@1 of 38.3\%). 
@@ -824,32 +824,32 @@ In particular, the method estimates the significance of the score of a test exam
     \end{figure*}
 
 
-  \subsection{\textcolor{petr}{Analysis of improvement and failure cases}}
+  \subsection{{Analysis of improvement and failure cases}}
   \label{sec:failures}
-      \textcolor{petr}{
+      {
         We have examined the improvement and failures of the w-norm method w.r.t. the Fisher vector baseline on the Pittsburgh 25k dataset. We analyzed the cases for which the w-norm method improves the rank of the first true positive compared to the baseline and for which the rank of the first true positive is made worse. In detail, considering a shortlist of the size $20$ we want to identify when: (i) an image with the rank of $\> 20$ is attracted into the short list (improvement), and (ii) an image with the rank of $\leq 20$ is pushed out of the short list using our method (failure).
       }
 
-      \textcolor{petr}{
+      {
         We observe that in $87$ cases a low-ranked true positive image by the baseline (ranked $40-70$)  is attracted into the short list by the w-norm method, resulting in an improvement.  Note that in many other cases our method improves ranking but here we only count the cases for which the baseline method does not have any true positives in the top $20$ short-list. On the other hand, in $39$ cases our method makes the results worse and removes a correct image from the top $20$ short-list but typically only to top $40$.
       }
 
-      \textcolor{petr}{
+      {
         Finally, we observe that aggravation typically occurs on hard examples where the baseline performance is already bad. When visually inspecting the failure cases we observed that our method typically fails on queries containing a big portion of the sky clouds or vegetation, narrow streets or tunnels and sometimes retrieves images capturing the same building from a different viewpoint or a larger distance.
       }
 
 
 
-  \subsection{\textcolor{petr}{Scalability}}
+  \subsection{{Scalability}}
   \label{sec:scalability}
     %Is our method scalable to entire cities?
-    \textcolor{petr}{
+    {
       In the offline stage, our method collects hard negative examples for each location in the database, which are consequently used to train exemplar SVM classifiers. 
       As only a constant number of examples (1-5 positives and 500 negatives) is used to train each per-location classifier the overall complexity of training is linear, $O(N)$, i.e. we need to train one classifier (with constant training time) for each of $N$ images in the database. The bottleneck of the offline stage is collecting the negative examples that is quadratic $O(N^2)$ in the database size. In other words, for each of $N$ database images, we need to find the top 500 most similar negatives among all $N$ database images.
       However, we believe that even finding negatives can be scaled-up to very large datasets with standard compression techniques such as product quantization (PQ)~\cite{Jegou11} combined with sub-linear approximate nearest neighbor search~\cite{Flann2014}.
     }
 
-    \textcolor{petr}{
+    {
         At query time our method needs to compute the calibrated e-SVM score (equation~\eqref{eq:linear}) of the query for each image in the database. In the case of w-norm method the calibration weights can be included in the classifier weight matrix, as discussed in section~\ref{sec:memory}. For the p-val calibration method, each e-SVM score must be calibrated using $K$ stored values of the non-parametric CDF model. This requires a search for the two closest values and subsequent interpolation, which yields complexity of $O(N\log{K})$. Since $K$ is only a constant both the w-norm and p-val methods have a linear time complexity (in the size of the database) at query time but with different constants. However, in practice the constant in the p-val method can be quite large. The actual running time per query is $340ms$ for the bag-of-visual-words representation with p-val calibration and $3ms$ for the FV128 descriptor with w-norm calibration. Both timings are on the 25k Pittsburgh dataset on a desktop with CPU Intel Xenon E5 using a single thread.   Hence in practice, the p-val method may be scalable only to medium size datasets. For the w-norm method, the query time can be further sped-up using sub-linear approximate nearest neighbor search~\cite{Flann2014} on compressed descriptors~\cite{Jegou11}, making the method scalable to very large datasets.
     }
 
@@ -882,9 +882,9 @@ In particular, the method estimates the significance of the score of a test exam
     % \textcolor{josef}{
     % Petre, we need to introduce $\Psi^{+}$ as it is used both in the figure and the subsequent text. Perhaps we need to start 5.3 with re-writing the original objective but for a single positive example?
     % }
-    In section~\ref{sec:results} we show that the simple calibration by normalization often results in surprisingly good place recognition performance without the need for any additional positive or negative calibration data. In this \textcolor{petr}{appendix}, we give a possible explanation why this simple calibration works.  We focus on the case of a single positive training example, i.e. when training set $\mathcal P = \vec{x}^{+}$, which is the typical case for place recognition where only one 
+    In section~\ref{sec:results} we show that the simple calibration by normalization often results in surprisingly good place recognition performance without the need for any additional positive or negative calibration data. In this {appendix}, we give a possible explanation why this simple calibration works.  We focus on the case of a single positive training example, i.e. when training set $\mathcal P = \vec{x}^{+}$, which is the typical case for place recognition where only one 
     %or at most few 
-    \textcolor{petr}{positive example is available for each place. The analysis holds also for the case of multiple expanded positive examples as in our case the positive examples are coming from the same database of Street View images, and hence have very similar statistics (illumination, capturing conditions, the same camera, etc.)}. 
+    {positive example is available for each place. The analysis holds also for the case of multiple expanded positive examples as in our case the positive examples are coming from the same database of Street View images, and hence have very similar statistics (illumination, capturing conditions, the same camera, etc.)}. 
 
     In particular, we first analyze the SVM objective and show that the learnt hyperplane $\vec{w}$ can be interpreted as a new descriptor $\vec{x}^{*}$ that replaces the original positive example $\vec{x}^{+}$ and is re-weighted to increase its separation from the negative data. 
     Second, we show that when $\vec{x}^{*}$ is normalized, i.e.\  $\vec{x}^{*} = \frac{\vec{w}}{||\vec{w}||}$, the dot-product $\vec{q}^T\vec{x}^*$ corresponds to measuring the cosine of the angle between the (normalized) query descriptor $\vec{q}$  and the new descriptor $\vec{x}^{*}$, which was found to work well in the literature for descriptor matching, as discussed in section~\ref{sec:calibration_by_renormalization}. The two steps are given next.  
